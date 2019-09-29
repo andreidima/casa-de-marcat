@@ -46,6 +46,7 @@
                             <th>Preț</th>
                             <th class="text-center">Cantitate</th>
                             <th>Cod de bare</th>
+                            <th>Localizare</th>
                             {{-- <th class="px-0" style="width:20px">Descriere</th> --}}
                             <th class="px-0" style="width:115px">Acțiuni</th>
                         </tr>
@@ -67,6 +68,9 @@
                                 </td>
                                 <td class="text-center">
                                     {{ $produs->cod_de_bare }}
+                                </td>
+                                <td class="text-center">
+                                    {{ $produs->localizare }}
                                 </td>
                                 {{-- <td class="my-0 py-1 text-center">
                                     <img src="{{ asset('images/tourist-information-symbol-iso-sign-is-1293.png') }}" 

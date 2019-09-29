@@ -115,7 +115,8 @@ class ProdusController extends Controller
             'nume' =>['nullable', 'max:250'],
             'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'cantitate' => [ 'nullable', 'numeric', 'max:9999999999'],
-            'cod_de_bare' => ['nullable', 'max:999999999999'],
+            'cod_de_bare' => ['nullable', 'max:250'],
+            'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
         [            
