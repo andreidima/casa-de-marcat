@@ -11,18 +11,33 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Auth::routes([
+    'register' => false, // Registration Routes...
+    'reset' => false, // Password Reset Routes...
+    'verify' => false, // Email Verification Routes...
+]);
+
+// Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::redirect('/', '/produse');
+
+    Route::any('/produse/vanzari', 'ProdusController@vanzari');
+    Route::any('produse/vanzari/descarca-produs', 'ProdusController@vanzariDescarcaProdus');
+    Route::any('produse/vanzari/goleste-cos', 'ProdusController@vanzariGolesteCos');
+
+    Route::resource('produse', 'ProdusController');
+    
+
+    Route::get('/makethemigration', function() {
+        Artisan::call('php artisan migrate:refresh --seed');
+    return "Cleared!";
+    });
+
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::redirect('/', '/produse');
-
-Route::any('/produse/vanzari', 'ProdusController@vanzari');
-Route::any('produse/vanzari/descarca-produs', 'ProdusController@vanzariDescarcaProdus');
-Route::any('produse/vanzari/goleste-cos', 'ProdusController@vanzariGolesteCos');
-
-Route::resource('produse', 'ProdusController');
