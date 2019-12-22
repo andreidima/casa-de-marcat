@@ -22,5 +22,8 @@
         "sass-loader": "8.*",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "vue-html-to-paper": "^1.1.1"
     }
 }

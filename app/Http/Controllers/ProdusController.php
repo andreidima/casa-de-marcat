@@ -56,9 +56,9 @@ class ProdusController extends Controller
      * @param  \App\Produs  $produs
      * @return \Illuminate\Http\Response
      */
-    public function show(Produs $produs)
+    public function show(Produs $produse)
     {
-        //
+        return view('produse.show', compact('produse'));
     }
 
     /**
@@ -115,7 +115,7 @@ class ProdusController extends Controller
             'nume' =>['nullable', 'max:250'],
             'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'cantitate' => [ 'nullable', 'numeric', 'max:9999999999'],
-            'cod_de_bare' => ['nullable', 'max:240'],
+            'cod_de_bare' => ['nullable', 'numeric', 'max:999999'],
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
@@ -174,5 +174,23 @@ class ProdusController extends Controller
     {         
         $request->session()->forget('produse_vandute');
         return view ('produse/vanzari');
+    }
+
+    /**
+     * Vanzare de produse. Scaderea cantitatii produsului
+     *
+     * @param  \App\Produs  $produs
+     * @return \Illuminate\Http\Response
+     */
+    public function pdfExportBarcode(Request $request, Produs $produse)
+    {
+        if ($request->view_type === 'barcode-html') {
+            return view('produse.export.barcode-pdf', compact('produse'));
+        } elseif ($request->view_type === 'barcode-pdf') {
+            $pdf = \PDF::loadView('produse.export.barcode-pdf', compact('produse'))
+                ->setPaper('a7', 'landscape');
+            // return $pdf->download('Rezervare ' . $produse->nume . '.pdf');
+            return $pdf->stream();
+        }
     }
 }

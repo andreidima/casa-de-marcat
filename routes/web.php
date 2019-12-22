@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('produse/vanzari/descarca-produs', 'ProdusController@vanzariDescarcaProdus');
     Route::any('produse/vanzari/goleste-cos', 'ProdusController@vanzariGolesteCos');
 
+    Route::any('produse/{produse}/export/{view_type}', 'ProdusController@pdfExportBarcode');
+
     Route::resource('produse', 'ProdusController');
     
 

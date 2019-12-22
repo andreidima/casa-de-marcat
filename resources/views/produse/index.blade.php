@@ -58,7 +58,9 @@
                                     {{ ($produse ->currentpage()-1) * $produse ->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td>
-                                    <b>{{ $produs->nume }}</b>
+                                    <a href="{{ $produs->path() }}">  
+                                        <b>{{ $produs->nume }}</b>
+                                    </a>
                                 </td>
                                 <td class="text-right">
                                     {{ $produs->pret }} lei
@@ -80,17 +82,30 @@
                                         <i class="fas fa-info-circle"></i>  
                                     </button>                              
                                 </td> --}}
-                                <td class="my-0 py-1" align="center">   
-                                    <div style="width:90px;">
-                                        <div style="float:right;" class="">
-                                            <a class="btn btn-danger" 
+                                 <td class="d-flex justify-content-end">   
+                                        <a 
+                                            href="{{ $produs->path() }}/export/barcode-pdf" 
+                                            class="flex mr-4"
+                                            title="Generează Barcode"
+                                            target="_blank"
+                                            >
+                                            <span class="badge badge-success">Barcode</span>
+                                        </a>
+                                        <a class="flex" 
+                                            href="{{ $produs->path() }}/modifica"
+                                            title="Editează Produsul"
+                                            >
+                                            <span class="badge badge-primary">Modifică</span>
+                                        </a>
+                                        <div style="flex" class="">
+                                            <a
                                                 href="#" 
-                                                role="button"
+                                                {{-- role="button" --}}
                                                 data-toggle="modal" 
                                                 data-target="#stergeProdus{{ $produs->id }}"
                                                 title="Șterge Produsul"
                                                 >
-                                                <i class="far fa-trash-alt"></i>
+                                                <span class="badge badge-danger">Șterge</span>
                                             </a>
                                                 <div class="modal fade text-dark" id="stergeProdus{{ $produs->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -123,17 +138,6 @@
                                                     </div>
                                                 </div>
                                         </div> 
-
-                                        <div style="float:right;" class="mx-1">
-                                            <a class="btn btn-primary" 
-                                                {{-- href="#"  --}}
-                                                role="button"
-                                                href="{{ $produs->path() }}/modifica"
-                                                title="Editează Produsul"
-                                                >
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>                                          

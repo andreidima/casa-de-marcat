@@ -20,12 +20,31 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('html-to-paper', require('./components/HtmlToPaper.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+if (document.querySelector('#app1')) {
+    const app1 = new Vue({
+        el: '#app1'
+    });
+    const options = {
+        name: '_blank',
+        specs: [
+            'fullscreen=yes',
+            'titlebar=yes',
+            'scrollbars=yes'
+        ],
+        styles: [
+            'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+            'https://unpkg.com/kidlat-css/css/kidlat.css'
+        ]
+    };
+}
 
 if (document.querySelector('#produse')) {
     const app = new Vue({
