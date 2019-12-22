@@ -44,7 +44,7 @@
                             <th>Nr. crt.</th>
                             <th>Produs</th>
                             <th>Preț</th>
-                            <th class="text-center">Cantitate</th>
+                            <th class="text-center">Cantitatea</th>
                             <th>Cod de bare</th>
                             <th>Localizare</th>
                             {{-- <th class="px-0" style="width:20px">Descriere</th> --}}
