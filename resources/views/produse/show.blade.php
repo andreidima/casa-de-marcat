@@ -17,7 +17,7 @@
                     </div>
                     @endif
                 
-                    <div class="table-responsive col-md-5 mx-auto">
+                    <div class="table-responsive col-md-7 mx-auto">
                         <table class="table table-striped table-hover table-dark"
                             style="background-color:#008282"
                         > 
@@ -31,7 +31,15 @@
                             </tr>
                             </tr>
                                 <td>
-                                    Preț
+                                    Preț de achiziție
+                                </td>
+                                <td>
+                                    {{ $produse->pret_de_achizitie }}
+                                </td>
+                            </tr>
+                            </tr>
+                                <td>
+                                    Preț de vânzare
                                 </td>
                                 <td>
                                     {{ $produse->pret }}

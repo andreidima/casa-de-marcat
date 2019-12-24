@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Produs;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProdusController extends Controller
 {
@@ -113,6 +114,7 @@ class ProdusController extends Controller
         // dd ($request->_method);
         return request()->validate([
             'nume' =>['nullable', 'max:250'],
+            'pret_de_achizitie' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'cantitate' => [ 'nullable', 'numeric', 'max:9999999999'],
             'cod_de_bare' => ['nullable', 'numeric', 'max:999999999999999'],
@@ -120,6 +122,7 @@ class ProdusController extends Controller
             'descriere' => ['nullable', 'max:250'],
         ],
         [            
+            'pret_de_achizitie.regex' => 'Câmpul Preț nu este completat corect.',
             'pret.regex' => 'Câmpul Preț nu este completat corect.',
         ]
         );
@@ -138,6 +141,21 @@ class ProdusController extends Controller
 
     public function vanzariDescarcaProdus(Request $request)
     { 
+        $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
+
+            $validatedData = $request->validate([
+                'cod_de_bare' => ['bail', 'required', 'numeric',
+                        Rule::exists('produse')->where(function ($query) use($request) {
+                            return $query->where('cod_de_bare', $request->cod_de_bare);
+                        }),        
+                    ],
+                'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')]
+            ]);
+            dd($produs);
+        // } else{
+        //         return redirect ('produse/vanzari')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
+        // }
+
         if (isset($request->cod_de_bare)){
             $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 

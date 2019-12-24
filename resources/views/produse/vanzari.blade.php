@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div class="row justify-content-around">
-                    <div class="col-lg-5 card px-0" id="vanzari"> 
+                    <div class="col-lg-6 card px-0" id="vanzari"> 
 
                         <div class="card-header text-center pb-0">
                             <i class="fas fa-barcode text-primary" style="font-size:50px"></i>
@@ -18,7 +18,8 @@
                         </div>      
                         
                         <div class="card-body">
-                            @include('/flash-message')
+                            {{-- @include('/flash-message') --}}
+                            @include('errors')
 
                             <form  class="needs-validation" novalidate method="POST" action="{{ action('ProdusController@vanzariDescarcaProdus') }}">
                                 @method('PATCH')

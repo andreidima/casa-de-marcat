@@ -57,7 +57,7 @@
                                     <input type="text" class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
                                         name="cod_de_bare"
                                         placeholder="Cod de bare"                                        
-                                        value="{{ old('cod_de_bare') ?? \App\Produs::max('cod_de_bare') + 1 }}"
+                                        value="{{ old('cod_de_bare') ?? \App\Produs::where('cod_de_bare', '<', '1000000')->max('cod_de_bare') + 1 }}"
                                         >
                                 </div>
                             </div>
