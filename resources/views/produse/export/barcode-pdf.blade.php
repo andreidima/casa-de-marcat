@@ -7,7 +7,7 @@
     <title>Bilet</title>
     <style>
         html { 
-            margin: 0px 12px;
+            margin: 5px 12px 0px 12px;
         }
 
         body { 
