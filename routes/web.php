@@ -28,13 +28,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::redirect('/', '/produse');
 
+    // Pagina de vanzari
     Route::any('/produse/vanzari', 'ProdusController@vanzari');
     Route::any('produse/vanzari/descarca-produs', 'ProdusController@vanzariDescarcaProdus');
     Route::any('produse/vanzari/goleste-cos', 'ProdusController@vanzariGolesteCos');
-
+    // Extras date cu Axios
+    Route::get('/produse/axios_date_produs', 'ProdusController@axios_date_produs');
+    // Generare barcoduri pentru printare
     Route::any('produse/{produse}/export/{view_type}', 'ProdusController@pdfExportBarcode');
-
+    // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
+
+    // Rute pentru rapoarte
+    Route::any('produse-vandute/rapoarte/raport-zilnic/{view_type?}', 'ProdusVandutController@rapoarteRaportZilnic');
+    Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnic');
+    // Rutele default ale controllerului
+    Route::resource('produse-vandute', 'ProdusVandutController');
     
 
     Route::get('/makethemigration', function() {

@@ -25,9 +25,12 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
+        @auth
+        <nav class="navbar navbar-expand-md navbar-dark shadow py-0" style="background-color:darkcyan">
             <div class="container">
-                <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" height="40" class="mr-4">
+                <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" height="40"
+                    class="mr-4 border border-10 border-dark rounded-pill"
+                >
                 {{-- <a class="navbar-brand mr-4" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
@@ -46,6 +49,16 @@
                         <li class="nav-item active mr-4">
                             <a class="nav-link" href="/produse/vanzari">
                                 <i class="fas fa-shopping-cart mr-1"></i>Vânzări
+                            </a>
+                        </li>
+                        <li class="nav-item active mr-4">
+                            <a class="nav-link" href="/produse-vandute">
+                                <i class="fas fa-list-ul mr-1"></i>Produse vândute
+                            </a>
+                        </li>
+                        <li class="nav-item active mr-4">
+                            <a class="nav-link" href="/produse-vandute/rapoarte/raport-zilnic">
+                                <i class="fas fa-file-pdf mr-1"></i>Raport zilnic
                             </a>
                         </li>
                     </ul>
@@ -85,6 +98,7 @@
                 </div>
             </div>
         </nav>
+        @endauth
 
         <main class="py-4">
             @yield('content')

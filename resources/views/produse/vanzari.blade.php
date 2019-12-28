@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div class="row justify-content-around">
-                    <div class="col-lg-6 card px-0" id="vanzari"> 
+                    <div class="col-lg-5 card px-0" id="vanzari"> 
 
                         <div class="card-header text-center pb-0">
                             <i class="fas fa-barcode text-primary" style="font-size:50px"></i>
@@ -26,8 +26,25 @@
                                 @csrf  
 
                                 <div class="form-group row">
-                                        <label for="nr_de_bucati" class="col-sm-5 col-form-label">Numar de bucăți:</label>
-                                    <div class="col-sm-7">
+                                        <label for="cod_de_bare" class="col-sm-7 col-form-label">Scanați codul de bare:</label>
+                                    <div class="col-sm-5">                                        
+                                        <script type="application/javascript"> 
+                                            codDeBareVechi={!! json_encode(old('cod_de_bare', "")) !!}
+                                        </script>
+                                        <input type="text" class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
+                                            id="cod_de_bare" 
+                                            name="cod_de_bare"
+                                            placeholder="Cod de bare"                                        
+                                            value="{{ old('cod_de_bare') }}"
+                                            autofocus
+                                            v-model="cod_de_bare" 
+                                            @change="getPret()"
+                                            >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                        <label for="nr_de_bucati" class="col-sm-7 col-form-label">Numar de bucăți:</label>
+                                    <div class="col-sm-5">
                                         <input type="number" min="1" max="99"
                                             class="form-control {{ $errors->has('nr_de_bucati') ? 'is-invalid' : '' }}" 
                                             id="nr_de_bucati" 
@@ -38,14 +55,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                        <label for="cod_de_bare" class="col-sm-5 col-form-label">Scanați codul de bare:</label>
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
-                                            id="cod_de_bare" 
-                                            name="cod_de_bare"
-                                            placeholder="Cod de bare"                                        
-                                            value="{{ old('cod_de_bare') }}"
-                                            autofocus
+                                        <label for="pret" class="col-sm-7 col-form-label">Preț:</label>
+                                    <div class="col-sm-5">
+                                        <input type="text"
+                                            class="form-control {{ $errors->has('pret') ? 'is-invalid' : '' }}" 
+                                            id="pret" 
+                                            name="pret"
+                                            v-model="pret"                                        
+                                            {{-- value="{{ old('pret') == '' ? '1' : old('pret') }}" --}}
                                             >
                                     </div>
                                 </div>
@@ -65,7 +82,7 @@
                         <div class="card-header text-center pb-0">
                             <i class="fas fa-shopping-cart text-primary" style="font-size:50px"></i>
                             <br>
-                            Coșul de cumpărături conține:
+                            Lista ultimelor produse vândute:
                         </div>    
                         <div class="card-body">                    
                             @if (session()->has('produse_vandute'))
@@ -76,11 +93,11 @@
                                     @endforeach
                                 </div>
                                 <div class="text-center">
-                                    <a class="btn btn-danger btn-lg py-2" href="/produse/vanzari/goleste-cos" role="button">Golește coșul</a>
+                                    <a class="btn btn-danger btn-lg py-2" href="/produse/vanzari/goleste-cos" role="button">Golește lista</a>
                                 </div>
                             @else
                                 <div class="alert alert-info text-center">
-                                    Coșul de cumpărături este gol.
+                                    Lista este goală.
                                 </div>                                
                             @endif
                         </div>

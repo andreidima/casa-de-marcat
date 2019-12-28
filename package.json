@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "vue-html-to-paper": "^1.1.1"
+        "moment": "^2.24.0",
+        "vue-html-to-paper": "^1.1.1",
+        "vue2-datepicker": "^3.3.0"
     }
 }

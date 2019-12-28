@@ -151,21 +151,17 @@ class ProdusController extends Controller
                     ],
                 'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')]
             ]);
-            dd($produs);
-        // } else{
-        //         return redirect ('produse/vanzari')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
-        // }
 
-        if (isset($request->cod_de_bare)){
-            $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
+        // if (isset($request->cod_de_bare)){
+        //     $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
             if (isset($produs->id)){
-                if (!is_numeric($request->nr_de_bucati) || $request->nr_de_bucati < 1 || $request->nr_de_bucati != round($request->nr_de_bucati)) {
-                    return redirect ('produse/vanzari')->with('error', 'Numărul de bucăți nu este o valoare întreagă pozitivă: "' . $request->nr_de_bucati . '"!');
-                }
-                if (($produs->cantitate - $request->nr_de_bucati) < 0){
-                    return redirect ('produse/vanzari')->with('error', 'Sunt mai puțin de "' . $request->nr_de_bucati . '" produse pe stoc!');
-                }
+                // if (!is_numeric($request->nr_de_bucati) || $request->nr_de_bucati < 1 || $request->nr_de_bucati != round($request->nr_de_bucati)) {
+                //     return redirect ('produse/vanzari')->with('error', 'Numărul de bucăți nu este o valoare întreagă pozitivă: "' . $request->nr_de_bucati . '"!');
+                // }
+                // if (($produs->cantitate - $request->nr_de_bucati) < 0){
+                //     return redirect ('produse/vanzari')->with('error', 'Sunt mai puțin de "' . $request->nr_de_bucati . '" produse pe stoc!');
+                // }
                 $produs->cantitate = $produs->cantitate - $request->nr_de_bucati;
                 $produs->update();
 
@@ -178,12 +174,13 @@ class ProdusController extends Controller
                 }                
 
                 return redirect ('produse/vanzari')->with('success', 'A fost vândut ' . $request->nr_de_bucati . ' buc. "' . $produs->nume . '"!');
-            } else{
-                return redirect ('produse/vanzari')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
             }
-        } else {
-            return redirect ('produse/vanzari')->with('warning', 'Introdu un cod de bare!');
-        } 
+            // } else{
+            //     return redirect ('produse/vanzari')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
+            // }
+            // } else {
+            //     return redirect ('produse/vanzari')->with('warning', 'Introdu un cod de bare!');
+            // } 
         
         return view ('produse/vanzari');
     }
@@ -210,5 +207,27 @@ class ProdusController extends Controller
             // return $pdf->download('Rezervare ' . $produse->nume . '.pdf');
             return $pdf->stream();
         }
+    }
+    /**
+     * Returnarea oraselor de sosire
+     */
+    public function axios_date_produs(Request $request)
+    {
+        $pret = '';
+        // $raspuns = '';
+        switch ($_GET['request']) {
+            case 'pret':
+                $produs = Produs::select('id', 'cod_de_bare', 'pret')
+                    ->where('cod_de_bare', $request->cod_de_bare)
+                    ->first();
+                // $pret = (isset($produs->pret) ? $produs->pret : 0);
+                $pret = $produs->pret ?? '';
+                break;                    
+            default:
+                break;
+        }
+        return response()->json([
+            'pret' => $pret,
+        ]);
     }
 }

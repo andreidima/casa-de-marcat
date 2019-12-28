@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('vue2-datepicker', require('./components/DatePicker.vue').default);
 Vue.component('html-to-paper', require('./components/HtmlToPaper.vue').default);
 
 /**
@@ -46,6 +47,12 @@ if (document.querySelector('#app1')) {
     };
 }
 
+if (document.querySelector('#cautare_produse_vandute')) {
+    const app1 = new Vue({
+        el: '#cautare_produse_vandute'
+    });
+}
+
 if (document.querySelector('#produse')) {
     const app = new Vue({
         el: '#produse',
@@ -62,8 +69,26 @@ if (document.querySelector('#produse')) {
 
 if (document.querySelector('#vanzari')) {
     const app = new Vue({
-        el: '#vanzari',
+        el: '#vanzari', 
+        data: {
+            cod_de_bare: codDeBareVechi,
+            pret: '',
+        },
+        created: function () {
+            this.getPret()
+        },
         methods: {
+            getPret: function () {
+                axios.get('/produse/axios_date_produs', {
+                    params: {
+                        request: 'pret',
+                        cod_de_bare: this.cod_de_bare,
+                    }
+                })
+                    .then(function (response) {
+                        app.pret = response.data.pret;
+                    });
+            },
             formfocus() {
                 document.getElementById("cod_de_bare").focus();
             }
