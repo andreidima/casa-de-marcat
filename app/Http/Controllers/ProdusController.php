@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Produs;
+use App\ProdusVandut;
+use App\CategoriiProduse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +35,10 @@ class ProdusController extends Controller
      */
     public function create()
     {
-        return view('produse.create');
+        $categorii_produs = CategoriiProduse::select('id', 'nume')
+            ->orderBy('nume')
+            ->get();
+        return view('produse.create', compact('categorii_produs'));
     }
 
     /**
@@ -70,7 +75,10 @@ class ProdusController extends Controller
      */
     public function edit(Produs $produse)
     {
-        return view('produse.edit', compact('produse'));
+        $categorii_produs = CategoriiProduse::select('id', 'nume')
+            ->orderBy('nume')
+            ->get();
+        return view('produse.edit', compact('produse', 'categorii_produs'));
     }
 
     /**
@@ -113,13 +121,14 @@ class ProdusController extends Controller
     {
         // dd ($request->_method);
         return request()->validate([
-            'nume' =>['nullable', 'max:250'],
+            'nume' =>['required', 'max:250'],
+            'categorie_produs_id' => ['nullable', 'numeric', 'between:1,999'],
             // 'pret_de_achizitie' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             // 'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
-            'pret' => ['nullable', 'numeric', 'between:0.00,99999.99'],
-            'cantitate' => [ 'nullable', 'numeric', 'max:9999999999'],
-            'cod_de_bare' => ['nullable', 'numeric', 'max:999999999999999'],
+            'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
+            'cantitate' => [ 'required', 'numeric', 'between:0,999999999'],
+            'cod_de_bare' => ['nullable', 'numeric', 'between:0,999999999999999'],
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
@@ -145,14 +154,16 @@ class ProdusController extends Controller
     { 
         $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
-            $validatedData = $request->validate([
-                'cod_de_bare' => ['bail', 'required', 'numeric',
-                        Rule::exists('produse')->where(function ($query) use($request) {
-                            return $query->where('cod_de_bare', $request->cod_de_bare);
-                        }),        
-                    ],
-                'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')]
-            ]);
+        $validatedData = $request->validate([
+            'cod_de_bare' => ['bail', 'required', 'numeric',
+                    Rule::exists('produse')->where(function ($query) use($request) {
+                        return $query->where('cod_de_bare', $request->cod_de_bare);
+                    }),        
+                ],
+            'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')],
+            'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
+        ]);
+
 
         // if (isset($request->cod_de_bare)){
         //     $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
@@ -167,13 +178,20 @@ class ProdusController extends Controller
                 $produs->cantitate = $produs->cantitate - $request->nr_de_bucati;
                 $produs->update();
 
-                if ($request->session()->has('produse_vandute')) { 
-                    $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume); 
+                // if ($request->session()->has('produse_vandute')) { 
+                // } else {
+                //     $request->session()->put('produse_vandute', []);
+                // }
+                $request->session()->has('produse_vandute') ?? $request->session()->put('produse_vandute', []);
 
-                } else {
-                    $request->session()->put('produse_vandute', []);
-                    $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume);
-                }                
+                $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');
+
+                $produs_vandut = ProdusVandut::make();
+                $produs_vandut->produs_id = $produs->id;
+                $produs_vandut->cantitate = $request->nr_de_bucati;
+                $produs_vandut->pret = $request->pret;
+                // dd($produs_vandut);
+                $produs_vandut->save();
 
                 return redirect ('produse/vanzari')->with('success', 'A fost vândut ' . $request->nr_de_bucati . ' buc. "' . $produs->nume . '"!');
             }

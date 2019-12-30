@@ -12,6 +12,7 @@ $factory->define(Produs::class, function (Faker $faker) {
 
     return [
         'nume' => $faker->colorName,
+        'categorie_produs_id' => $faker->numberBetween(1, 4),
         'pret_de_achizitie' => $pret_de_achizitie,
         'pret' => $pret_de_achizitie * 1.2,
         'cantitate' => $faker->numberBetween(5 ,100),

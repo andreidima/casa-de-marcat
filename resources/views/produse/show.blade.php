@@ -29,6 +29,14 @@
                                     {{ $produse->nume }}
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    Categorie
+                                </td>
+                                <td>
+                                    {{ $produse->categorie->nume ?? ''}}
+                                </td>
+                            </tr>
                             </tr>
                                 <td>
                                     Preț de achiziție
@@ -61,14 +69,14 @@
                                     {{ $produse->cod_de_bare }}
                                 </td>
                             </tr>
-                            </tr>
+                            {{-- </tr>
                                 <td>
                                     Localizare
                                 </td>
                                 <td>
                                     {{ $produse->localizare }}
                                 </td>
-                            </tr>
+                            </tr> --}}
                             </tr>
                                 <td>
                                     Descriere

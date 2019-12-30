@@ -31,6 +31,30 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="categorie_produs_id" class="col-sm-5 col-form-label">Categorie:</label>
+                                <div class="col-sm-7">                                      
+                                    <select name="categorie_produs_id" 
+                                        class="custom-select {{ $errors->has('categorie_produs_id') ? 'is-invalid' : '' }}"
+                                    >
+                                            <option value='' selected>Selectează</option>
+                                        @foreach ($categorii_produs as $categorie)                           
+                                            <option 
+                                                value='{{ $categorie->id }}'
+                                                    @if(old('categorie_produs_id') !== null)
+                                                        @if ($categorie->id == old('categorie_produs_id'))
+                                                            selected
+                                                        @endif
+                                                    @else
+                                                        @if ($categorie->id == $produse->categorie_produs_id)
+                                                            selected
+                                                        @endif
+                                                    @endif
+                                            >{{ $categorie->nume }} </option>                                                
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                     <label for="pret_de_achizitie" class="col-sm-5 col-form-label">Preț de achiziție:</label>
                                 <div class="col-sm-7">
                                     <input type="number" min="1" step="any" 
@@ -73,7 +97,7 @@
                                         >
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                     <label for="localizare" class="col-sm-5 col-form-label">Localizare:</label>
                                 <div class="col-sm-7">                                      
                                     <textarea class="form-control {{ $errors->has('localizare') ? 'is-invalid' : '' }}" 
@@ -81,7 +105,7 @@
                                         placeholder="localizare"
                                         >{{ old('localizare') == '' ? $produse->localizare : old('localizare') }}</textarea>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row">
                                     <label for="descriere" class="col-sm-5 col-form-label">Descriere:</label>
                                 <div class="col-sm-7">                                      

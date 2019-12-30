@@ -21,7 +21,9 @@
                             {{-- @include('/flash-message') --}}
                             @include('errors')
 
-                            <form  class="needs-validation" novalidate method="POST" action="{{ action('ProdusController@vanzariDescarcaProdus') }}">
+                            <form  class="needs-validation" novalidate method="POST" 
+                                action="{{ action('ProdusController@vanzariDescarcaProdus') }}"
+                            >
                                 @method('PATCH')
                                 @csrf  
 
@@ -39,6 +41,7 @@
                                             autofocus
                                             v-model="cod_de_bare" 
                                             @change="getPret()"
+                                            v-on:keydown.enter.prevent
                                             >
                                     </div>
                                 </div>
@@ -51,6 +54,7 @@
                                             name="nr_de_bucati"
                                             placeholder="1"                                        
                                             value="{{ old('nr_de_bucati') == '' ? '1' : old('nr_de_bucati') }}"
+                                            v-on:keydown.enter.prevent
                                             >
                                     </div>
                                 </div>
@@ -63,6 +67,7 @@
                                             name="pret"
                                             v-model="pret"                                        
                                             {{-- value="{{ old('pret') == '' ? '1' : old('pret') }}" --}}
+                                            v-on:keydown.enter.prevent
                                             >
                                     </div>
                                 </div>

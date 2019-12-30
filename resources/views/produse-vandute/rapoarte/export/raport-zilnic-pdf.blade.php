@@ -80,49 +80,52 @@
         </table>
 
         <br>
-        
-        <table style="width:690px;">
-            <tr style="background-color:#e7d790;">
-                <th style="text-align: center">Nr. crt.</th>
-                <th style="text-align: center">Produs</th>
-                <th style="text-align: center">Cantitate</th>
-                <th style="text-align: center">Preț</th>
-            </tr>
-            @php 
-                // $nrcrt = 1;
-                // $nr_persoane = 0;
-                // $suma = 0;    
-            @endphp
-            
-            @forelse ($produse_vandute as $produs_vandut) 
-                <tr>
-                    <td>
-                        {{ $loop->iteration }}
-                    </td>
-                    <td>
-                        {{ $produs_vandut->produs->nume }}
-                    </td>
-                    <td style="text-align: right">
-                        {{ $produs_vandut->cantitate }}
-                    </td>
-                    <td style="text-align: right">
-                        {{ $produs_vandut->pret }} lei
-                    </td>
+
+        {{-- @forelse ($categorii_produse as $categorie_produs)         --}}
+            <table style="width:690px;">
+                <tr style="background-color:#e7d790;">
+                    <th style="text-align: center">Nr. crt.</th>
+                    <th style="text-align: center">Produs</th>
+                    <th style="text-align: center">Cantitate</th>
+                    <th style="text-align: center">Preț</th>
                 </tr>
-            @empty
-            @endforelse
-                <tr>
-                    <td colspan="2" style="text-align:right">
-                        <b>Total</b>
-                    </td>
-                    <td style="text-align: right">
-                        <b>{{ $produse_vandute_nr }}</b>
-                    </td>
-                    <td style="text-align: right">
-                        <b>{{ $produse_vandute_suma_totala }} lei</b> 
-                    </td>
-                </tr>
-        </table>
+                @php 
+                    // $nrcrt = 1;
+                    // $nr_persoane = 0;
+                    // $suma = 0;    
+                @endphp
+                
+                @forelse ($produse_vandute as $produs_vandut) 
+                    <tr>
+                        <td>
+                            {{ $loop->iteration }}
+                        </td>
+                        <td>
+                            {{ $produs_vandut->produs->nume ?? '' }}
+                        </td>
+                        <td style="text-align: right">
+                            {{ $produs_vandut->cantitate }}
+                        </td>
+                        <td style="text-align: right">
+                            {{ $produs_vandut->pret }} lei
+                        </td>
+                    </tr>
+                @empty
+                @endforelse
+                    <tr>
+                        <td colspan="2" style="text-align:right">
+                            <b>Total</b>
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_nr }}</b>
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_suma_totala }} lei</b> 
+                        </td>
+                    </tr>
+            </table>
+        {{-- @empty
+        @endforelse --}}
 
     </div>
 </body>
