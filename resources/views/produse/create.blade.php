@@ -35,7 +35,7 @@
                                     <input type="number" min="1" step="any" 
                                         class="form-control {{ $errors->has('pret_de_achizitie') ? 'is-invalid' : '' }}" 
                                         name="pret_de_achizitie"
-                                        placeholder="Preț"                                        
+                                        placeholder="Preț de achiziție"                                        
                                         value="{{ old('pret_de_achizitie') }}"
                                         >
                                 </div>
@@ -46,7 +46,7 @@
                                     <input type="number" min="1" step="any" 
                                         class="form-control {{ $errors->has('pret') ? 'is-invalid' : '' }}" 
                                         name="pret"
-                                        placeholder="Preț"                                        
+                                        placeholder="Preț de vânzare"                                        
                                         value="{{ old('pret') }}"
                                         >
                                 </div>

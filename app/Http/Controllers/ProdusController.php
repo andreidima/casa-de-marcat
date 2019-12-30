@@ -114,16 +114,18 @@ class ProdusController extends Controller
         // dd ($request->_method);
         return request()->validate([
             'nume' =>['nullable', 'max:250'],
-            'pret_de_achizitie' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
-            'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
+            // 'pret_de_achizitie' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
+            // 'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
+            'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
+            'pret' => ['nullable', 'numeric', 'between:0.00,99999.99'],
             'cantitate' => [ 'nullable', 'numeric', 'max:9999999999'],
             'cod_de_bare' => ['nullable', 'numeric', 'max:999999999999999'],
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
         [            
-            'pret_de_achizitie.regex' => 'Câmpul Preț nu este completat corect.',
-            'pret.regex' => 'Câmpul Preț nu este completat corect.',
+            'pret_de_achizitie.regex' => 'Câmpul Preț de achiziție nu este completat corect.',
+            'pret.regex' => 'Câmpul Preț de vânzare nu este completat corect.',
         ]
         );
     }
