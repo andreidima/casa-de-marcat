@@ -3,23 +3,28 @@
 @section('content')   
 <div class="container card" style="border-radius: 40px 40px 40px 40px;">
         <div class="row card-header justify-content-between" style="border-radius: 40px 40px 0px 0px;">
-            <div class="col-lg-4 align-self-center">
-                <h4 class=" mb-0">
-                    <a href="/produse-vandute/rapoarte/raport-zilnic"><i class="fas fa-file-pdf"></i>Raport zilnic</a> / 
+            <div class="col-lg-3 p-0 align-self-center">
+                <h5 class=" mb-0">
+                    <a href="/produse-vandute/rapoarte/raport-zilnic"><i class="fas fa-file-pdf mr-1"></i>Raport zilnic</a> / 
                     {{ \Carbon\Carbon::parse($search_data)->isoFormat('DD.MM.YYYY') ?? '' }}
-                </h4>
+                </h5>
             </div> 
-            <div class="col-lg-4 align-self-center">
+            <div class="col-lg-5 p-0 align-self-center text-center">
                 {{-- <small class="badge badge-light"> --}}
-                    Produse: <span class="badge badge-success"><h6 class="my-0">{{ $produse_vandute_nr }}</h6></span> / 
-                    Suma: <span class="badge badge-success"><h6 class="my-0">{{ $produse_vandute_suma_totala }}</h6></span> lei
+                    Produse: <span class="badge badge-success" style="background-color:#e66800;"><h6 class="my-0">{{ $produse_vandute_nr }}</h6></span> / 
+                    Suma: <span class="badge badge-success" style="background-color:#e66800;"><h6 class="my-0">{{ $produse_vandute_suma_totala }} lei</h6></span>
+                <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/export/raport-pdf"
+                    class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
+                >
+                    <i class="fas fa-file-pdf mr-1"></i>Export PDF
+                </a>
                 {{-- </small> --}}
             </div> 
-            <div class="col-lg-4 align-items-end" id="cautare_produse_vandute">
+            <div class="col-lg-3 p-0 align-items-end" id="cautare_produse_vandute">
                 <form class="needs-validation" novalidate method="GET" action="/produse-vandute/rapoarte/raport-zilnic/raport-html">
                     @csrf                    
                     <div class="flex-row-reverse input-group custom-search-form align-self-end">
-                        <div class="col-md-8 d-flex m-0 p-0 justify-content-end">
+                        <div class="col-md-12 d-flex m-0 p-0 justify-content-end">
                             <label for="search_data" class="mb-0 align-self-center mr-1">Data:</label>
                             <vue2-datepicker
                                 data-veche="{{ $search_data }}"
@@ -29,7 +34,7 @@
                             ></vue2-datepicker>
                             <button class="btn btn-sm btn-primary col-md-4 mx-1 border border-dark rounded-pill"
                                 type="submit">
-                                <i class="fas fa-search text-white"></i>Caută
+                                <i class="fas fa-search text-white mr-1"></i>Caută
                             </button>
                         </div>
                     </div>

@@ -134,10 +134,11 @@ class ProdusVandutController extends Controller
         return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'search_data'));
     }
 
-    public function pdfExportRaportZilnic(Request $request, $data_raport)
+    public function pdfExportRaportZilnic(Request $request, $search_data)
     {
         // $data_traseu_Ymd = \Carbon\Carbon::createFromFormat('d-m-Y', $data_traseu)->format('Y-m-d');
-        $data_raport = \Carbon\Carbon::createFromFormat('d-m-Y', $data_raport)->format('d.m.Y');
+        // $data_raport = \Carbon\Carbon::createFromFormat('d-m-Y', $data_raport)->format('d.m.Y');
+        
 
         if (isset($search_data)) {
             $produse_vandute = ProdusVandut::with('produs')
@@ -145,27 +146,27 @@ class ProdusVandutController extends Controller
                     return $query->whereDate('created_at', $search_data);
                 })
                 ->get();
+            $produse_vandute_nr = ProdusVandut::when($search_data, function ($query, $search_data) {
+                    return $query->whereDate('created_at', $search_data);
+                })
+                ->sum('cantitate');
+            $produse_vandute_suma_totala = ProdusVandut::when($search_data, function ($query, $search_data) {
+                    return $query->whereDate('created_at', $search_data);
+                })
+                ->sum(DB::raw('cantitate * pret'));
             // dd($search_data, $produse_vandute);
         } else {
             return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'search_data'));
         }
 
         if ($request->view_type === 'raport-html') {
-            return view('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'search_data'));
-            // } elseif ($request->view_type === 'raport-pdf') {
+            return view('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'search_data'));
+        } elseif ($request->view_type === 'raport-pdf') {
             // $pdf->render();
 
-            // $pdf = \PDF::loadView('trasee.export.traseu-pdf', compact('trasee', 'data_traseu', 'data_traseu_Ymd', 'telefoane_clienti_neseriosi'))
-            //     ->setPaper('a4');
-            // return $pdf->download('Raport ' . $trasee->traseu_nume->nume . ', ' . $data_traseu . ', ' .
-            //     \Carbon\Carbon::parse($trasee->curse_ore->first()->ora)->format('H_i')
-            //     . ' - ' .
-            //     \Carbon\Carbon::parse($trasee->curse_ore->first()->ora)
-            //     ->addHours(\Carbon\Carbon::parse($trasee->curse_ore->first()->cursa->durata)->hour)
-            //     ->addMinutes(\Carbon\Carbon::parse($trasee->curse_ore->first()->cursa->durata)->minute)
-            //     ->format('H_i')
-            //     .
-            //     '.pdf');
+            $pdf = \PDF::loadView('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'search_data'))
+                ->setPaper('a4');
+            return $pdf->download('Raport produse vandute ' . \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
         }
 
     }

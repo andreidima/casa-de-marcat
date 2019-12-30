@@ -46,9 +46,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('produse-vandute', 'ProdusVandutController');
     
 
-    Route::get('/makethemigration', function() {
-        Artisan::call('php artisan migrate:refresh --seed');
-    return "Cleared!";
-    });
+    // Route::get('/makethemigration', function() {
+    //     Artisan::call('php artisan migrate:refresh --seed');
+    // return "Cleared!";
+    // });
 
 });

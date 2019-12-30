@@ -4,7 +4,9 @@
 <div class="container card" style="border-radius: 40px 40px 40px 40px;">
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
             <div class="col-lg-3 align-self-center">
-                <h4 class=" mb-0"><a href="{{ route('produse-vandute.index') }}"><i class="fas fa-list-ul mr-1"></i>Produse vândute</a></h4>
+                <h4 class=" mb-0">
+                    <a href="{{ route('produse-vandute.index') }}"><i class="fas fa-list-ul mr-1"></i>Produse vândute</a>
+                </h4>
             </div> 
             <div class="col-lg-6" id="cautare_produse_vandute">
                 <form class="needs-validation" novalidate method="GET" action="{{ route('produse-vandute.index') }}">
@@ -78,7 +80,7 @@
                                     </a>
                                 </td>
                                 <td class="text-right">
-                                    {{ $produs_vandut->pret }}
+                                    {{ $produs_vandut->pret }} lei
                                 </td>
                                 <td class="text-center">
                                     {{ $produs_vandut->cantitate }}
