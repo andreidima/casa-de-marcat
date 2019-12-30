@@ -30,7 +30,18 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                    <label for="pret" class="col-sm-5 col-form-label">Preț:</label>
+                                    <label for="pret_de_achizitie" class="col-sm-5 col-form-label">Preț de achiziție:</label>
+                                <div class="col-sm-7">
+                                    <input type="number" min="1" step="any" 
+                                        class="form-control {{ $errors->has('pret_de_achizitie') ? 'is-invalid' : '' }}" 
+                                        name="pret_de_achizitie"
+                                        placeholder="Preț"                                        
+                                        value="{{ old('pret_de_achizitie') }}"
+                                        >
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="pret" class="col-sm-5 col-form-label">Preț de vânzare:</label>
                                 <div class="col-sm-7">
                                     <input type="number" min="1" step="any" 
                                         class="form-control {{ $errors->has('pret') ? 'is-invalid' : '' }}" 
