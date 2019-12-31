@@ -14,8 +14,8 @@ class Produs extends Model
         return "/produse/{$this->id}";
     }
 
-    public function categorie()
+    public function subcategorie()
     {
-        return $this->belongsTo('App\CategoriiProduse', 'categorie_produs_id');
+        return $this->belongsTo('App\SubcategoriiProduse', 'subcategorie_produs_id');
     }
 }

@@ -8,7 +8,7 @@
                     <h4 class=""><a href="/produse/adauga"><i class="fas fa-list-ul mr-1"></i>Adaugă produs</a></h4>
                 </div> 
             </div>
-            <div class="card-body">
+            <div class="card-body" id="adaugare_modificare_produse">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">     
                         
@@ -31,11 +31,16 @@
                             </div>
                             <div class="form-group row">
                                 <label for="categorie_produs_id" class="col-sm-5 col-form-label">Categorie:</label>
-                                <div class="col-sm-7">                                      
+                                <div class="col-sm-7">    
+                                    <script type="application/javascript"> 
+                                        categorieVeche={!! json_encode(old('categorie_produs_id', "0")) !!}
+                                    </script>                                     
                                     <select name="categorie_produs_id" 
-                                        class="custom-select {{ $errors->has('categorie_produs_id') ? 'is-invalid' : '' }}"
+                                        class="custom-select {{ $errors->has('categorie_produs_id') ? 'is-invalid' : '' }}" 
+                                        v-model="categorie"                                       
+                                        @change="getSubcategorii()"
                                     >
-                                            <option value='' selected>Selectează</option>
+                                            {{-- <option value='' selected>Selectează</option> --}}
                                         @foreach ($categorii_produs as $categorie)                           
                                             <option 
                                                 value='{{ $categorie->id }}'
@@ -50,6 +55,22 @@
                                                     @endif
                                             >{{ $categorie->nume }} </option>                                                
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="subcategorie_produs_id" class="col-sm-5 col-form-label">Subcategorie:</label>
+                                <div class="col-sm-7">    
+                                    <script type="application/javascript"> 
+                                        subcategorieVeche={!! json_encode(old('subcategorie_produs_id', "0")) !!}
+                                    </script>                                     
+                                    <select name="subcategorie_produs_id" 
+                                        class="custom-select {{ $errors->has('subcategorie_produs_id') ? 'is-invalid' : '' }}" 
+                                        v-model="subcategorie"                
+                                    > 
+                                        <option v-for='subcategorie in subcategorii'                                
+                                        :value='subcategorie.id'                                       
+                                        >@{{subcategorie.nume}}</option>    
                                     </select>
                                 </div>
                             </div>
@@ -93,6 +114,7 @@
                                         name="cod_de_bare"
                                         placeholder="Cod de bare"                                        
                                         value="{{ old('cod_de_bare') ?? \App\Produs::where('cod_de_bare', '<', '1000000')->max('cod_de_bare') + 1 }}"
+                                        v-on:keydown.enter.prevent
                                         >
                                 </div>
                             </div>

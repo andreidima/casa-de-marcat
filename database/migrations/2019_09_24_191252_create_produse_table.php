@@ -15,7 +15,7 @@ class CreateProduseTable extends Migration
     {
         Schema::create('produse', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('categorie_produs_id')->nullable();
+            $table->unsignedBigInteger('subcategorie_produs_id')->nullable();
             $table->string('nume')->nullable();
             $table->decimal('pret_de_achizitie')->nullable();
             $table->decimal('pret')->nullable();

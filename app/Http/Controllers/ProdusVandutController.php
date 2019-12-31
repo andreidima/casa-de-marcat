@@ -140,8 +140,6 @@ class ProdusVandutController extends Controller
         // $data_traseu_Ymd = \Carbon\Carbon::createFromFormat('d-m-Y', $data_traseu)->format('Y-m-d');
         // $data_raport = \Carbon\Carbon::createFromFormat('d-m-Y', $data_raport)->format('d.m.Y');
 
-        $categorii_produse = CategoriiProduse::all();
-
         if (isset($search_data)) {
             $produse_vandute = ProdusVandut::with('produs')
                 ->when($search_data, function ($query, $search_data) {
@@ -156,17 +154,22 @@ class ProdusVandutController extends Controller
                     return $query->whereDate('created_at', $search_data);
                 })
                 ->sum(DB::raw('cantitate * pret'));
-            // dd($search_data, $produse_vandute);
+            $produse_vandute_suma_totala_raft = ProdusVandut::join('produse', 'produse_vandute.produs_id', '=', 'produse.id')
+                ->when($search_data, function ($query, $search_data) {
+                return $query->whereDate('produse_vandute.created_at', $search_data);
+                })
+                ->sum(DB::raw('produse_vandute.cantitate * produse.pret'));
+            // dd($search_data, $produse_vandute_suma_totala_raft);
         } else {
             return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'search_data'));
         }
 
         if ($request->view_type === 'raport-html') {
-            return view('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'categorii_produse', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'search_data'));
+            return view('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'produse_vandute_suma_totala_raft', 'search_data'));
         } elseif ($request->view_type === 'raport-pdf') {
             // $pdf->render();
 
-            $pdf = \PDF::loadView('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'categorii_produse', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'search_data'))
+            $pdf = \PDF::loadView('produse-vandute.rapoarte.export.raport-zilnic-pdf', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'produse_vandute_suma_totala_raft', 'search_data'))
                 ->setPaper('a4');
             return $pdf->download('Raport produse vandute ' . \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
         }

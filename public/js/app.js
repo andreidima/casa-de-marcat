@@ -88906,8 +88906,34 @@ if (document.querySelector('#app1')) {
   };
 }
 
-if (document.querySelector('#cautare_produse_vandute')) {
+if (document.querySelector('#adaugare_modificare_produse')) {
   var _app = new Vue({
+    el: '#adaugare_modificare_produse',
+    data: {
+      categorie: categorieVeche,
+      subcategorii: '',
+      subcategorie: subcategorieVeche
+    },
+    created: function created() {
+      this.getSubcategorii();
+    },
+    methods: {
+      getSubcategorii: function getSubcategorii() {
+        axios.get('/produse/axios_date_produs', {
+          params: {
+            request: 'subcategorii',
+            categorie: this.categorie
+          }
+        }).then(function (response) {
+          _app.subcategorii = '', _app.subcategorii = response.data.subcategorii;
+        });
+      }
+    }
+  });
+}
+
+if (document.querySelector('#cautare_produse_vandute')) {
+  var _app2 = new Vue({
     el: '#cautare_produse_vandute'
   });
 }
@@ -88927,7 +88953,7 @@ if (document.querySelector('#produse')) {
 }
 
 if (document.querySelector('#vanzari')) {
-  var _app2 = new Vue({
+  var _app3 = new Vue({
     el: '#vanzari',
     data: {
       cod_de_bare: codDeBareVechi,
@@ -88944,7 +88970,7 @@ if (document.querySelector('#vanzari')) {
             cod_de_bare: this.cod_de_bare
           }
         }).then(function (response) {
-          _app2.pret = response.data.pret;
+          _app3.pret = response.data.pret;
         });
       },
       formfocus: function formfocus() {

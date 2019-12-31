@@ -47,6 +47,35 @@ if (document.querySelector('#app1')) {
     };
 }
 
+if (document.querySelector('#adaugare_modificare_produse')) {
+    const app1 = new Vue({
+        el: '#adaugare_modificare_produse',
+        data: {
+            categorie: categorieVeche,
+            subcategorii: '',
+            subcategorie: subcategorieVeche
+        },
+        created: function () {
+            this.getSubcategorii()
+        },
+        methods: {
+            getSubcategorii: function () {
+                axios.get('/produse/axios_date_produs', {
+                    params: {
+                        request: 'subcategorii',
+                        categorie: this.categorie,
+                    }
+                })
+                    .then(function (response) {
+                        app1.subcategorii = '',
+
+                        app1.subcategorii = response.data.subcategorii;
+                    });
+            },
+        }
+    });
+}
+
 if (document.querySelector('#cautare_produse_vandute')) {
     const app1 = new Vue({
         el: '#cautare_produse_vandute'

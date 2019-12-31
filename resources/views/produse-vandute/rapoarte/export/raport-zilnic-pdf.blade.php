@@ -81,13 +81,13 @@
 
         <br>
 
-        {{-- @forelse ($categorii_produse as $categorie_produs)         --}}
             <table style="width:690px;">
                 <tr style="background-color:#e7d790;">
                     <th style="text-align: center">Nr. crt.</th>
-                    <th style="text-align: center">Produs</th>
+                    <th style="text-align: center; width:40%">Produs</th>
                     <th style="text-align: center">Cantitate</th>
-                    <th style="text-align: center">Preț</th>
+                    <th style="text-align: center">Preț raft</th>
+                    <th style="text-align: center">Preț vânzare</th>
                 </tr>
                 @php 
                     // $nrcrt = 1;
@@ -102,9 +102,15 @@
                         </td>
                         <td>
                             {{ $produs_vandut->produs->nume ?? '' }}
+                            @isset($produs_vandut->detalii)
+                                - {{ $produs_vandut->detalii }}
+                            @endisset
                         </td>
                         <td style="text-align: right">
                             {{ $produs_vandut->cantitate }}
+                        </td>
+                        <td style="text-align: right">
+                            {{ $produs_vandut->produs->pret ?? ''}} lei
                         </td>
                         <td style="text-align: right">
                             {{ $produs_vandut->pret }} lei
@@ -120,12 +126,13 @@
                             <b>{{ $produse_vandute_nr }}</b>
                         </td>
                         <td style="text-align: right">
+                            <b>{{ $produse_vandute_suma_totala_raft }} lei</b> 
+                        </td>
+                        <td style="text-align: right">
                             <b>{{ $produse_vandute_suma_totala }} lei</b> 
                         </td>
                     </tr>
             </table>
-        {{-- @empty
-        @endforelse --}}
 
     </div>
 </body>

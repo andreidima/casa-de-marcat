@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProdusVandutsTable extends Migration
+class CreateSubcategoriiProdusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateProdusVandutsTable extends Migration
      */
     public function up()
     {
-        Schema::create('produse_vandute', function (Blueprint $table) {
+        Schema::create('subcategorii_produse', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('produs_id');
-            $table->integer('cantitate')->nullable();
-            $table->decimal('pret')->nullable();
-            $table->string('detalii')->nullable();
-            
+            $table->unsignedBigInteger('categorie_produs_id')->nullable();
+            $table->string('nume')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateProdusVandutsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produse_vandute');
+        Schema::dropIfExists('subcategorii_produse');
     }
 }

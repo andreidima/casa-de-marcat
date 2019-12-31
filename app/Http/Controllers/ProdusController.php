@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Produs;
 use App\ProdusVandut;
 use App\CategoriiProduse;
+use App\SubcategoriiProduse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -122,7 +123,7 @@ class ProdusController extends Controller
         // dd ($request->_method);
         return request()->validate([
             'nume' =>['required', 'max:250'],
-            'categorie_produs_id' => ['nullable', 'numeric', 'between:1,999'],
+            'subcategorie_produs_id' => ['required', 'numeric', 'between:1,999'],
             // 'pret_de_achizitie' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             // 'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
@@ -162,6 +163,7 @@ class ProdusController extends Controller
                 ],
             'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
+            'detalii' => ['nullable', 'max:250'],
         ]);
 
 
@@ -190,6 +192,7 @@ class ProdusController extends Controller
                 $produs_vandut->produs_id = $produs->id;
                 $produs_vandut->cantitate = $request->nr_de_bucati;
                 $produs_vandut->pret = $request->pret;
+                $produs_vandut->detalii = $request->detalii;
                 // dd($produs_vandut);
                 $produs_vandut->save();
 
@@ -234,6 +237,7 @@ class ProdusController extends Controller
     public function axios_date_produs(Request $request)
     {
         $pret = '';
+        $subcategorii = '';
         // $raspuns = '';
         switch ($_GET['request']) {
             case 'pret':
@@ -242,12 +246,18 @@ class ProdusController extends Controller
                     ->first();
                 // $pret = (isset($produs->pret) ? $produs->pret : 0);
                 $pret = $produs->pret ?? '';
-                break;                    
+                break;
+            case 'subcategorii':
+                $subcategorii = SubcategoriiProduse::select('id', 'categorie_produs_id', 'nume')
+                    ->where('categorie_produs_id', $request->categorie)
+                    ->get();
+                break;                   
             default:
                 break;
         }
         return response()->json([
             'pret' => $pret,
+            'subcategorii' => $subcategorii,
         ]);
     }
 }

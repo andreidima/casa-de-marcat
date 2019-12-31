@@ -61,9 +61,10 @@
                         <tr class="" style="padding:2rem">
                             <th>Nr. Crt.</th>
                             <th>Produs</th>
-                            <th class="text-center">Preț</th>
                             <th class="text-center">Cantitatea</th>
-                            <th class="text-center">Cod de bare</th>
+                            <th class="text-center">Preț raft</th>
+                            <th class="text-center">Preț vânzare</th>
+                            {{-- <th class="text-center">Cod de bare</th> --}}
                             <th class="text-right">Data vânzării</th>
                         </tr>
                     </thead>
@@ -73,22 +74,28 @@
                                 <td align="">
                                     {{ ($produse_vandute ->currentpage()-1) * $produse_vandute ->perpage() + $loop->index + 1 }}
                                 </td>
-                                <td>
+                                <td style="width:30%">
                                     {{-- <a class="" data-toggle="collapse" href="#collapse{{ $produs_vandut->id }}" role="button" 
                                         aria-expanded="false" aria-controls="collapse{{ $produs_vandut->id }}"> --}}
                                     <a href="{{ isset($produs_vandut->produs) ? $produs_vandut->produs->path() : ''}}">
                                         <b>{{ $produs_vandut->produs->nume ?? '' }}</b>
                                     </a>
-                                </td>
-                                <td class="text-right">
-                                    {{ $produs_vandut->pret }} lei
+                                    @isset($produs_vandut->detalii)
+                                     - {{ $produs_vandut->detalii }}
+                                    @endisset
                                 </td>
                                 <td class="text-center">
                                     {{ $produs_vandut->cantitate }}
                                 </td>
-                                <td class="text-center">
-                                    {{ $produs_vandut->produs->cod_de_bare ?? '' }}
+                                <td class="text-right">
+                                    {{ $produs_vandut->produs->pret ?? ''}} lei
                                 </td>
+                                <td class="text-right">
+                                    {{ $produs_vandut->pret }} lei
+                                </td>
+                                {{-- <td class="text-center">
+                                    {{ $produs_vandut->produs->cod_de_bare ?? '' }}
+                                </td> --}}
                                 <td class="text-right">
                                     {{-- {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('D.MM.YYYY') ?? '' }} --}}
                                     {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:MM - DD.MM.YYYY') ?? '' }}

@@ -11,6 +11,7 @@ $factory->define(ProdusVandut::class, function (Faker $faker) {
         'cantitate' => $faker->numberBetween(1, 3),
         'pret' => $faker->randomFloat($nbMaxDecimals = 2, $min = 10, $max = 500),
 
-        'created_at' => $faker->dateTimeBetween($startDate = '-1 week', $endDate = '1 week', $timezone = null),
+        // 'created_at' => $faker->dateTimeBetween($startDate = '-1 week', $endDate = '1 week', $timezone = null),
+        'created_at' => $faker->dateTimeBetween($startDate = '-1 week', $endDate = '-1 day', $timezone = null),
     ];
 });

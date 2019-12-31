@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                        <label for="nr_de_bucati" class="col-sm-7 col-form-label">Numar de bucăți:</label>
+                                        <label for="nr_de_bucati" class="col-sm-7 col-form-label">Număr de bucăți:</label>
                                     <div class="col-sm-5">
                                         <input type="number" min="1" max="99"
                                             class="form-control {{ $errors->has('nr_de_bucati') ? 'is-invalid' : '' }}" 
@@ -54,7 +54,6 @@
                                             name="nr_de_bucati"
                                             placeholder="1"                                        
                                             value="{{ old('nr_de_bucati') == '' ? '1' : old('nr_de_bucati') }}"
-                                            v-on:keydown.enter.prevent
                                             >
                                     </div>
                                 </div>
@@ -66,8 +65,18 @@
                                             id="pret" 
                                             name="pret"
                                             v-model="pret"                                        
-                                            {{-- value="{{ old('pret') == '' ? '1' : old('pret') }}" --}}
-                                            v-on:keydown.enter.prevent
+                                            value="{{ old('pret')}}"
+                                            >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                        <label for="detalii" class="col-sm-7 col-form-label">Detalii:</label>
+                                    <div class="col-sm-5">
+                                        <input type="text"
+                                            class="form-control {{ $errors->has('detalii') ? 'is-invalid' : '' }}" 
+                                            id="detalii" 
+                                            name="detalii"                                      
+                                            value="{{ old('detalii')}}"
                                             >
                                     </div>
                                 </div>

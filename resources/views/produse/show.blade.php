@@ -34,7 +34,15 @@
                                     Categorie
                                 </td>
                                 <td>
-                                    {{ $produse->categorie->nume ?? ''}}
+                                    {{ $produse->subcategorie->categorie->nume ?? ''}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Subcategorie
+                                </td>
+                                <td>
+                                    {{ $produse->subcategorie->nume ?? ''}}
                                 </td>
                             </tr>
                             </tr>
