@@ -250,6 +250,7 @@ class ProdusController extends Controller
             case 'subcategorii':
                 $subcategorii = SubcategoriiProduse::select('id', 'categorie_produs_id', 'nume')
                     ->where('categorie_produs_id', $request->categorie)
+                    ->orderBy('nume')
                     ->get();
                 break;                   
             default:
