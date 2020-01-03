@@ -3,28 +3,37 @@
 @section('content')   
     <div class="container card">
         <div class="row card-header">
-            <div class="col-lg-4 my-1">
+            <div class="col-lg-3 my-1">
                 <h4 class="mt-2 mb-0"><a href="/produse"><i class="fas fa-list-ul mr-1"></i>Produse</a></h4>
             </div> 
-            <div class="col-lg-4 my-1" id="produse">
+            <div class="col-lg-6 my-1" id="produse">
                 <form class="needs-validation" novalidate method="GET" action="/produse">
                     @csrf                    
                     <div class="input-group custom-search-form justify-content-center">
-                        <div class="">
-                            <input type="text" class="form-control" id="search_cod_de_bare" name="search_cod_de_bare" placeholder="Caută cod de bare" autofocus>
+                        <div class="d-flex">
+                            <input type="text" class="form-control" id="search_cod_de_bare" value="{{ $search_cod_de_bare }}"
+                                name="search_cod_de_bare" placeholder="Caută cod bare" autofocus>
+                            <input type="text" class="form-control" id="search_nume" value="{{ $search_nume }}"
+                                name="search_nume" placeholder="Caută nume" autofocus>
+                            <input type="text" class="form-control" id="search_pret" value="{{ $search_pret }}"
+                                name="search_pret" placeholder="Caută preț" autofocus>
                             {{-- <small class="form-text text-muted">Caută după cod de bare</small> --}}
-                        </div>
-                        <div class="">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="submit">
+                        {{-- </div>
+                        <div class=""> --}}
+                            {{-- <span class="input-group-btn"> --}}
+                                <button class="btn btn-primary mr-2" type="submit" title="Caută">
                                     <i class="fas fa-search text-white"></i>
                                 </button>
-                            </span>
+                                <a class="btn btn-secondary" href="{{ route('produse.index') }}" 
+                                    role="button" title="Resetează căutarea">
+                                    <i class="fas fa-redo text-white mr-1"></i>
+                                </a>
+                            {{-- </span> --}}
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="col-lg-4 text-right my-1">
+            <div class="col-lg-3 text-right my-1">
                 <a class="btn btn-primary" href="/produse/adauga" role="button">Adaugă Produs</a>
             </div>
         </div>

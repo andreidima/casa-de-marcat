@@ -6,7 +6,9 @@ use App\Produs;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\SubcategoriiProduse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class ProdusController extends Controller
@@ -18,15 +20,23 @@ class ProdusController extends Controller
      */
     public function index()
     {
-        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI        
+        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI   
+        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI  
+        $search_pret = \Request::get('search_pret'); //<-- we use global request to get the param of URI       
         $produse = Produs::
                 when($search_cod_de_bare, function ($query, $search_cod_de_bare) {
-                    return $query->where('cod_de_bare', 'like', '%' . $search_cod_de_bare . '%');
+                    return $query->where('cod_de_bare', 'like', $search_cod_de_bare);
+                })
+            ->when($search_nume, function ($query, $search_nume) {
+                    return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
+                })
+            ->when($search_pret, function ($query, $search_pret) {
+                    return $query->where('pret', 'like', $search_pret . '%');
                 })
             ->latest()
             ->Paginate(25);
                 
-        return view('produse.index', compact('produse'));
+        return view('produse.index', compact('produse', 'search_cod_de_bare', 'search_nume', 'search_pret'));
     }
 
     /**
@@ -39,7 +49,10 @@ class ProdusController extends Controller
         $categorii_produs = CategoriiProduse::select('id', 'nume')
             ->orderBy('nume')
             ->get();
-        return view('produse.create', compact('categorii_produs'));
+        $cod_de_bare = \App\CodDeBare::select('prefix', 'numar')
+            ->first();
+        // dd($cod_de_bare);
+        return view('produse.create', compact('categorii_produs', 'cod_de_bare'));
     }
 
     /**
@@ -53,6 +66,14 @@ class ProdusController extends Controller
         $produse = Produs::make($this->validateRequest());
         // $this->authorize('update', $proiecte);
         $produse->save();
+
+        $cod_de_bare = \App\CodDeBare::select('prefix', 'numar')
+            ->first();
+        if ($produse->cod_de_bare == $cod_de_bare->prefix . $cod_de_bare->numar) {
+            DB::table('cod_de_bare')
+                ->where('id', 1)
+                ->update(['numar' => $cod_de_bare->numar += 1]);
+        }
 
         return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost adăugat cu succes!');
     }
@@ -129,7 +150,7 @@ class ProdusController extends Controller
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
             'cantitate' => [ 'required', 'numeric', 'between:0,999999999'],
-            'cod_de_bare' => ['nullable', 'numeric', 'between:0,999999999999999'],
+            'cod_de_bare' => ['nullable', 'max:20', 'unique:produse'],
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
