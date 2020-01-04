@@ -297,7 +297,8 @@ class ProdusController extends Controller
             ->orderBy('subcategorii_produse.nume')
             ->orderBy('pret')
             ->get();
-        $suma_totala = Produs::sum(DB::raw('cantitate * pret'));
+        $suma_totala = Produs::where('subcategorie_produs_id', '<>', '38')
+        ->sum(DB::raw('cantitate * pret'));
         // $subcategorii = \App\SubcategoriiProduse::select('id', 'nume')
         //     ->with(
         //         'categorie',
