@@ -291,7 +291,7 @@ class ProdusController extends Controller
             ->select('subcategorie_produs_id', 'pret', DB::raw('SUM(cantitate) as cantitate'), 
                 // DB::raw('SUM(pret) as suma_totala'),
                 'subcategorii_produse.nume')
-            ->groupBy('subcategorie_produs_id', 'pret')
+            ->groupBy('subcategorie_produs_nume', 'pret')
             ->orderBy('subcategorii_produse.nume')
             ->orderBy('pret')
             ->get();
