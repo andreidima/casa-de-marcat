@@ -47,6 +47,11 @@
                             </a>
                         </li>
                         <li class="nav-item active mr-4">
+                            <a class="nav-link" href="/produse/gestiune">
+                                <i class="fas fa-list-ul mr-1"></i>Gestiune
+                            </a>
+                        </li>
+                        <li class="nav-item active mr-4">
                             <a class="nav-link" href="/produse/vanzari">
                                 <i class="fas fa-shopping-cart mr-1"></i>Vânzări
                             </a>
