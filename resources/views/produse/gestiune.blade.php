@@ -22,7 +22,8 @@
                             <span class="badge badge-dark"
                                  style="background-color:darkcyan;"
                             >
-                                {{ $categorie->nume }}
+                                {{ \Illuminate\Support\Str::limit($categorie->nume, 35, $end='...') }}
+                                {{-- {{ $categorie->nume }} --}}
                                 {{ number_format($categorie->pret,0) }} lei = 
                                 <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
                                     {{ $categorie->cantitate }}
