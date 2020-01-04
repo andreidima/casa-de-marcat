@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/produse/axios_date_produs', 'ProdusController@axios_date_produs');
     // Generare barcoduri pentru printare
     Route::any('produse/{produse}/export/{view_type}', 'ProdusController@pdfExportBarcode');
+    // Pagina de statistică
+    Route::any('/produse/gestiune', 'ProdusController@gestiune');
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
 
