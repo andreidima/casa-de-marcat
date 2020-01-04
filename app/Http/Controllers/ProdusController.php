@@ -297,9 +297,23 @@ class ProdusController extends Controller
             ->orderBy('subcategorii_produse.nume')
             ->orderBy('pret')
             ->get();
+        $suma_totala = Produs::sum(DB::raw('cantitate * pret'));
+        // $subcategorii = \App\SubcategoriiProduse::select('id', 'nume')
+        //     ->with(
+        //         'categorie',
+        //         'produse'
+        //     )
+        //     ->get();
+        // $subcategorii = SubcategoriiProduse::select('id', 'nume')
+            // ->with(
+            //     'categorie',
+            //     'produse'
+            // )
+            // ->get();
 
-        // dd($gestiune);
+        // dd($subcategorii);
+        // dd($suma_totala);
 
-        return view('produse.gestiune', compact('gestiune'));
+        return view('produse.gestiune', compact('gestiune', 'suma_totala'));
     }
 }

@@ -5,7 +5,7 @@
     <div class="container card">
             <div class="row card-header">
                 <div class="mt-2 mb-0">
-                    <h4 class=""><i class="fas fa-list-ul mr-1"></i>Gestiune</h4>
+                    <h4 class=""><i class="fas fa-list-ul mr-1"></i>Gestiune - {{ $suma_totala }} lei</h4>
                 </div> 
             </div>
             <div class="card-body">
@@ -18,7 +18,9 @@
                     @endif
                 @foreach ($gestiune as $categorie)
                     <div class="col-sm-3 mb-2" style="font-size: 1.3em">
-                        <p class="d-inline">
+                        {{-- <a class="" data-toggle="collapse" href="#collapse{{ $produs_vandut->id }}" role="button" 
+                            aria-expanded="false" aria-controls="collapse{{ $produs_vandut->id }}"> --}}
+                        <p>            
                             <span class="badge badge-dark"
                                  style="background-color:darkcyan;"
                             >
