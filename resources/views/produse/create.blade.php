@@ -108,7 +108,10 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                    <label for="cod_de_bare" class="col-sm-5 col-form-label">Cod de bare:</label>
+                                    <label for="cod_de_bare" class="col-sm-5 col-form-label">
+                                        Cod de bare:
+                                        <small>({{ $cod_de_bare->prefix . $cod_de_bare->numar }})</small>
+                                    </label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
                                         name="cod_de_bare"
