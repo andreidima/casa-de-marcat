@@ -288,7 +288,9 @@ class ProdusController extends Controller
     public function gestiune(Request $request)
     {
         $gestiune = Produs::join('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
-            ->select('subcategorie_produs_id', 'pret', DB::raw('SUM(cantitate) as cantitate'), 
+            ->select(
+                // 'subcategorie_produs_id', 
+                'pret', DB::raw('SUM(cantitate) as cantitate'), 
                 // DB::raw('SUM(pret) as suma_totala'),
                 'subcategorii_produse.nume')
             ->groupBy('subcategorii_produse.nume', 'pret')
