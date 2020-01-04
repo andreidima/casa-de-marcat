@@ -114,7 +114,7 @@ class ProdusController extends Controller
     {
         // $this->authorize('update', $proiecte);
 
-        $produse->update($this->validateRequest());
+        $produse->update($this->validateRequest($produse));
 
         return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost modificat cu succes!');
 
@@ -139,7 +139,7 @@ class ProdusController extends Controller
      *
      * @return array
      */
-    protected function validateRequest()
+    protected function validateRequest($produse = null)
     {
         // dd ($request->_method);
         return request()->validate([
@@ -150,7 +150,7 @@ class ProdusController extends Controller
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
             'cantitate' => [ 'required', 'numeric', 'between:0,999999999'],
-            'cod_de_bare' => ['nullable', 'max:20', 'unique:produse'],
+            'cod_de_bare' => ['nullable', 'max:20', 'unique:produse,cod_de_bare,' . ($produse->id ?? '')],
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
