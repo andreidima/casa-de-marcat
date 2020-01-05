@@ -5,7 +5,47 @@
     <div class="container card">
             <div class="row card-header">
                 <div class="mt-2 mb-0">
-                    <h4 class=""><i class="fas fa-list-ul mr-1"></i>Gestiune - {{ $suma_totala }} lei</h4>
+                    <h5 class="align-middle"><i class="fas fa-list-ul mr-1"></i>
+                        Gestiune:                         
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:;" --}}
+                        >
+                            Telefoane noi = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['telefoane_noi'] }}
+                            </span>
+                            lei
+                        </span>
+                        +
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:#e80000;" --}}
+                        >
+                            Telefoane consignatie = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['telefoane_consignatie'] }}
+                            </span>
+                            lei
+                        </span>
+                        +
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:darkcyan;" --}}
+                        >
+                            Accesorii telefoane = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['accesorii_telefoane'] }}
+                            </span>
+                            lei
+                        </span>
+                        =    
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:darkcyan;" --}}
+                        >         
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['suma_totala'] }}
+                            </span>        
+                            lei   
+                        </span>
+                    </h5>
                 </div> 
             </div>
             <div class="card-body" id="app1">

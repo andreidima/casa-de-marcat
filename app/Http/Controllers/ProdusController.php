@@ -297,13 +297,28 @@ class ProdusController extends Controller
             ->orderBy('subcategorii_produse.nume')
             ->orderBy('pret')
             ->get();
-        $suma_totala = Produs::where('subcategorie_produs_id', '<>', '38')
-        ->sum(DB::raw('cantitate * pret'));
+
+        $suma['telefoane_noi'] = Produs::whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', 1);
+                })
+            ->sum(DB::raw('cantitate * pret'));
+        $suma['telefoane_consignatie'] = Produs::whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', 2);
+                })
+            ->sum(DB::raw('cantitate * pret'));
+        $suma['accesorii_telefoane'] = Produs::whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', 3);
+                })
+            ->sum(DB::raw('cantitate * pret'));
+        $suma['suma_totala'] = Produs::where('subcategorie_produs_id', '<>', '38')
+            ->sum(DB::raw('cantitate * pret'));
+
+        // dd($suma);    
         $subcategorii = SubcategoriiProduse::with('produse')
             ->select('id', 'nume')
             ->orderBy('nume')
             ->get();
 
-        return view('produse.gestiune', compact('gestiune', 'suma_totala', 'subcategorii'));
+        return view('produse.gestiune', compact('gestiune', 'suma', 'subcategorii'));
     }
 }
