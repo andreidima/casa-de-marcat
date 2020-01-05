@@ -16,7 +16,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                {{-- @foreach ($gestiune as $categorie)
+                @foreach ($gestiune as $categorie)
                     <div class="col-sm-3 mb-2" style="font-size: 1.3em">
                         <p>            
                             <span class="badge badge-dark"
@@ -30,8 +30,8 @@
                             </span>
                         </p>
                     </div>
-                @endforeach --}}
-                @foreach ($subcategorii as $subcategorie)
+                @endforeach
+                {{-- @foreach ($subcategorii as $subcategorie)
                 @foreach ($subcategorie->produse->groupby('pret') as $produse)
                     <div class="col-sm-3 mb-2 px-0">
                         <a class="" data-toggle="collapse" href="#collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}" role="button" 
@@ -46,7 +46,6 @@
                                 <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
                                     {{ $produse->sum('cantitate') }}
                                 </span>
-                                {{-- {{ $produse->first()->pret }} --}}
                             </span>
                         </a>
                         <div class="collapse bg-white " 
@@ -60,7 +59,7 @@
                         </div>
                     </div>
                 @endforeach
-                @endforeach
+                @endforeach --}}
                 </div>
 
             </div>
