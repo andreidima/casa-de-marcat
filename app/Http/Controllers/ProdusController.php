@@ -299,22 +299,10 @@ class ProdusController extends Controller
             ->get();
         $suma_totala = Produs::where('subcategorie_produs_id', '<>', '38')
         ->sum(DB::raw('cantitate * pret'));
-        // $subcategorii = \App\SubcategoriiProduse::select('id', 'nume')
-        //     ->with(
-        //         'categorie',
-        //         'produse'
-        //     )
-        //     ->get();
-        // $subcategorii = SubcategoriiProduse::select('id', 'nume')
-            // ->with(
-            //     'categorie',
-            //     'produse'
-            // )
-            // ->get();
+        $subcategorii = SubcategoriiProduse::with('produse')
+            ->select('id', 'nume')
+            ->get();
 
-        // dd($subcategorii);
-        // dd($suma_totala);
-
-        return view('produse.gestiune', compact('gestiune', 'suma_totala'));
+        return view('produse.gestiune', compact('gestiune', 'suma_totala', 'subcategorii'));
     }
 }
