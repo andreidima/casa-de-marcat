@@ -301,6 +301,7 @@ class ProdusController extends Controller
         ->sum(DB::raw('cantitate * pret'));
         $subcategorii = SubcategoriiProduse::with('produse')
             ->select('id', 'nume')
+            ->orderBy('nume')
             ->get();
 
         return view('produse.gestiune', compact('gestiune', 'suma_totala', 'subcategorii'));
