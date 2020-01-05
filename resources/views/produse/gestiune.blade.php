@@ -32,7 +32,7 @@
                     </div>
                 @endforeach --}}
                 @foreach ($subcategorii as $subcategorie)
-                @foreach ($subcategorie->produse->groupby('pret')->sortBy('pret') as $produse)
+                @foreach ($subcategorie->produse->sortBy('pret')->groupby('pret') as $produse)
                     <div class="col-sm-3 mb-2 px-0">
                         <a class="" data-toggle="collapse" href="#collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}" role="button" 
                             aria-expanded="false" aria-controls="collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}"
