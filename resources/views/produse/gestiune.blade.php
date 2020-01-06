@@ -116,27 +116,39 @@
                 @endforeach
                 @endforeach --}}
                 @foreach ($categorii as $categorie)
-                    <div class="col-sm-12 mb-2 px-0">
+                    {{-- <div class="col-sm-12 mb-2 px-0">
                         <span class="badge badge-dark"
-                            {{-- style="background-color:darkcyan;" --}}
                             style="font-size: 1.3em"
                         >
                             {{$categorie->nume}}
                         </span>
-                    </div>
+                    </div> --}}
                         @foreach ($categorie->subcategorii->sortBy('nume') as $subcategorie)
                             @if ($categorie->id === 3)
-                    <div class="card col-sm-12 mb-4 shadow">
+                    <div class="card col-sm-12 my-4 shadow">
                                 <div class="card-header">
                                     {{-- <span class="badge badge-secondary" --}}
                                         {{-- style="background-color:darkcyan;" --}}
                                         {{-- style="font-size: 1.1em"
                                     > --}}
-                                        <h5 class="mb-0">
-                                            {{$subcategorie->nume}}
-                                        </h5>
+                                        <h4 class="mb-0">
+                                            {{$categorie->nume}} / {{$subcategorie->nume}}
+                                        </h4>
                                     {{-- </span> --}}
                                 </div>
+                            @else
+                    <div class="card col-sm-12 my-4 shadow">
+                                <div class="card-header">
+                                    {{-- <span class="badge badge-secondary" --}}
+                                        {{-- style="background-color:darkcyan;" --}}
+                                        {{-- style="font-size: 1.1em"
+                                    > --}}
+                                        <h4 class="mb-0">
+                                            {{$subcategorie->nume}}
+                                        </h4>
+                                    {{-- </span> --}}
+                                </div>
+
                             @endif
                         <div class="card-body">
                             <div class="row">
