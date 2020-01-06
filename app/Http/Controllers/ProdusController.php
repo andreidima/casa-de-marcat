@@ -184,6 +184,8 @@ class ProdusController extends Controller
                 ],
             'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
+            'card' => ['nullable'],
+            'emag' => ['nullable'],
             'detalii' => ['nullable', 'max:250'],
         ]);
 
@@ -213,6 +215,8 @@ class ProdusController extends Controller
                 $produs_vandut->produs_id = $produs->id;
                 $produs_vandut->cantitate = $request->nr_de_bucati;
                 $produs_vandut->pret = $request->pret;
+                $produs_vandut->card = $request->card;
+                $produs_vandut->emag = $request->emag;
                 $produs_vandut->detalii = $request->detalii;
                 // dd($produs_vandut);
                 $produs_vandut->save();

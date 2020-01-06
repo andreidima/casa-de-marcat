@@ -21,7 +21,7 @@
                         <span class="badge badge-dark"
                                 {{-- style="background-color:#e80000;" --}}
                         >
-                            Telefoane consignatie = 
+                            Telefoane consignație = 
                             <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
                                     {{ $suma['telefoane_consignatie'] }}
                             </span>

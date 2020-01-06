@@ -70,6 +70,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                        {{-- <label for="pret" class="col-sm-7 col-form-label">Preț:</label> --}}
+                                            <div class="form-check col-sm-6">
+                                                <input type="checkbox" class="form-check-input" name="card" value="1"
+                                                {{ old('card') == '1' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="card"><b>La agenție</b></label>
+                                            </div>
+                                            <div class="form-check col-sm-6">
+                                                <input type="checkbox" class="form-check-input" name="card" value="1"
+                                                {{ old('card') == '1' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="card"><b>La agenție</b></label>
+                                            </div>
+                                </div>
+                                <div class="form-group row">
                                         <label for="detalii" class="col-sm-7 col-form-label">Detalii:</label>
                                     <div class="col-sm-5">
                                         <input type="text"
