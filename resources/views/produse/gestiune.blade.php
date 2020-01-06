@@ -90,11 +90,28 @@
                         </a>
                         <div class="collapse bg-white " 
                             id="collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}"
-                            style="font-size: 0.8em"
+                            style="font-size: 1em"
                             >
                             @foreach ($produse as $produs)
-                                {{ $produs->nume }} = {{ $produs->cantitate }}
+                                <span class="badge badge-dark"
+                                        {{-- style="background-color:darkcyan;" --}}
+                                >
+                                    {{ $produs->nume }} = 
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ $produs->cantitate }}
+                                    </span>
+                                    <span class="badge badge-primary m-0" style="font-size: 1em;">
+                                        <a href="{{ $produs->path() }}/modifica" target="_blank">
+                                            <i class="fas fa-pen text-white"></i>
+                                        </a> 
+                                    </span>
+                                </span>
+                                <span class="badge badge-primary text-white"
+                                >                                   
+                                </span>
                                 <br>
+                                {{-- {{ $produs->nume }} = {{ $produs->cantitate }}
+                                <br> --}}
                             @endforeach
                         </div>
                     </div>

@@ -177,7 +177,7 @@ class ProdusController extends Controller
         $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
         $validatedData = $request->validate([
-            'cod_de_bare' => ['bail', 'required', 'numeric',
+            'cod_de_bare' => ['bail', 'required',
                     Rule::exists('produse')->where(function ($query) use($request) {
                         return $query->where('cod_de_bare', $request->cod_de_bare);
                     }),        
