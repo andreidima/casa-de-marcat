@@ -77,14 +77,14 @@
                                     {{ $produse->cod_de_bare }}
                                 </td>
                             </tr>
-                            {{-- </tr>
+                            </tr>
                                 <td>
-                                    Localizare
+                                    IMEI
                                 </td>
                                 <td>
-                                    {{ $produse->localizare }}
+                                    {{ $produse->imei }}
                                 </td>
-                            </tr> --}}
+                            </tr>
                             </tr>
                                 <td>
                                     Descriere

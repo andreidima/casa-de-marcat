@@ -13,4 +13,14 @@ class CategoriiProduse extends Model
     {
         return "/categorii_produse/{$this->id}";
     }
+
+    public function subcategorii()
+    {
+        return $this->hasMany('App\SubcategoriiProduse', 'categorie_produs_id');
+    }
+
+    public function produse()
+    {
+        return $this->hasManyThrough('App\Produs', 'App\SubcategoriiProduse', 'categorie_produs_id', 'subcategorie_produs_id', 'id', 'id');
+    }
 }

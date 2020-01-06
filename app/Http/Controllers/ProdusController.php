@@ -151,6 +151,7 @@ class ProdusController extends Controller
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
             'cantitate' => [ 'required', 'numeric', 'between:0,999999999'],
             'cod_de_bare' => ['nullable', 'max:20', 'unique:produse,cod_de_bare,' . ($produse->id ?? '')],
+            'imei' => ['nullable', 'max:50'],
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
@@ -291,16 +292,14 @@ class ProdusController extends Controller
      */
     public function gestiune(Request $request)
     {
-        $gestiune = Produs::join('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
-            ->select(
-                // 'subcategorie_produs_id', 
-                'pret', DB::raw('SUM(cantitate) as cantitate'), 
-                // DB::raw('SUM(pret) as suma_totala'),
-                'subcategorii_produse.nume')
-            ->groupBy('subcategorii_produse.nume', 'pret')
-            ->orderBy('subcategorii_produse.nume')
-            ->orderBy('pret')
-            ->get();
+        // $gestiune = Produs::join('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
+        //     ->select(
+        //         'pret', DB::raw('SUM(cantitate) as cantitate'), 
+        //         'subcategorii_produse.nume')
+        //     ->groupBy('subcategorii_produse.nume', 'pret')
+        //     ->orderBy('subcategorii_produse.nume')
+        //     ->orderBy('pret')
+        //     ->get();
 
         $suma['telefoane_noi'] = Produs::whereHas('subcategorie', function ($query) {
                     $query->where('categorie_produs_id', 1);
@@ -316,13 +315,21 @@ class ProdusController extends Controller
             ->sum(DB::raw('cantitate * pret'));
         $suma['suma_totala'] = Produs::where('subcategorie_produs_id', '<>', '38')
             ->sum(DB::raw('cantitate * pret'));
+  
+        // $subcategorii = SubcategoriiProduse::with('produse')
+        //     ->select('id', 'nume', 'categorie_produs_id')
+        //     ->orderBy('nume')
+        //     ->get();
 
-        // dd($suma);    
-        $subcategorii = SubcategoriiProduse::with('produse')
+        $categorii = CategoriiProduse::with('subcategorii', 'subcategorii.produse')
             ->select('id', 'nume')
+            ->where('id', '<>' ,'4')
+            // ->groupBy('subcategorii.nume')
+            // ->orderBy('subcategorii.nume')
             ->orderBy('nume')
             ->get();
 
-        return view('produse.gestiune', compact('gestiune', 'suma', 'subcategorii'));
+        // return view('produse.gestiune', compact('gestiune', 'suma', 'subcategorii'));
+        return view('produse.gestiune', compact('categorii', 'suma'));
     }
 }

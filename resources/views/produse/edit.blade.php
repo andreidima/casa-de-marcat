@@ -118,6 +118,17 @@
                                         >
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                    <label for="imei" class="col-sm-5 col-form-label">IMEI:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" 
+                                        class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}" 
+                                        name="imei"
+                                        placeholder="imei"        
+                                        value="{{ old('imei') == '' ? $produse->imei : old('imei') }}"
+                                        >
+                                </div>
+                            </div>
                             {{-- <div class="form-group row">
                                     <label for="localizare" class="col-sm-5 col-form-label">Localizare:</label>
                                 <div class="col-sm-7">                                      
