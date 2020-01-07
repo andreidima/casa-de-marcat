@@ -24,11 +24,11 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-3 text-right">
+            {{-- <div class="col-lg-3 text-right">
                 <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('avansuri.create') }}" role="button">
                     <i class="fas fa-plus-square text-white mr-1"></i>Adaugă avans
                 </a>
-            </div> 
+            </div>  --}}
         </div>
 
         <div class="card-body px-0 py-3">
