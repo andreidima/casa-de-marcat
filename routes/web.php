@@ -46,7 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnic');
     // Rutele default ale controllerului
     Route::resource('produse-vandute', 'ProdusVandutController');
-    
+
+    Route::resource('avansuri', 'AvansController');
 
     // Route::get('/makethemigration', function() {
     //     Artisan::call('php artisan migrate:refresh --seed');
