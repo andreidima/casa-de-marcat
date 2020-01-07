@@ -19,7 +19,7 @@
                 
                                 
                                 @include ('avansuri.form', [
-                                    'contracte' => new App\Avans,
+                                    'avansuri' => new App\Avans,
                                     'buttonText' => 'Adaugă Avans'
                                 ])
                     </form>
