@@ -24,11 +24,11 @@
                     </div>
                 </form>
             </div>
-            {{-- <div class="col-lg-3 text-right">
+            <div class="col-lg-3 text-right">
                 <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('avansuri.create') }}" role="button">
                     <i class="fas fa-plus-square text-white mr-1"></i>Adaugă avans
                 </a>
-            </div>  --}}
+            </div> 
         </div>
 
         <div class="card-body px-0 py-3">
@@ -44,10 +44,14 @@
                     <thead class="text-white rounded" style="background-color:#e66800;">
                         <tr class="" style="padding:2rem">
                             <th>Nr. Crt.</th>
-                            <th style="width:30%">Nume</th>
+                            <th 
+                                {{-- style="width:30%" --}}
+                            >Nume</th>
                             <th class="text-center">Descriere</th>
                             <th class="text-center">Suma</th>
                             <th class="text-right">Data avans</th>
+                            <th class="text-center">Stare</th>
+                            <th class="text-center">Acțiuni</th>
                         </tr>
                     </thead>
                     <tbody>               
@@ -69,6 +73,117 @@
                                 </td>
                                 <td class="text-right">
                                     {{ \Carbon\Carbon::parse($avans->created_at)->isoFormat('HH:MM - DD.MM.YYYY') ?? '' }}
+                                </td>
+                                <td class="text-center">
+                                    @if ($avans->stare === 1)  
+                                        <a class="" 
+                                            href="#" 
+                                            role="button"
+                                            data-toggle="modal" 
+                                            data-target="#activeazaAnuleazaAvans{{ $avans->id }}"
+                                            title=""
+                                            >
+                                            <span class="badge badge-success">Deschis</span>
+                                        </a>
+                                    @else
+                                        <a class="" 
+                                            href="#" 
+                                            role="button"
+                                            data-toggle="modal" 
+                                            data-target="#activeazaAnuleazaAvans{{ $avans->id }}"
+                                            title=""
+                                            >
+                                            <span class="badge badge-dark">Închis</span>
+                                        </a>
+                                    @endif 
+
+                                        <div class="modal fade text-dark" id="activeazaAnuleazaAvans{{ $avans->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header bg-warning">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Avans: <b>{{ $avans->nume }}</b></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body" style="text-align:left;">
+                                                    @if ($avans->stare === 1) 
+                                                        Ești sigur ca vrei să închizi avansul?
+                                                    @else
+                                                        Ești sigur ca vrei să deschizi avansul?
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
+                                                    
+                                                    <form method="POST" action="{{ url('avansuri/deschide-inchide', $avans->id) }}">
+                                                        @method('PATCH')
+                                                        @csrf 
+                                                            @if ($avans->stare === 1)  
+                                                                <button type="submit" class="btn btn-warning">
+                                                                    Închide Avans
+                                                                </button> 
+                                                            @else
+                                                                <button type="submit" class="btn btn-success">
+                                                                    Deschide Avans
+                                                                </button> 
+                                                            @endif                     
+                                                    </form>
+                                                
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </td>
+                                <td class="d-flex justify-content-end"> 
+                                    <a href="{{ $avans->path() }}/modifica"
+                                        class="flex"    
+                                    >
+                                        <span class="badge badge-primary">Modifică</span>
+                                    </a>                                   
+                                    <div style="flex" class="">
+                                        <a 
+                                            {{-- class="btn btn-danger btn-sm"  --}}
+                                            href="#" 
+                                            {{-- role="button" --}}
+                                            data-toggle="modal" 
+                                            data-target="#stergeAvans{{ $avans->id }}"
+                                            title="Șterge Avans"
+                                            >
+                                            {{-- <i class="far fa-trash-alt"></i> --}}
+                                            <span class="badge badge-danger">Șterge</span>
+                                        </a>
+                                            <div class="modal fade text-dark" id="stergeAvans{{ $avans->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Avans: <b>{{ $avans->nume }}</b></h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        Ești sigur ca vrei să ștergi Avansul?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
+                                                        
+                                                        <form method="POST" action="{{ $avans->path() }}">
+                                                            @method('DELETE')  
+                                                            @csrf   
+                                                            <button 
+                                                                type="submit" 
+                                                                class="btn btn-danger"  
+                                                                >
+                                                                Șterge Avans
+                                                            </button>                    
+                                                        </form>
+                                                    
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div> 
                                 </td>
                             </tr>  
                         @empty

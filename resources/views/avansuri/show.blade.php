@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="shadow-lg" style="border-radius: 40px 40px 40px 40px;">
                 <div class="border border-secondary p-2" style="border-radius: 40px 40px 0px 0px; background-color:#e66800">
-                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-handshake mr-1"></i>Contracte / Nr. {{ $contracte->contract_nr }} - {{ $contracte->client->nume ?? '' }}</h6>
+                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-building mr-1"></i>Avansuri / {{ $avansuri->nume }}</h6>
                 </div>
 
                 <div class="card-body py-2 border border-secondary" 
@@ -26,63 +26,56 @@
                         > 
                             <tr>
                                 <td>
-                                    Număr contract
+                                    Nume
                                 </td>
                                 <td>
-                                    {{ $contracte->contract_nr }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Client
-                                </td>
-                                <td>
-                                    {{ $contracte->client->nume ?? '' }}
+                                    {{ $avansuri->nume }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Data contract
+                                    Descriere
                                 </td>
                                 <td>
-                                    @isset($contracte->contract_data)
-                                        {{ \Carbon\Carbon::parse($contracte->contract_data)->isoFormat('D.MM.YYYY') }}
-                                    @endisset
+                                    {{ $avansuri->descriere }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Data începere
+                                    Suma
                                 </td>
                                 <td>
-                                    @isset($contracte->data_incepere)
-                                        {{ \Carbon\Carbon::parse($contracte->data_incepere)->isoFormat('D.MM.YYYY') }}
-                                    @endisset
+                                    {{ $avansuri->suma }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Anexa
+                                    Stare
                                 </td>
                                 <td>
-                                    @isset($contracte->anexa)
-                                        <span class="badge badge-success">DA</span>
+                                    @if($avansuri->stare === 1)
+                                        <p class='text-success m-0'><b>Deschis</b></p>
                                     @else
-                                        <span class="badge badge-secondary">NU</span>
-                                    @endisset
+                                        Închis
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
-                                    {!! $contracte->anexa !!}
+                                <td>
+                                    Data avans
+                                </td>
+                                <td>
+                                    @isset($avansuri->contract_data)
+                                        {{ \Carbon\Carbon::parse($contracte->contract_data)->isoFormat('HH:MM - DD.MM.YYYY') }}
+                                    @endisset
                                 </td>
                             </tr>
                         </table>
-                    </div>
-                                       
-                    <div class="form-row mb-2 px-2">                                    
-                        <div class="col-lg-12 d-flex justify-content-center">  
-                            <a class="btn btn-primary btn-sm rounded-pill" href="/contracte">Pagină Contracte</a> 
+                    </div>                   
+                                        
+                    <div class="form-row mb-0 px-2 justify-content-center">                                    
+                        <div class="col-lg-8 d-flex justify-content-center">  
+                            <a class="btn btn-primary btn-sm mr-4 rounded-pill" href="/avansuri">Înapoi la Avansuri</a> 
                         </div>
                     </div>
 

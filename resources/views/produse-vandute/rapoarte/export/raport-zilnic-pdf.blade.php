@@ -85,15 +85,11 @@
                 <tr style="background-color:#e7d790;">
                     <th style="text-align: center">Nr. crt.</th>
                     <th style="text-align: center; width:40%">Produs</th>
+                    <th style="text-align: center">Încasare</th>
                     <th style="text-align: center">Cantitate</th>
                     <th style="text-align: center">Preț raft</th>
                     <th style="text-align: center">Preț vânzare</th>
                 </tr>
-                @php 
-                    // $nrcrt = 1;
-                    // $nr_persoane = 0;
-                    // $suma = 0;    
-                @endphp
                 
                 @forelse ($produse_vandute as $produs_vandut) 
                     <tr>
@@ -105,6 +101,15 @@
                             @isset($produs_vandut->detalii)
                                 - {{ $produs_vandut->detalii }}
                             @endisset
+                        </td>
+                        <td style="">
+                            @if ($produs_vandut->card === 1)
+                                card
+                            @elseif ($produs_vandut->emag === 1)
+                                emag
+                            @else
+                                cash
+                            @endif
                         </td>
                         <td style="text-align: right">
                             {{ $produs_vandut->cantitate }}
@@ -119,7 +124,7 @@
                 @empty
                 @endforelse
                     <tr>
-                        <td colspan="2" style="text-align:right">
+                        <td colspan="3" style="text-align:right">
                             <b>Total</b>
                         </td>
                         <td style="text-align: right">
@@ -132,6 +137,65 @@
                             <b>{{ $produse_vandute_suma_totala }} lei</b> 
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:right">
+                            <b>Total bani cash</b>
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_suma_totala_fara_card_si_emag }} lei</b> 
+                        </td>
+                    </tr>
+            </table>
+
+            <br><br><br>
+
+            <table style="width:690px;">
+                <tr style="background-color:#e7d790;">
+                    <th style="text-align: center">Nr. crt.</th>
+                    <th style="text-align: center; width:40%">Avans</th>
+                    <th style="text-align: center">Descriere</th>
+                    <th style="text-align: center">Suma</th>
+                </tr>
+                
+                @forelse ($avansuri as $avans) 
+                    <tr>
+                        <td>
+                            {{ $loop->iteration }}
+                        </td>
+                        <td>
+                            {{ $avans->nume}}
+                        </td>
+                        <td>
+                            {{ $avans->descriere}}
+                        </td>
+                        <td style="text-align: right">
+                            {{ $avans->suma }} lei
+                        </td>
+                    </tr>
+                @empty
+                @endforelse
+                    {{-- <tr>
+                        <td colspan="3" style="text-align:right">
+                            <b>Total</b>
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_nr }}</b>
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_suma_totala_raft }} lei</b> 
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_suma_totala }} lei</b> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:right">
+                            <b>Total bani cash</b>
+                        </td>
+                        <td style="text-align: right">
+                            <b>{{ $produse_vandute_suma_totala_fara_card_si_emag }} lei</b> 
+                        </td>
+                    </tr> --}}
             </table>
 
     </div>

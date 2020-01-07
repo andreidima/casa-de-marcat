@@ -32,7 +32,7 @@ class AvansController extends Controller
      */
     public function create()
     {
-        //
+        return view('avansuri.create');
     }
 
     /**
@@ -43,7 +43,12 @@ class AvansController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $avansuri = Avans::make($this->validateRequest());
+        // $this->authorize('update', $proiecte);
+        $avansuri->stare = 1;
+        $avansuri->save();
+
+        return redirect('/avansuri')->with('status', 'Avansul pentru clientul "'.$avansuri->nume.'" a fost înregistrat cu succes!');
     }
 
     /**
@@ -52,9 +57,9 @@ class AvansController extends Controller
      * @param  \App\Avans  $avans
      * @return \Illuminate\Http\Response
      */
-    public function show(Avans $avans)
+    public function show(Avans $avansuri)
     {
-        //
+        return view('avansuri.show', compact('avansuri'));
     }
 
     /**
@@ -63,9 +68,9 @@ class AvansController extends Controller
      * @param  \App\Avans  $avans
      * @return \Illuminate\Http\Response
      */
-    public function edit(Avans $avans)
+    public function edit(Avans $avansuri)
     {
-        //
+        return view('avansuri.edit', compact('avansuri'));
     }
 
     /**
@@ -75,9 +80,13 @@ class AvansController extends Controller
      * @param  \App\Avans  $avans
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Avans $avans)
+    public function update(Request $request, Avans $avansuri)
     {
-        //
+        // $this->authorize('update', $proiecte);
+
+        $avansuri->update($this->validateRequest($avansuri));
+
+        return redirect('/avansuri')->with('status', 'Avansul pentru clientul "'.$avansuri->nume.'" a fost modificat cu succes!');
     }
 
     /**
@@ -86,8 +95,36 @@ class AvansController extends Controller
      * @param  \App\Avans  $avans
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Avans $avans)
+    public function destroy(Avans $avansuri)
     {
-        //
+        $avansuri->delete();
+        return redirect('/avansuri')->with('status', 'Avansul pentru clientul "' . $avansuri->nume . '" a fost șters cu succes!');
+    }
+
+    /**
+     * Validate the request attributes.
+     *
+     * @return array
+     */
+    protected function validateRequest()
+    {
+        return request()->validate([
+            'nume' =>['required', 'max:250'],
+            'suma' => ['required', 'numeric', 'between:0.00,99999.99'],
+            'descriere' => ['nullable', 'max:250'],
+        ]
+        );
+    }
+
+    public function update_deschis_inchis(Request $request, Avans $avansuri)
+    {
+        if ( $avansuri->stare === 0) {
+            $avansuri->stare = 1;
+        } else {
+            $avansuri->stare = 0;
+        }
+        $avansuri->update();
+        
+        return redirect('/avansuri');
     }
 }

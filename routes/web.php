@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Rutele default ale controllerului
     Route::resource('produse-vandute', 'ProdusVandutController');
 
+    Route::any('/avansuri/deschide-inchide/{avansuri}', 'AvansController@update_deschis_inchis');
     Route::resource('avansuri', 'AvansController');
 
     // Route::get('/makethemigration', function() {
