@@ -11,7 +11,7 @@
             <div class="col-lg-6" id="">
                 <form class="needs-validation" novalidate method="GET" action="{{ route('avansuri.index') }}">
                     @csrf                    
-                    <div class="row input-group custom-search-form justify-content-center align-self-end">
+                    <div class="row input-group custom-search-form justify-content-center">
                         <input type="text" class="form-control form-control-sm col-md-4 mr-1 border rounded-pill mb-1 py-0" 
                         id="search_nume" name="search_nume" placeholder="Nume" autofocus
                                 value="{{ $search_nume }}">
