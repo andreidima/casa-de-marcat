@@ -41,7 +41,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active mr-4">
+                        {{-- <li class="nav-item active mr-4">
                             <a class="nav-link" href="/produse">
                                 <i class="fas fa-list-ul mr-1"></i>Produse
                             </a>
@@ -50,6 +50,20 @@
                             <a class="nav-link" href="/produse/gestiune">
                                 <i class="fas fa-list-ul mr-1"></i>Gestiune
                             </a>
+                        </li> --}}
+                        <li class="nav-item dropdown active mr-4">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-list-ul mr-1"></i>Produse
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/produse">
+                                    <i class="fas fa-list-ul mr-1"></i>Produse
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/produse/gestiune">
+                                    <i class="fas fa-list-ul mr-1"></i>Gestiune
+                                </a>
+                            </div>
                         </li>
                         <li class="nav-item active mr-4">
                             <a class="nav-link" href="/avansuri">
@@ -61,7 +75,7 @@
                                 <i class="fas fa-shopping-cart mr-1"></i>Vânzări
                             </a>
                         </li>
-                        <li class="nav-item active mr-4">
+                        {{-- <li class="nav-item active mr-4">
                             <a class="nav-link" href="/produse-vandute">
                                 <i class="fas fa-list-ul mr-1"></i>Produse vândute
                             </a>
@@ -70,6 +84,20 @@
                             <a class="nav-link" href="/produse-vandute/rapoarte/raport-zilnic">
                                 <i class="fas fa-file-pdf mr-1"></i>Raport zilnic
                             </a>
+                        </li> --}}
+                        <li class="nav-item dropdown active mr-4">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-file-pdf mr-1"></i>Rapoarte
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/produse-vandute">
+                                    <i class="fas fa-list-ul mr-1"></i>Produse vândute
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/produse-vandute/rapoarte/raport-zilnic">
+                                    <i class="fas fa-file-pdf mr-1"></i>Raport zilnic
+                                </a>
+                            </div>
                         </li>
                     </ul>
 
