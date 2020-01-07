@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('produse/{produse}/export/{view_type}', 'ProdusController@pdfExportBarcode');
     // Pagina de statistică
     Route::any('/produse/gestiune', 'ProdusController@gestiune');
+    // Readaugare rapida de produs
+    Route::any('/produse/salvare_si_adaugare_noua', 'ProdusController@salvareSiAdaugareNoua');
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
 

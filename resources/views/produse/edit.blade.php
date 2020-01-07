@@ -124,7 +124,7 @@
                                     <input type="text" 
                                         class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}" 
                                         name="imei"
-                                        placeholder="imei"        
+                                        placeholder="IMEI"        
                                         value="{{ old('imei') == '' ? $produse->imei : old('imei') }}"
                                         >
                                 </div>

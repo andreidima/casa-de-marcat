@@ -174,28 +174,14 @@
                     </tr>
                 @empty
                 @endforelse
-                    {{-- <tr>
+                    <tr>
                         <td colspan="3" style="text-align:right">
                             <b>Total</b>
                         </td>
                         <td style="text-align: right">
-                            <b>{{ $produse_vandute_nr }}</b>
-                        </td>
-                        <td style="text-align: right">
-                            <b>{{ $produse_vandute_suma_totala_raft }} lei</b> 
-                        </td>
-                        <td style="text-align: right">
-                            <b>{{ $produse_vandute_suma_totala }} lei</b> 
+                            <b>{{ $avansuri->sum('suma') }}</b> lei
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="5" style="text-align:right">
-                            <b>Total bani cash</b>
-                        </td>
-                        <td style="text-align: right">
-                            <b>{{ $produse_vandute_suma_totala_fara_card_si_emag }} lei</b> 
-                        </td>
-                    </tr> --}}
             </table>
 
     </div>

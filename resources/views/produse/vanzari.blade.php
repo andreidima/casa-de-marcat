@@ -53,7 +53,7 @@
                                             id="nr_de_bucati" 
                                             name="nr_de_bucati"
                                             placeholder="1"                                        
-                                            value="{{ old('nr_de_bucati') == '' ? '1' : old('nr_de_bucati') }}"
+                                            value="{{ old('nr_de_bucati') == '' ? '0' : old('nr_de_bucati') }}"
                                             >
                                     </div>
                                 </div>

@@ -10,7 +10,14 @@
             </div>
             <div class="card-body" id="adaugare_modificare_produse">
                 <div class="row justify-content-center">
-                    <div class="col-lg-5">     
+
+                    <div class="col-lg-5">   
+
+                        @if (session()->has('status'))
+                        <div class="alert alert-success col-lg-12">
+                            {{ session('status') }}
+                        </div>
+                        @endif  
                         
                         @include ('errors')
                     
@@ -33,7 +40,7 @@
                                 <label for="categorie_produs_id" class="col-sm-5 col-form-label">Categorie:</label>
                                 <div class="col-sm-7">    
                                     <script type="application/javascript"> 
-                                        categorieVeche={!! json_encode(old('categorie_produs_id', "0")) !!}
+                                        categorieVeche={!! json_encode(old('categorie_produs_id', ($categorie ?? "0"))) !!}
                                     </script>                                     
                                     <select name="categorie_produs_id" 
                                         class="custom-select {{ $errors->has('categorie_produs_id') ? 'is-invalid' : '' }}" 
@@ -62,7 +69,7 @@
                                 <label for="subcategorie_produs_id" class="col-sm-5 col-form-label">Subcategorie:</label>
                                 <div class="col-sm-7">    
                                     <script type="application/javascript"> 
-                                        subcategorieVeche={!! json_encode(old('subcategorie_produs_id', "0")) !!}
+                                        subcategorieVeche={!! json_encode(old('subcategorie_produs_id', ($subcategorie ?? "0"))) !!}
                                     </script>                                     
                                     <select name="subcategorie_produs_id" 
                                         class="custom-select {{ $errors->has('subcategorie_produs_id') ? 'is-invalid' : '' }}" 
@@ -128,7 +135,7 @@
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}" 
                                         name="imei"
-                                        placeholder="Cod de bare"                                        
+                                        placeholder="IMEI"                                        
                                         value="{{ old('imei') }}"
                                         >
                                 </div>
@@ -154,7 +161,10 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-lg py-2">Adaugă produsul</button>
+                                    <button type="submit" class="btn btn-primary btn-lg py-2"
+                                        name="action" value="salvare">Adaugă produsul</button>
+                                    <button type="submit" class="btn btn-primary btn-lg py-2"
+                                        name="action" value="adaugari_multiple">Adaugări multiple</button>
                                 </div>
                             </div>  
                         </form>

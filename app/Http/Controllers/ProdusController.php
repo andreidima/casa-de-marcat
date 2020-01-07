@@ -75,7 +75,26 @@ class ProdusController extends Controller
                 ->update(['numar' => $cod_de_bare->numar += 1]);
         }
 
-        return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost adăugat cu succes!');
+        switch ($request->input('action')) {
+            case 'salvare':
+                return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost adăugat cu succes!');
+            break;
+
+            case 'adaugari_multiple':
+                $categorii_produs = CategoriiProduse::select('id', 'nume')
+                    ->orderBy('nume')
+                    ->get();
+                $categorie = $produse->subcategorie->categorie_produs_id;
+                $subcategorie = $produse->subcategorie->id;
+
+                // dd($categorie, $subcategorie);
+                \Session::flash('status', 'Produsul "' . $produse->nume . '" a fost adăugat cu succes!');
+                // return redirect('/produse.create')->with('status', 'Produsul "' . $produse->nume . '" a fost adăugat cu succes!');
+                return view('produse.create', compact('categorii_produs', 'cod_de_bare', 'categorie', 'subcategorie'));
+                    // ->with('status', 'Produsul "' . $produse->nume . '" a fost adăugat cu succes!');
+                break;
+        }
+
     }
 
     /**
