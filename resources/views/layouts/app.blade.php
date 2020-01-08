@@ -66,13 +66,13 @@
                             </div>
                         </li>
                         <li class="nav-item active mr-4">
-                            <a class="nav-link" href="/avansuri">
-                                <i class="fas fa-hand-holding-usd mr-1"></i>Avansuri
+                            <a class="nav-link" href="/produse/vanzari">
+                                <i class="fas fa-shopping-cart mr-1"></i>Vânzări
                             </a>
                         </li>
                         <li class="nav-item active mr-4">
-                            <a class="nav-link" href="/produse/vanzari">
-                                <i class="fas fa-shopping-cart mr-1"></i>Vânzări
+                            <a class="nav-link" href="/avansuri">
+                                <i class="fas fa-hand-holding-usd mr-1"></i>Avansuri
                             </a>
                         </li>
                         {{-- <li class="nav-item active mr-4">

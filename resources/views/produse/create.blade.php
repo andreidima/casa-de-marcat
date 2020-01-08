@@ -163,7 +163,7 @@
                                 <div class="col-sm-12 text-center">
                                     <button type="submit" class="btn btn-primary btn-lg py-2"
                                         name="action" value="salvare">Adaugă produsul</button>
-                                    <button type="submit" class="btn btn-primary btn-lg py-2"
+                                    <button type="submit" class="btn btn-success btn-lg py-2"
                                         name="action" value="adaugari_multiple">Adaugări multiple</button>
                                 </div>
                             </div>  
