@@ -374,8 +374,8 @@ class ProdusController extends Controller
         } elseif ($request->view_type === 'lista-inventar-pdf') {
             $pdf = \PDF::loadView('produse.export.lista-inventar-pdf', compact('categorii'))
                 ->setPaper('a4', 'portrait');
-            return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
-            // return $pdf->stream();
+            // return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            return $pdf->stream();
         }
     }
 }
