@@ -40,16 +40,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/produse/gestiune', 'ProdusController@gestiune');
     // Readaugare rapida de produs
     Route::any('/produse/salvare_si_adaugare_noua', 'ProdusController@salvareSiAdaugareNoua');
-    // Rutele default ale controllerului
-    Route::resource('produse', 'ProdusController');
 
     // Rute pentru rapoarte
+    Route::get('produse/rapoarte/lista-inventar/{view_type}', 'ProdusController@pdfExportListaInventar');
     Route::any('produse-vandute/rapoarte/raport-zilnic/{view_type?}', 'ProdusVandutController@rapoarteRaportZilnic');
     Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnic');
+    
+    // Inchide avans dupa finalizare reparatie si predare restul de bani si produs
+    Route::any('/avansuri/deschide-inchide/{avansuri}', 'AvansController@update_deschis_inchis');
+
     // Rutele default ale controllerului
+    Route::resource('produse', 'ProdusController');
     Route::resource('produse-vandute', 'ProdusVandutController');
 
-    Route::any('/avansuri/deschide-inchide/{avansuri}', 'AvansController@update_deschis_inchis');
     Route::resource('avansuri', 'AvansController');
 
     // Route::get('/makethemigration', function() {

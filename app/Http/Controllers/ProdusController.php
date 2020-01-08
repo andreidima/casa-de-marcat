@@ -260,7 +260,7 @@ class ProdusController extends Controller
     }
 
     /**
-     * Vanzare de produse. Scaderea cantitatii produsului
+     * Generare barcode
      *
      * @param  \App\Produs  $produs
      * @return \Illuminate\Http\Response
@@ -276,6 +276,7 @@ class ProdusController extends Controller
             return $pdf->stream();
         }
     }
+
     /**
      * Returnarea oraselor de sosire
      */
@@ -350,5 +351,31 @@ class ProdusController extends Controller
 
         // return view('produse.gestiune', compact('gestiune', 'suma', 'subcategorii'));
         return view('produse.gestiune', compact('categorii', 'suma'));
+    }
+
+    /**
+     * Lista inventar
+     *
+     * @param  \App\Produs  $produs
+     * @return \Illuminate\Http\Response
+     */
+    public function pdfExportListaInventar(Request $request)
+    {
+        $categorii = CategoriiProduse::with('subcategorii', 'subcategorii.produse')
+            ->select('id', 'nume')
+            ->where('id', '<>' ,'4')
+            // ->groupBy('subcategorii.nume')
+            // ->orderBy('subcategorii.nume')
+            ->orderBy('nume')
+            ->get();
+
+        if ($request->view_type === 'lista-inventar-html') {
+            return view('produse.export.lista-inventar-pdf', compact('categorii'));
+        } elseif ($request->view_type === 'lista-inventar-pdf') {
+            $pdf = \PDF::loadView('produse.export.lista-inventar-pdf', compact('categorii'))
+                ->setPaper('a4', 'portrait');
+            return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            // return $pdf->stream();
+        }
     }
 }

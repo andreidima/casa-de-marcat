@@ -97,6 +97,10 @@
                                 <a class="dropdown-item" href="/produse-vandute/rapoarte/raport-zilnic">
                                     <i class="fas fa-file-pdf mr-1"></i>Raport zilnic
                                 </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/produse/rapoarte/lista-inventar/lista-inventar-pdf">
+                                    <i class="fas fa-file-pdf mr-1"></i>Listă inventar
+                                </a>
                             </div>
                         </li>
                     </ul>
