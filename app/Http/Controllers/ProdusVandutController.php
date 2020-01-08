@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Produs;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\Avans;
@@ -100,9 +101,20 @@ class ProdusVandutController extends Controller
      * @param  \App\ProdusVandut  $produsVandut
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProdusVandut $produsVandut)
+    public function destroy(ProdusVandut $produse_vandute)
     {
-        //
+        // $this->authorize('delete', $produse);
+        
+        $produs = Produs::where('id', $produse_vandute->produs_id)->first();
+        $produs->cantitate += $produse_vandute->cantitate;
+        $produs->update();
+        
+        $produse_vandute->delete();
+
+        return redirect('/produse-vandute')
+            ->with('status', 'Vânzarea produsului „' . $produse_vandute->produs->nume . ' - ' . $produse_vandute->detalii . '” a fost ștearsă cu succes! ' . 
+                'Produsul a fost readăugat în gestiune!'
+            );
     }
 
     /**

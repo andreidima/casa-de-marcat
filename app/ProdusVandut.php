@@ -11,7 +11,7 @@ class ProdusVandut extends Model
 
     public function path()
     {
-        return "/produse_vandute/{$this->id}";
+        return "/produse-vandute/{$this->id}";
     }
 
     public function produs()

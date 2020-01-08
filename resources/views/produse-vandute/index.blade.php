@@ -65,6 +65,7 @@
                             <th class="text-center">Preț vânzare</th>
                             {{-- <th class="text-center">Cod de bare</th> --}}
                             <th class="text-right">Data vânzării</th>
+                            <th class="text-center">Acțiuni</th>
                         </tr>
                     </thead>
                     <tbody>               
@@ -92,42 +93,57 @@
                                 <td class="text-right">
                                     {{ $produs_vandut->pret }} lei
                                 </td>
-                                {{-- <td class="text-center">
-                                    {{ $produs_vandut->produs->cod_de_bare ?? '' }}
-                                </td> --}}
                                 <td class="text-right">
                                     {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:MM - DD.MM.YYYY') ?? '' }}
                                 </td>
-                            </tr>  
-                            {{-- <tr class="collapse bg-white" id="collapse{{ $produs_vandut->id }}" 
-                            >
-                                <td colspan="6">
-                                    <table class="table table-sm table-striped table-hover col-lg-6 mx-auto border"
-                                    > 
-                                        <tr>
-                                            <td class="py-0">
-                                                Nume
-                                            </td>
-                                            <td class="py-0">
-                                                
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-0">
-                                                Nr. ord. reg. com.
-                                            </td>
-                                            <td class="py-0">
-                                                
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <td class="d-flex justify-content-end">      
+                                    <div style="flex" class="">
+                                        <a 
+                                            href="#" 
+                                            data-toggle="modal" 
+                                            data-target="#stergeProdusVandut{{ $produs_vandut->id }}"
+                                            title="Șterge Produs Vândut"
+                                            >
+                                            <span class="badge badge-danger">Șterge</span>
+                                        </a>
+                                            <div class="modal fade text-dark" id="stergeProdusVandut{{ $produs_vandut->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header bg-danger">
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">
+                                                            Produs Vândut: <b>{{ $produs_vandut->produs->nume }}</b>
+                                                            @isset($produs_vandut->detalii)
+                                                                - {{ $produs_vandut->detalii }}
+                                                            @endisset
+                                                        </h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        Ești sigur ca vrei să ștergi vânzarea?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
+                                                        
+                                                        <form method="POST" action="{{ $produs_vandut->path() }}">
+                                                            @method('DELETE')  
+                                                            @csrf   
+                                                            <button 
+                                                                type="submit" 
+                                                                class="btn btn-danger"  
+                                                                >
+                                                                Șterge Vânzarea
+                                                            </button>                    
+                                                        </form>
+                                                    
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div> 
                                 </td>
-                            </tr> 
-                            <tr class="collapse">
-                                <td colspan="6">
-
-                                </td>                                       
-                            </tr> --}}
+                            </tr>  
                         @empty
                             <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
                         @endforelse
