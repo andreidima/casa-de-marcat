@@ -118,7 +118,7 @@ class ProdusVandutController extends Controller
         unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
         $produse_istoric->produs_id = $produs->id;
         $produse_istoric->user = auth()->user()->id;
-        $produse_istoric->operatiune = 'vanzare';
+        $produse_istoric->operatiune = 'vanzare stearsa';
         $produse_istoric->save();
         
         $produse_vandute->delete();
