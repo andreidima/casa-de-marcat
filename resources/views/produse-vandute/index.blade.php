@@ -8,14 +8,21 @@
                     <a href="{{ route('produse-vandute.index') }}"><i class="fas fa-list-ul mr-1"></i>Produse vândute</a>
                 </h4>
             </div> 
-            <div class="col-lg-6" id="cautare_produse_vandute">
+            <div class="col-lg-8" id="cautare_produse_vandute">
                 <form class="needs-validation" novalidate method="GET" action="{{ route('produse-vandute.index') }}">
                     @csrf                    
                     <div class="row input-group custom-search-form justify-content-center align-self-end">
-                        <input type="text" class="form-control form-control-sm col-md-4 mr-1 border rounded-pill mb-1 py-0" 
-                        id="search_cod_de_bare" name="search_cod_de_bare" placeholder="Cod de bare" autofocus
-                                value="{{ $search_cod_de_bare }}">
-                        <div class="col-md-8 d-flex mb-1">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm border rounded-pill mb-1 py-0" 
+                            id="search_cod_de_bare" name="search_cod_de_bare" placeholder="Cod de bare" autofocus
+                                    value="{{ $search_cod_de_bare }}">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm border rounded-pill mb-1 py-0" 
+                            id="search_detalii" name="search_detalii" placeholder="Detalii" autofocus
+                                    value="{{ $search_detalii }}">
+                        </div>
+                        <div class="col-md-6 d-flex mb-1">
                             <label for="search_date" class="mb-0 align-self-center mr-1">Interval:</label>
                             <vue2-datepicker
                                 data-veche="{{ $search_data_inceput }}"
@@ -94,7 +101,7 @@
                                     {{ $produs_vandut->pret }} lei
                                 </td>
                                 <td class="text-right">
-                                    {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:MM - DD.MM.YYYY') ?? '' }}
+                                    {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                 </td>
                                 <td class="d-flex justify-content-end">      
                                     <div style="flex" class="">

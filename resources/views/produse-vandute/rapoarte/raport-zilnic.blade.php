@@ -98,7 +98,7 @@
                                 </td> --}}
                                 <td class="text-right">
                                     {{-- {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('D.MM.YYYY') ?? '' }} --}}
-                                    {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:MM - DD.MM.YYYY') ?? '' }}
+                                    {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                     {{-- {{ $produs_vandut->created_at }} --}}
                                 </td>
                             </tr>  

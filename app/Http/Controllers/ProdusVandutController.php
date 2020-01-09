@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Produs;
+use App\ProdusIstoric;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\Avans;
@@ -18,13 +19,17 @@ class ProdusVandutController extends Controller
      */
     public function index()
     {
-        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI        
+        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI   
+        $search_detalii = \Request::get('search_detalii');     
         $search_data_inceput = \Request::get('search_data_inceput');
         $search_data_sfarsit = \Request::get('search_data_sfarsit');
         $produse_vandute = ProdusVandut::with('produs')
             ->whereHas('produs', function ($query) use ($search_cod_de_bare) {
                 $query->where('cod_de_bare', 'like', '%' . $search_cod_de_bare . '%');
             })
+            ->when($search_detalii, function ($query, $search_detalii) {
+                    return $query->where('detalii', 'like', '%' . str_replace(' ', '%', $search_detalii) . '%');
+                })
             ->when($search_data_inceput, function ($query, $search_data_inceput) {
                 return $query->whereDate('created_at', '>=', $search_data_inceput);
             })
@@ -37,7 +42,7 @@ class ProdusVandutController extends Controller
             ->simplePaginate(25);
 
         return view('produse-vandute.index', 
-            compact('produse_vandute', 'search_cod_de_bare', 'search_data_inceput', 'search_data_sfarsit'));
+            compact('produse_vandute', 'search_cod_de_bare', 'search_data_inceput', 'search_data_sfarsit', 'search_detalii'));
     }
 
     /**
@@ -108,6 +113,13 @@ class ProdusVandutController extends Controller
         $produs = Produs::where('id', $produse_vandute->produs_id)->first();
         $produs->cantitate += $produse_vandute->cantitate;
         $produs->update();
+
+        $produse_istoric = ProdusIstoric::make($produs->toArray());
+        unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+        $produse_istoric->produs_id = $produs->id;
+        $produse_istoric->user = auth()->user()->id;
+        $produse_istoric->operatiune = 'vanzare';
+        $produse_istoric->save();
         
         $produse_vandute->delete();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Produs;
+use App\ProdusIstoric;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\SubcategoriiProduse;
@@ -64,8 +65,14 @@ class ProdusController extends Controller
     public function store(Request $request)
     {
         $produse = Produs::make($this->validateRequest());
+        $produse_istoric = ProdusIstoric::make($this->validateRequest());
         // $this->authorize('update', $proiecte);
         $produse->save();
+        
+        $produse_istoric->produs_id = $produse->id;
+        $produse_istoric->user = auth()->user()->id;
+        $produse_istoric->operatiune = 'create';
+        $produse_istoric->save();
 
         $cod_de_bare = \App\CodDeBare::select('prefix', 'numar')
             ->first();
@@ -77,7 +84,7 @@ class ProdusController extends Controller
 
         switch ($request->input('action')) {
             case 'salvare':
-                return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost adăugat cu succes!');
+                return redirect('/produse')->with('status', 'Produsul "' . $produse->nume  . $produse->id . '" a fost adăugat cu succes!');
             break;
 
             case 'adaugari_multiple':
@@ -132,8 +139,13 @@ class ProdusController extends Controller
     public function update(Request $request, Produs $produse)
     {
         // $this->authorize('update', $proiecte);
-
+        $produse_istoric = ProdusIstoric::make($this->validateRequest($produse));
         $produse->update($this->validateRequest($produse));
+        
+        $produse_istoric->produs_id = $produse->id;
+        $produse_istoric->user = auth()->user()->id;
+        $produse_istoric->operatiune = 'update';
+        $produse_istoric->save();
 
         return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost modificat cu succes!');
 
@@ -148,8 +160,16 @@ class ProdusController extends Controller
     public function destroy(Produs $produse)
     {
         // $this->authorize('delete', $produse);
-        // dd($produse);
         $produse->delete();
+
+        $produse_istoric = ProdusIstoric::make($produse->toArray());
+        unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+        $produse_istoric->produs_id = $produse->id;
+        $produse_istoric->user = auth()->user()->id;
+        $produse_istoric->operatiune = 'stergere';
+        $produse_istoric->save();
+        // dd($produs, $produse_istoric);
+
         return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
     }
 
@@ -222,6 +242,14 @@ class ProdusController extends Controller
                 // }
                 $produs->cantitate = $produs->cantitate - $request->nr_de_bucati;
                 $produs->update();
+
+                $produse_istoric = ProdusIstoric::make($produs->toArray());
+                unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+                $produse_istoric->produs_id = $produs->id;
+                $produse_istoric->user = auth()->user()->id;
+                $produse_istoric->operatiune = 'vanzare';
+                $produse_istoric->save();
+                // dd($produs, $produse_istoric);
 
                 // if ($request->session()->has('produse_vandute')) { 
                 // } else {
