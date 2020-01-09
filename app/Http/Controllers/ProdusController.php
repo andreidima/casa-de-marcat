@@ -72,12 +72,13 @@ class ProdusController extends Controller
         
         $produse_istoric->produs_id = $produse->id;
         $produse_istoric->user = auth()->user()->id;
-        $produse_istoric->operatiune = 'create';
+        $produse_istoric->operatiune = 'adaugare';
         $produse_istoric->save();
 
         $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->produs_id = $produse->id;
         $produse_cantitati_istoric->cantitate = $produse->cantitate;
+        $produse_cantitati_istoric->operatiune = 'adaugare';
         $produse_cantitati_istoric->save();
 
         $cod_de_bare = \App\CodDeBare::select('prefix', 'numar')
@@ -150,12 +151,13 @@ class ProdusController extends Controller
         
         $produse_istoric->produs_id = $produse->id;
         $produse_istoric->user = auth()->user()->id;
-        $produse_istoric->operatiune = 'update';
+        $produse_istoric->operatiune = 'modificare';
         $produse_istoric->save();
 
         $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->produs_id = $produse->id;
         $produse_cantitati_istoric->cantitate = $produse->cantitate;
+        $produse_cantitati_istoric->operatiune = 'modificare';
         $produse_cantitati_istoric->save();
 
         return redirect('/produse')->with('status', 'Produsul "'.$produse->nume.'" a fost modificat cu succes!');
@@ -185,6 +187,7 @@ class ProdusController extends Controller
         // $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         // $produse_cantitati_istoric->produs_id = $produse->id;
         // $produse_cantitati_istoric->cantitate = null;
+        // $produse_cantitati_istoric->operatiune = 'stergere';
         // $produse_cantitati_istoric->save();
 
         return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
@@ -270,6 +273,7 @@ class ProdusController extends Controller
                 $produse_cantitati_istoric = ProdusCantitateIstoric::make();
                 $produse_cantitati_istoric->produs_id = $produs->id;
                 $produse_cantitati_istoric->cantitate = $produs->cantitate;
+                $produse_cantitati_istoric->operatiune = 'vanzare';
                 $produse_cantitati_istoric->save();
 
                 // if ($request->session()->has('produse_vandute')) { 

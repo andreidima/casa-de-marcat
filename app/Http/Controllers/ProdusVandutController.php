@@ -125,6 +125,7 @@ class ProdusVandutController extends Controller
         $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->produs_id = $produs->id;
         $produse_cantitati_istoric->cantitate = $produs->cantitate;
+        $produse_cantitati_istoric->operatiune = 'vanzare stearsa';
         $produse_cantitati_istoric->save();
         
         $produse_vandute->delete();
