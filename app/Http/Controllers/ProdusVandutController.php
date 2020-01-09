@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Produs;
 use App\ProdusIstoric;
+use App\ProdusCantitateIstoric;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\Avans;
@@ -120,6 +121,11 @@ class ProdusVandutController extends Controller
         $produse_istoric->user = auth()->user()->id;
         $produse_istoric->operatiune = 'vanzare stearsa';
         $produse_istoric->save();
+
+        $produse_cantitati_istoric = ProdusCantitateIstoric::make();
+        $produse_cantitati_istoric->produs_id = $produs->id;
+        $produse_cantitati_istoric->cantitate = $produs->cantitate;
+        $produse_cantitati_istoric->save();
         
         $produse_vandute->delete();
 
