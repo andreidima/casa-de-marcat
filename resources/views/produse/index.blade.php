@@ -40,11 +40,7 @@
 
         <div class="card-body">
 
-            @if (session()->has('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-            @endif
+            @include ('errors')
 
             <div class="table-responsive">
                 <table class="table table-striped"> 

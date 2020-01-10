@@ -98,7 +98,7 @@
                                     <i class="fas fa-file-pdf mr-1"></i>Raport zilnic
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/produse/rapoarte/lista-inventar/lista-inventar-html">
+                                <a class="dropdown-item" href="/produse/rapoarte/lista-inventar/lista-inventar-html" target="_blank">
                                     <i class="fas fa-file-pdf mr-1"></i>Listă inventar
                                 </a>
                             </div>

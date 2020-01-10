@@ -176,25 +176,30 @@ class ProdusController extends Controller
         // dd(Produs::where('id', $produse->id)->has('produse_vandute')->get());
         // if ($produse->has('produse_vandute'))
         // return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
-        dd($produse->produse_vandute->count());
-        $produse->delete();
+        // dd($produse->produse_vandute->count());
+        if ($produse->produse_vandute->count() > 0) {
+            return redirect('/produse')
+                ->with('eroare', 'Produsul "' . $produse->nume . '" nu poate fi șters pentru că are un număr de ' . $produse->produse_vandute->count() . ' vânzări!');
+        } else{
+            $produse->delete();
+            $produse_istoric = ProdusIstoric::make($produse->toArray());
+            unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at'], $produse_istoric['produse_vandute']);
+            $produse_istoric->produs_id = $produse->id;
+            $produse_istoric->user = auth()->user()->id;
+            $produse_istoric->operatiune = 'stergere';
+            $produse_istoric->save();
+            // dd($produse, $produse_istoric);
 
-        $produse_istoric = ProdusIstoric::make($produse->toArray());
-        unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
-        $produse_istoric->produs_id = $produse->id;
-        $produse_istoric->user = auth()->user()->id;
-        $produse_istoric->operatiune = 'stergere';
-        $produse_istoric->save();
-        // dd($produs, $produse_istoric);
-
-        ProdusCantitateIstoric::where('produs_id', $produse->id)->delete();
-        // $produse_cantitati_istoric = ProdusCantitateIstoric::make();
-        // $produse_cantitati_istoric->produs_id = $produse->id;
-        // $produse_cantitati_istoric->cantitate = null;
-        // $produse_cantitati_istoric->operatiune = 'stergere';
-        // $produse_cantitati_istoric->save();
-
-        return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
+            ProdusCantitateIstoric::where('produs_id', $produse->id)->delete();
+            // $produse_cantitati_istoric = ProdusCantitateIstoric::make();
+            // $produse_cantitati_istoric->produs_id = $produse->id;
+            // $produse_cantitati_istoric->cantitate = null;
+            // $produse_cantitati_istoric->operatiune = 'stergere';
+            // $produse_cantitati_istoric->save();
+            
+            
+            return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
+        }
     }
 
     /**
