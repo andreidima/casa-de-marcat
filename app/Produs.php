@@ -18,4 +18,9 @@ class Produs extends Model
     {
         return $this->belongsTo('App\SubcategoriiProduse', 'subcategorie_produs_id');
     }
+
+    public function produse_vandute()
+    {
+        return $this->hasMany('App\ProdusVandut', 'produs_id');
+    }
 }

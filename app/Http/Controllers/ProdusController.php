@@ -173,6 +173,10 @@ class ProdusController extends Controller
     public function destroy(Produs $produse)
     {
         // $this->authorize('delete', $produse);
+        // dd(Produs::where('id', $produse->id)->has('produse_vandute')->get());
+        // if ($produse->has('produse_vandute'))
+        // return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
+        dd($produse->produse_vandute->count());
         $produse->delete();
 
         $produse_istoric = ProdusIstoric::make($produse->toArray());
