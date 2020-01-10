@@ -234,8 +234,6 @@ class ProdusVandutController extends Controller
 
     public function pdfExportRaportZilnicPerCategorie(Request $request, $search_data, $categorie_id)
     {
-        // $data_traseu_Ymd = \Carbon\Carbon::createFromFormat('d-m-Y', $data_traseu)->format('Y-m-d');
-        // $data_raport = \Carbon\Carbon::createFromFormat('d-m-Y', $data_raport)->format('d.m.Y');
 
         if (isset($search_data)) {
             $produse_vandute = DB::table('view_produse_vandute')
@@ -256,6 +254,32 @@ class ProdusVandutController extends Controller
             return $pdf->download('Raport produse vandute - ' . $produse_vandute->first()->categorie_nume . ' - ' . 
                 \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
         }
+    }
 
+    public function pdfExportRaportZilnicAvansuri(Request $request, $search_data)
+    {
+        if (isset($search_data)) {
+            $avansuri = Avans::when($search_data, function ($query, $search_data) {
+                return $query->whereDate('created_at', $search_data);
+            })
+                ->get();
+        } else {
+            return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'search_data'));
+        }
+
+        if ($request->view_type === 'raport-html') {
+            return view(
+                'produse-vandute.rapoarte.export.raport-zilnic-avansuri-pdf',
+                compact('avansuri', 'search_data')
+            );
+        } elseif ($request->view_type === 'raport-pdf') {
+            $pdf = \PDF::loadView(
+                'produse-vandute.rapoarte.export.raport-zilnic-avansuri-pdf',
+                compact('avansuri', 'search_data')
+            )
+                ->setPaper('a4');
+            return $pdf->download('Raport avansuri ' .
+                \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
+        }
     }
 }

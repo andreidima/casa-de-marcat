@@ -72,10 +72,10 @@
                                     {{ $avans->suma }} lei
                                 </td>
                                 <td class="text-right">
-                                    {{ \Carbon\Carbon::parse($avans->created_at)->isoFormat('HH:MM - DD.MM.YYYY') ?? '' }}
+                                    {{ \Carbon\Carbon::parse($avans->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                 </td>
                                 <td class="text-center">
-                                    @if ($avans->stare === 1)  
+                                    @if ($avans->stare === '1')  
                                         <a class="" 
                                             href="#" 
                                             role="button"
@@ -107,7 +107,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
-                                                    @if ($avans->stare === 1) 
+                                                    @if ($avans->stare === "1") 
                                                         Ești sigur ca vrei să închizi avansul?
                                                     @else
                                                         Ești sigur ca vrei să deschizi avansul?
@@ -119,7 +119,7 @@
                                                     <form method="POST" action="{{ url('avansuri/deschide-inchide', $avans->id) }}">
                                                         @method('PATCH')
                                                         @csrf 
-                                                            @if ($avans->stare === 1)  
+                                                            @if ($avans->stare === "1")  
                                                                 <button type="submit" class="btn btn-warning">
                                                                     Închide Avans
                                                                 </button> 

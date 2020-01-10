@@ -72,9 +72,9 @@
                         <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" width="150px">
                 </td>
                 <td style="border-width:0px; padding:0rem; width:60%; text-align:center; font-size:16px">
-                    Raport vânzări: {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
+                    Raport avansuri 
                     <br>
-                    Categoria: {{ $produse_vandute->first()->categorie_nume }}
+                    Pentru data: {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
                 </td>
             </tr>
         </table>
@@ -84,72 +84,30 @@
             <table style="width:690px;">
                 <tr style="background-color:#e7d790;">
                     <th style="text-align: center">Nr. crt.</th>
-                    <th style="text-align: center; width:40%">Produs</th>
-                    <th style="text-align: center">Încasare</th>
-                    <th style="text-align: center">Cantitate</th>
-                    @if($produse_vandute->first()->categorie_id !== '4')
-                    <th style="text-align: center">Preț raft</th>
-                    @endif
-                    <th style="text-align: center">Preț vânzare</th>
+                    <th style="text-align: center">Avans</th>
+                    <th style="text-align: center">Suma</th>
                 </tr>
                 
-                @forelse ($produse_vandute as $produs_vandut) 
+                @forelse ($avansuri as $avans) 
                     <tr>
                         <td>
                             {{ $loop->iteration }}
                         </td>
                         <td>
-                            {{ $produs_vandut->nume }}
-                        </td>
-                        <td style="">
-                            @if ($produs_vandut->card === 1)
-                                card
-                            @elseif ($produs_vandut->emag === 1)
-                                emag
-                            @else
-                                cash
-                            @endif
+                            {{ $avans->nume}} - {{ $avans->descriere}}
                         </td>
                         <td style="text-align: right">
-                            {{ $produs_vandut->cantitate }}
-                        </td>
-                        @if($produse_vandute->first()->categorie_id !== '4')
-                            <td style="text-align: right">
-                                {{ $produs_vandut->pret_la_raft }} lei
-                            </td>
-                        @endif
-                        <td style="text-align: right">
-                            {{ $produs_vandut->pret_vandut }} lei
+                            {{ $avans->suma }} lei
                         </td>
                     </tr>
                 @empty
                 @endforelse
                     <tr>
-                        <td colspan="3" style="text-align:right">
+                        <td colspan="2" style="text-align:right">
                             <b>Total</b>
                         </td>
                         <td style="text-align: right">
-                            <b>{{ $produse_vandute->sum('cantitate') }}</b>
-                        </td>
-                        @if($produse_vandute->first()->categorie_id !== '4')
-                            <td style="text-align: right">
-                                <b>{{ $produse_vandute->sum('total_la_raft') }} lei</b> 
-                            </td>
-                        @endif
-                        <td style="text-align: right">
-                            <b>{{ $produse_vandute->sum('total_vandut') }} lei</b> 
-                        </td>
-                    </tr>
-                    <tr>
-                        @if($produse_vandute->first()->categorie_id !== '4')
-                        <td colspan="5" style="text-align:right">
-                        @else
-                        <td colspan="4" style="text-align:right">
-                        @endif
-                            <b>Total bani cash</b>
-                        </td>
-                        <td style="text-align: right">
-                            <b>{{ $produse_vandute->where('card', '<>', 1)->where('emag', '<>', 1)->sum('total_vandut') }} lei</b> 
+                            <b>{{ $avansuri->sum('suma') }}</b> lei
                         </td>
                     </tr>
             </table>

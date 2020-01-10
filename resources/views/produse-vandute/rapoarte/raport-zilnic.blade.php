@@ -88,6 +88,7 @@
                     <br>
                 @endforeach --}}
             @endforeach
+
                 <div class="row justify-content-center">
                     <div class="col-sm-10 m-4 p-4 border d-flex" style="border-left: 5px solid darkcyan !important;">
                         <div class="col-5">
@@ -105,7 +106,7 @@
                             </span>
                         </div>
                         <div class="col-3 text-right">
-                            <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/export/raport-pdf"
+                            <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/avansuri/export/raport-pdf"
                                 class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
                             >
                                 <i class="fas fa-file-pdf mr-1"></i>Export PDF
