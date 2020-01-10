@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('produse/rapoarte/lista-inventar/{view_type}', 'ProdusController@pdfExportListaInventar');
     Route::any('produse-vandute/rapoarte/raport-zilnic/{view_type?}', 'ProdusVandutController@rapoarteRaportZilnic');
     Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnic');
+    Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/{categorie_id}/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnicPerCategorie');
     
     // Inchide avans dupa finalizare reparatie si predare restul de bani si produs
     Route::any('/avansuri/deschide-inchide/{avansuri}', 'AvansController@update_deschis_inchis');

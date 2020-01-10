@@ -10,7 +10,6 @@
                 </h5>
             </div> 
             <div class="col-lg-5 p-0 align-self-center text-center">
-                {{-- <small class="badge badge-light"> --}}
                     Produse: <span class="badge badge-success" style="background-color:#e66800;"><h6 class="my-0">{{ $produse_vandute_nr }}</h6></span> / 
                     Suma: <span class="badge badge-success" style="background-color:#e66800;"><h6 class="my-0">{{ $produse_vandute_suma_totala }} lei</h6></span>
                 <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/export/raport-pdf"
@@ -18,7 +17,6 @@
                 >
                     <i class="fas fa-file-pdf mr-1"></i>Export PDF
                 </a>
-                {{-- </small> --}}
             </div> 
             <div class="col-lg-3 p-0 align-items-end" id="cautare_produse_vandute">
                 <form class="needs-validation" novalidate method="GET" action="/produse-vandute/rapoarte/raport-zilnic/raport-html">
@@ -40,22 +38,82 @@
                     </div>
                 </form>
             </div>
-            {{-- <div class="col-lg-3 text-right"> --}}
-                {{-- <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('clienti.create') }}" role="button">
-                    <i class="fas fa-plus-square text-white mr-1"></i>Adaugă client
-                </a> --}}
-            {{-- </div>  --}}
         </div>
 
-        <div class="card-body px-0 py-3">
+        <div class="card-body">
 
-            @if (session()->has('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-            @endif
-
-            <div class="table-responsive rounded">
+            @include ('errors')
+            {{-- @php
+                dd($produse_vandute);
+            @endphp --}}
+{{-- {{$produse_vandute->count()}} --}}
+            @foreach ($produse_vandute->groupby('categorie_id') as $categorii_produse_vandute)
+            {{-- @php
+                dd($categorii_produse_vandute);
+            @endphp --}}
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 m-4 p-4 border d-flex" style="border-left: 5px solid darkcyan !important;">
+                        <div class="col-5">
+                            <h5 class="" style="display:inline">{{ ($categorii_produse_vandute->first()->categorie_nume) }}</h5>
+                        </div>
+                        <div class="col-4">
+                            Produse: 
+                            <span class="badge badge-success" style="background-color:#e66800;">
+                                <h6 class="my-0">{{ $categorii_produse_vandute->sum('cantitate') }}</h6>
+                            </span>
+                            / 
+                            Suma: 
+                            <span class="badge badge-success" style="background-color:#e66800;">
+                                <h6 class="my-0">{{ $categorii_produse_vandute->sum('total_vandut') }} lei</h6>
+                            </span>
+                        </div>
+                        <div class="col-3 text-right">
+                            <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/{{ $categorii_produse_vandute->first()->categorie_id }}/export/raport-pdf"
+                                class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
+                            >
+                                <i class="fas fa-file-pdf mr-1"></i>Export PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                {{-- {{ ($categorii_produse_vandute->first()->categorie_nume) }}
+                <br>
+                {{ $categorii_produse_vandute->sum('cantitate') }}
+                <br>
+                {{ $categorii_produse_vandute->sum('total') }}
+                <br> --}}
+                {{-- @foreach ($categorii_produse_vandute as $produse_vandute)
+                    {{ $loop->iteration }}{{ $produse_vandute->nume }}
+                    <br>
+                @endforeach --}}
+            @endforeach
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 m-4 p-4 border d-flex" style="border-left: 5px solid darkcyan !important;">
+                        <div class="col-5">
+                            <h5 class="" style="display:inline">Avansuri</h5>
+                        </div>
+                        <div class="col-4">
+                            Număr: 
+                            <span class="badge badge-success" style="background-color:#e66800;">
+                                <h6 class="my-0">{{ $avansuri->count() }}</h6>
+                            </span>
+                            / 
+                            Suma: 
+                            <span class="badge badge-success" style="background-color:#e66800;">
+                                <h6 class="my-0">{{ $avansuri->sum('suma') }} lei</h6>
+                            </span>
+                        </div>
+                        <div class="col-3 text-right">
+                            <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/export/raport-pdf"
+                                class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
+                            >
+                                <i class="fas fa-file-pdf mr-1"></i>Export PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {{-- <div class="table-responsive rounded">
                 <table class="table table-striped table-hover table-sm rounded"> 
                     <thead class="text-white rounded" style="background-color:#e66800;">
                         <tr class="" style="padding:2rem">
@@ -64,7 +122,6 @@
                             <th class="text-center">Cantitatea</th>
                             <th class="text-center">Preț raft</th>
                             <th class="text-center">Preț vânzare</th>
-                            {{-- <th class="text-center">Cod de bare</th> --}}
                             <th class="text-right">Data vânzării</th>
                         </tr>
                     </thead>
@@ -75,8 +132,6 @@
                                     {{ ($produse_vandute ->currentpage()-1) * $produse_vandute ->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td style="width:30%">
-                                    {{-- <a class="" data-toggle="collapse" href="#collapse{{ $produs_vandut->id }}" role="button" 
-                                        aria-expanded="false" aria-controls="collapse{{ $produs_vandut->id }}"> --}}
                                     <a href="{{ isset($produs_vandut->produs) ? $produs_vandut->produs->path() : ''}}">
                                         <b>{{ $produs_vandut->produs->nume ?? '' }}</b>
                                     </a>
@@ -93,44 +148,10 @@
                                 <td class="text-right">
                                     {{ $produs_vandut->pret }} lei
                                 </td>
-                                {{-- <td class="text-center">
-                                    {{ $produs_vandut->produs->cod_de_bare ?? '' }}
-                                </td> --}}
                                 <td class="text-right">
-                                    {{-- {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('D.MM.YYYY') ?? '' }} --}}
                                     {{ \Carbon\Carbon::parse($produs_vandut->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
-                                    {{-- {{ $produs_vandut->created_at }} --}}
                                 </td>
                             </tr>  
-                            {{-- <tr class="collapse bg-white" id="collapse{{ $produs_vandut->id }}" 
-                            >
-                                <td colspan="6">
-                                    <table class="table table-sm table-striped table-hover col-lg-6 mx-auto border"
-                                    > 
-                                        <tr>
-                                            <td class="py-0">
-                                                Nume
-                                            </td>
-                                            <td class="py-0">
-                                                
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-0">
-                                                Nr. ord. reg. com.
-                                            </td>
-                                            <td class="py-0">
-                                                
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr> 
-                            <tr class="collapse">
-                                <td colspan="6">
-
-                                </td>                                       
-                            </tr> --}}
                         @empty
                             <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
                         @endforelse
@@ -140,10 +161,9 @@
 
                 <nav>
                     <ul class="pagination pagination-sm justify-content-center">
-                        {{-- {{$produse_vandute->links()}} --}}
                         {{$produse_vandute->appends(Request::except('page'))->links()}}
                     </ul>
-                </nav>
+                </nav> --}}
 
         </div>
 
