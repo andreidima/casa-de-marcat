@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('avansuri', 'AvansController');
 
+    // Rute pentru rapoarte - controller separat
+    Route::get('rapoarte/miscari-stocuri', 'RaportController@miscariStocuri')->name('rapoarte.miscari_stocuri');
+
     // Route::get('/makethemigration', function() {
     //     Artisan::call('php artisan migrate:refresh --seed');
     // return "Cleared!";

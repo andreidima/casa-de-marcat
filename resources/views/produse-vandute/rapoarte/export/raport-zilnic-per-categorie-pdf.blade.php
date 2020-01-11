@@ -102,9 +102,9 @@
                             {{ $produs_vandut->nume }}
                         </td>
                         <td style="">
-                            @if ($produs_vandut->card === '1')
+                            @if ($produs_vandut->card === 1)
                                 card
-                            @elseif ($produs_vandut->emag === '1')
+                            @elseif ($produs_vandut->emag === 1)
                                 emag
                             @else
                                 {{-- cash --}}

@@ -118,7 +118,7 @@ class AvansController extends Controller
 
     public function update_deschis_inchis(Request $request, Avans $avansuri)
     {
-        if ( $avansuri->stare === '0') {
+        if ( $avansuri->stare === 0) {
             $avansuri->stare = 1;
         } else {
             $avansuri->stare = 0;
