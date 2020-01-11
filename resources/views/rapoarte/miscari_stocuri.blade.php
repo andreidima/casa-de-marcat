@@ -127,9 +127,17 @@
                                             $cantitate_veche = $cantitate->cantitate
                                         @endphp
                                         @if ($loop->last)
-                                            <span class="badge badge-primary" style="font-size: 1em">
-                                                = {{ $cantitate_veche }}
-                                            </span>                                            
+                                            @isset($cantitate_initiala->cantitate)
+                                                <span class="badge badge-primary" style="font-size: 1em">
+                                                    = {{ $cantitate_veche }}
+                                                </span>   
+                                            @else 
+                                                @if($loop->index > 0)
+                                                    <span class="badge badge-primary" style="font-size: 1em">
+                                                        = {{ $cantitate_veche }}
+                                                    </span>   
+                                                @endif
+                                            @endif                                        
                                         @endif
                                     @endforeach
                                     <br>
