@@ -147,9 +147,34 @@ class ProdusVandutController extends Controller
         
         $search_data = $search_data ?? \Carbon\Carbon::now();
 
-        $produse_vandute = DB::table('view_produse_vandute')
-            ->whereDate('created_at', '=', $search_data)
-            ->get();          
+        // $produse_vandute = DB::table('view_produse_vandute')
+        //     ->whereDate('created_at', '=', $search_data)
+        //     ->get(); 
+
+        $produse_vandute = DB::table('produse_vandute')
+            ->leftJoin('produse', 'produse_vandute.produs_id', '=', 'produse.id')
+            ->leftJoin('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
+            ->leftJoin('categorii_produse', 'subcategorii_produse.categorie_produs_id', '=', 'categorii_produse.id')
+            ->select(DB::raw('
+                            produse_vandute.id,
+                            produse.nume,
+                            produse_vandute.cantitate,
+                            produse.pret as pret_la_raft,
+                            produse_vandute.pret as pret_vandut,
+                            produse_vandute.cantitate * produse.pret as total_la_raft,
+                            produse_vandute.cantitate * produse_vandute.pret as total_vandut,
+                            produse_vandute.card,
+                            produse_vandute.emag,
+                            produse_vandute.detalii,
+                            subcategorii_produse.id as subcategorie_id,
+                            subcategorii_produse.nume as subcategorie_nume,
+                            categorii_produse.id as categorie_id,
+                            categorii_produse.nume as categorie_nume,
+                            produse_vandute.created_at
+                    '))
+            ->whereDate('produse_vandute.created_at', '=', $search_data)
+            ->get();    
+            // dd($produse_vandute);      
                             
         $avansuri = Avans::when($search_data, function ($query, $search_data) {
                 return $query->whereDate('created_at', $search_data);
@@ -236,10 +261,35 @@ class ProdusVandutController extends Controller
     {
 
         if (isset($search_data)) {
-            $produse_vandute = DB::table('view_produse_vandute')
-                ->where('categorie_id', $categorie_id) 
-                ->whereDate('created_at', '=', $search_data)
-                ->get(); 
+            // $produse_vandute = DB::table('view_produse_vandute')
+            //     ->where('categorie_id', $categorie_id) 
+            //     ->whereDate('created_at', '=', $search_data)
+            //     ->get();
+
+            $produse_vandute = DB::table('produse_vandute')
+                ->leftJoin('produse', 'produse_vandute.produs_id', '=', 'produse.id')
+                ->leftJoin('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
+                ->leftJoin('categorii_produse', 'subcategorii_produse.categorie_produs_id', '=', 'categorii_produse.id')
+                ->select(DB::raw('
+                            produse_vandute.id,
+                            produse.nume,
+                            produse_vandute.cantitate,
+                            produse.pret as pret_la_raft,
+                            produse_vandute.pret as pret_vandut,
+                            produse_vandute.cantitate * produse.pret as total_la_raft,
+                            produse_vandute.cantitate * produse_vandute.pret as total_vandut,
+                            produse_vandute.card,
+                            produse_vandute.emag,
+                            produse_vandute.detalii,
+                            subcategorii_produse.id as subcategorie_id,
+                            subcategorii_produse.nume as subcategorie_nume,
+                            categorii_produse.id as categorie_id,
+                            categorii_produse.nume as categorie_nume,
+                            produse_vandute.created_at
+                        '))
+                ->where('categorii_produse.id', $categorie_id)
+                ->whereDate('produse_vandute.created_at', '=', $search_data)
+                ->get();   
         } else {
             return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'search_data'));
         }
