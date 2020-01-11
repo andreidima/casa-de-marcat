@@ -107,7 +107,7 @@
                             <b>Total</b>
                         </td>
                         <td style="text-align: right">
-                            <b>{{ $avansuri->sum('suma') }}</b> lei
+                            <b>{{ $avansuri->sum('suma') }} lei</b>
                         </td>
                     </tr>
             </table>
