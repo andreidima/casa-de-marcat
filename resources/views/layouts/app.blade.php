@@ -28,9 +28,11 @@
         @auth
         <nav class="navbar navbar-expand-md navbar-dark shadow py-0" style="background-color:darkcyan">
             <div class="container">
-                <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" height="40"
-                    class="mr-4 border border-10 border-dark rounded-pill"
-                >
+                <a href='/'>
+                    <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" height="40"
+                        class="mr-4 border border-10 border-dark rounded-pill"
+                    >
+                </a>
                 {{-- <a class="navbar-brand mr-4" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
@@ -60,8 +62,12 @@
                                     <i class="fas fa-list-ul mr-1"></i>Produse
                                 </a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/suplimenteaza-stocuri/adauga">
+                                    <i class="fas fa-cart-plus mr-1"></i>Suplimentează stocuri
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/produse/gestiune">
-                                    <i class="fas fa-list-ul mr-1"></i>Gestiune
+                                    <i class="fas fa-warehouse mr-1"></i>Gestiune
                                 </a>
                             </div>
                         </li>

@@ -60,6 +60,11 @@ Route::group(['middleware' => 'auth'], function () {
     // Rute pentru rapoarte - controller separat
     Route::get('rapoarte/miscari-stocuri', 'RaportController@miscariStocuri')->name('rapoarte.miscari_stocuri');
 
+    // Suplimentare stocuri
+    Route::get('suplimenteaza-stocuri/adauga', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');
+    Route::patch('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store')->name('suplimenteaza-stocuri.store');
+    Route::get('suplimenteaza-stocuri/goleste-lista', 'SuplimenteazaStocController@golesteLista')->name('suplimenteaza-stocuri.store');
+
     // Route::get('/makethemigration', function() {
     //     Artisan::call('php artisan migrate:refresh --seed');
     // return "Cleared!";

@@ -14,8 +14,8 @@ class RaportController extends Controller
         $search_data_inceput = \Request::get('search_data_inceput'); //<-- we use global request to get the param of URI 
         $search_data_sfarsit = \Request::get('search_data_sfarsit'); //<-- we use global request to get the param of URI 
 
-        $search_data_inceput = $search_data_inceput ?? \Carbon\Carbon::yesterday();
-        $search_data_sfarsit = $search_data_sfarsit ?? \Carbon\Carbon::now();
+        $search_data_inceput = $search_data_inceput ?? \Carbon\Carbon::now();
+        $search_data_sfarsit = $search_data_sfarsit ?? \Carbon\Carbon::tomorrow();
 
         $miscari_stocuri = DB::table('produse_cantitati_istoric')
             ->leftJoin('produse', 'produse_cantitati_istoric.produs_id', '=', 'produse.id')

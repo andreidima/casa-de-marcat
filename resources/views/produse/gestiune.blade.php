@@ -6,7 +6,7 @@
             <div class="row card-header">
                 <div class="mt-2 mb-0">
                     <h5 class="">
-                        <i class="fas fa-list-ul mr-1"></i>
+                        <i class="fas fa-warehouse mr-1"></i>
                         Gestiune:                         
                         <span class="badge badge-dark"
                                 {{-- style="background-color:;" --}}

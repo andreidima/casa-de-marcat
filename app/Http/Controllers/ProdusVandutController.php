@@ -112,6 +112,10 @@ class ProdusVandutController extends Controller
         // $this->authorize('delete', $produse);
         
         $produs = Produs::where('id', $produse_vandute->produs_id)->first();
+
+        $produse_cantitati_istoric = ProdusCantitateIstoric::make();
+        $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+
         $produs->cantitate += $produse_vandute->cantitate;
         $produs->update();
 
@@ -122,7 +126,6 @@ class ProdusVandutController extends Controller
         $produse_istoric->operatiune = 'vanzare stearsa';
         $produse_istoric->save();
 
-        $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->produs_id = $produs->id;
         $produse_cantitati_istoric->cantitate = $produs->cantitate;
         $produse_cantitati_istoric->operatiune = 'vanzare stearsa';

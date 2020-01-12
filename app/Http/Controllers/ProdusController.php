@@ -147,6 +147,10 @@ class ProdusController extends Controller
     {
         // $this->authorize('update', $proiecte);
         $produse_istoric = ProdusIstoric::make($this->validateRequest($produse));
+
+        $produse_cantitati_istoric = ProdusCantitateIstoric::make();
+        $produse_cantitati_istoric->cantitate_initiala = $produse->cantitate;
+        
         $produse->update($this->validateRequest($produse));
         
         $produse_istoric->produs_id = $produse->id;
@@ -154,7 +158,6 @@ class ProdusController extends Controller
         $produse_istoric->operatiune = 'modificare';
         $produse_istoric->save();
 
-        $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->produs_id = $produse->id;
         $produse_cantitati_istoric->cantitate = $produse->cantitate;
         $produse_cantitati_istoric->operatiune = 'modificare';
@@ -269,6 +272,9 @@ class ProdusController extends Controller
                 // if (($produs->cantitate - $request->nr_de_bucati) < 0){
                 //     return redirect ('produse/vanzari')->with('error', 'Sunt mai puțin de "' . $request->nr_de_bucati . '" produse pe stoc!');
                 // }
+                $produse_cantitati_istoric = ProdusCantitateIstoric::make();
+                $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+
                 $produs->cantitate = $produs->cantitate - $request->nr_de_bucati;
                 $produs->update();
 
@@ -279,7 +285,6 @@ class ProdusController extends Controller
                 $produse_istoric->operatiune = 'vanzare';
                 $produse_istoric->save();
 
-                $produse_cantitati_istoric = ProdusCantitateIstoric::make();
                 $produse_cantitati_istoric->produs_id = $produs->id;
                 $produse_cantitati_istoric->cantitate = $produs->cantitate;
                 $produse_cantitati_istoric->operatiune = 'vanzare';
