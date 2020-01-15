@@ -43,13 +43,11 @@
                 <table class="table table-striped table-hover table-sm rounded"> 
                     <thead class="text-white rounded" style="background-color:#e66800;">
                         <tr class="" style="padding:2rem">
-                            <th>Nr. Crt.</th>
-                            <th 
-                                {{-- style="width:30%" --}}
-                            >Nume</th>
-                            <th class="text-center">Descriere</th>
-                            <th class="text-center">Suma</th>
-                            <th class="text-right">Data avans</th>
+                            <th>Nr.</th>
+                            <th style="width:300px">Nume</th>
+                            {{-- <th class="text-center" style="width:300px">Descriere</th> --}}
+                            <th class="text-center" style="min-width:95px">Suma</th>
+                            <th class="text-right" style="min-width:155px">Data avans</th>
                             <th class="text-center">Stare</th>
                             <th class="text-center">Acțiuni</th>
                         </tr>
@@ -62,12 +60,12 @@
                                 </td>
                                 <td>
                                     <a href="{{ $avans->path() }}">
-                                        {{ $avans->nume ?? '' }}
+                                        {{ $avans->nume ?? '' }} - {{ $avans->descriere }}
                                     </a>
                                 </td>
-                                <td class="">
+                                {{-- <td class="">
                                     {{ $avans->descriere }}
-                                </td>
+                                </td> --}}
                                 <td class="text-right">
                                     {{ $avans->suma }} lei
                                 </td>
