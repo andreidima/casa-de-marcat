@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Plati;
+use App\Plata;
 use Faker\Generator as Faker;
 
-$factory->define(Plati::class, function (Faker $faker) {
+$factory->define(Plata::class, function (Faker $faker) {
     return [
         //
     ];

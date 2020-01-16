@@ -24,12 +24,15 @@ class SuplimenteazaStocController extends Controller
      */
     public function store(Request $request)
     {
-        $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
-
         $validatedData = $request->validate([
             'nr_de_bucati' => ['required', 'numeric', 'between:0,99999999'],
-            'cod_de_bare' => ['required']
-            ]);
+            'cod_de_bare' => ['required', 'max:20', 'exists:App\Produs,cod_de_bare']
+            ],
+        [            
+            'cod_de_bare.exists' => 'Codul de bare „' . $request->cod_de_bare . '” nu exista in baza de date',
+        ]);
+        
+        $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
         if (isset($produs->id)) {
             $produse_cantitati_istoric = ProdusCantitateIstoric::make();
@@ -58,7 +61,7 @@ class SuplimenteazaStocController extends Controller
 
             $request->session()->push('suplimentare_stocuri', $produs->nume);
 
-            return redirect('suplimenteaza-stocuri/adauga')->with('success', 'Produsul ' . $produs->nume . ' a fost suplimentat cu o bucată"!');
+            return redirect('suplimenteaza-stocuri/adauga')->with('success', 'Produsul „' . $produs->nume . '” a fost suplimentat cu ' . $validatedData['nr_de_bucati'] . ' bucați!');
         } else {
             return redirect ('suplimenteaza-stocuri/adauga')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
         }

@@ -161,7 +161,7 @@
                                             <span class="badge badge-dark"
                                                 style="background-color:darkcyan;"
                                             >
-                                                {{ \Illuminate\Support\Str::limit($subcategorie->nume, 22, $end='...') }}
+                                                {{ \Illuminate\Support\Str::limit($subcategorie->nume, 18, $end='...') }}
                                                 {{ number_format($produse->first()->pret,0) }} lei = 
                                                 <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
                                                     {{ $produse->sum('cantitate') }}

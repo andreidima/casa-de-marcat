@@ -47,7 +47,7 @@
                                             id="cod_de_bare" 
                                             name="cod_de_bare"
                                             placeholder="Cod de bare"                                        
-                                            value="{{ old('cod_de_bare') }}"
+                                            value=""
                                             {{-- autofocus --}}
                                             >
                                     </div>

@@ -54,8 +54,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
     Route::resource('produse-vandute', 'ProdusVandutController');
-
     Route::resource('avansuri', 'AvansController');
+    Route::resource('plati', 'PlataController');
 
     // Rute pentru rapoarte - controller separat
     Route::get('rapoarte/miscari-stocuri', 'RaportController@miscariStocuri')->name('rapoarte.miscari_stocuri');

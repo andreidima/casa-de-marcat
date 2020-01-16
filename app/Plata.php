@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Plati extends Model
+class Plata extends Model
 {
     protected $table = 'plati';
     protected $guarded = [];

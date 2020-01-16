@@ -290,12 +290,7 @@ class ProdusController extends Controller
                 $produse_cantitati_istoric->operatiune = 'vanzare';
                 $produse_cantitati_istoric->save();
 
-                // if ($request->session()->has('produse_vandute')) { 
-                // } else {
-                //     $request->session()->put('produse_vandute', []);
-                // }
                 $request->session()->has('produse_vandute') ?? $request->session()->put('produse_vandute', []);
-
                 $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');
 
                 $produs_vandut = ProdusVandut::make();
@@ -304,8 +299,16 @@ class ProdusController extends Controller
                 $produs_vandut->pret = $request->pret;
                 $produs_vandut->card = $request->card;
                 $produs_vandut->emag = $request->emag;
-                $produs_vandut->detalii = $request->detalii;
-                // dd($produs_vandut);
+                $produs_vandut->detalii = $request->detalii;                
+        
+                $casa = Casa::make();
+                $casa->referinta_tabel = 'produse_vandute';
+                $casa->referinta_id = $produs_vandut->id;
+                $casa->suma_initiala = Casa::first()->suma ?? '';
+                $casa->suma = $casa->suma_initiala + ($produs_vandut->cantitate * $produs_vandut->pret);
+                $casa->operatiune = 'vanzare';
+                $casa->operatiune->save();
+
                 $produs_vandut->save();
 
                 return redirect ('produse/vanzari')->with('success', 'A fost vândut ' . $request->nr_de_bucati . ' buc. "' . $produs->nume . '"!');

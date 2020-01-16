@@ -8,6 +8,7 @@ use App\ProdusCantitateIstoric;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\Avans;
+use App\Casa;
 use DB;
 use Illuminate\Http\Request;
 
@@ -130,6 +131,14 @@ class ProdusVandutController extends Controller
         $produse_cantitati_istoric->cantitate = $produs->cantitate;
         $produse_cantitati_istoric->operatiune = 'vanzare stearsa';
         $produse_cantitati_istoric->save();
+        
+        $casa = Casa::make();
+        $casa->referinta_tabel = 'produse_vandute';
+        $casa->referinta_id = $produse_vandute->id;
+        $casa->suma_initiala = Casa::first()->suma ?? '';
+        $casa->suma = $casa->suma_initiala - ($produse_vandute->cantitate * $produse_vandute->pret);
+        $casa->operatiune = 'vanzare stearsa';
+        $casa->operatiune->save();
         
         $produse_vandute->delete();
 
