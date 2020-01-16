@@ -28,6 +28,19 @@
                                 @csrf  
 
                                 <div class="form-group row">
+                                        <label for="nr_de_bucati" class="col-sm-6 col-form-label">Număr de bucăți:</label>
+                                    <div class="col-sm-6">
+                                        <input type="number" min="1" max="99"
+                                            class="form-control {{ $errors->has('nr_de_bucati') ? 'is-invalid' : '' }}" 
+                                            id="nr_de_bucati" 
+                                            name="nr_de_bucati"
+                                            placeholder="Nr. de bucăți"                                        
+                                            value="{{ old('nr_de_bucati') == '' ? '' : old('nr_de_bucati') }}"
+                                            autofocus
+                                            >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                         <label for="cod_de_bare" class="col-sm-6 col-form-label">Scanați codul de bare:</label>
                                     <div class="col-sm-6"> 
                                         <input type="text" class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
@@ -35,7 +48,7 @@
                                             name="cod_de_bare"
                                             placeholder="Cod de bare"                                        
                                             value="{{ old('cod_de_bare') }}"
-                                            autofocus
+                                            {{-- autofocus --}}
                                             >
                                     </div>
                                 </div>

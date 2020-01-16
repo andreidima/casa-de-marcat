@@ -26,11 +26,16 @@ class SuplimenteazaStocController extends Controller
     {
         $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
+        $validatedData = $request->validate([
+            'nr_de_bucati' => ['required', 'numeric', 'between:0,99999999'],
+            'cod_de_bare' => ['required']
+            ]);
+
         if (isset($produs->id)) {
             $produse_cantitati_istoric = ProdusCantitateIstoric::make();
             $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
 
-            $produs->cantitate = $produs->cantitate + 1;
+            $produs->cantitate = $produs->cantitate + $validatedData['nr_de_bucati'];
             $produs->update();
 
             $produse_istoric = ProdusIstoric::make($produs->toArray());
