@@ -86,6 +86,11 @@
                                 <i class="fas fa-money-bill-wave mr-1"></i></i>Plăți
                             </a>
                         </li>
+                        <li class="nav-item active mr-4">
+                            <a class="nav-link" href="/casa">
+                                <i class="fas fa-wallet mr-1"></i></i>Casa
+                            </a>
+                        </li>
                         {{-- <li class="nav-item active mr-4">
                             <a class="nav-link" href="/produse-vandute">
                                 <i class="fas fa-list-ul mr-1"></i>Produse vândute

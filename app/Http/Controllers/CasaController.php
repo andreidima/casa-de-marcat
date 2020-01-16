@@ -15,26 +15,33 @@ class CasaController extends Controller
      */
     public function index()
     {
-        $search_data_inceput = \Request::get('search_data_inceput'); //<-- we use global request to get the param of URI 
-        $search_data_sfarsit = \Request::get('search_data_sfarsit'); //<-- we use global request to get the param of URI 
+        $search_data_inceput = \Request::get('search_data_inceput') ?? \Carbon\Carbon::now();; //<-- we use global request to get the param of URI 
+        $search_data_sfarsit = \Request::get('search_data_sfarsit') ?? \Carbon\Carbon::now();; //<-- we use global request to get the param of URI 
 
-        $search_data_inceput = $search_data_inceput ?? \Carbon\Carbon::now();
-        $search_data_sfarsit = $search_data_sfarsit ?? \Carbon\Carbon::now();
+        // $search_data_inceput = $search_data_inceput ?? \Carbon\Carbon::now();
+        // $search_data_sfarsit = $search_data_sfarsit ?? \Carbon\Carbon::now();
 
         $casa = DB::table('casa')
             ->leftjoin('produse_vandute', function ($join) {
                 $join->on('casa.referinta_id', '=', 'produse_vandute.id')
-                    ->where('referinta_tabel', '=', 'produse_vandute');
+                    ->where('casa.referinta_tabel', '=', 'produse_vandute');
             })
-            ->where('categorii_produse.id', '<>', 4)
-            ->whereDate('produse_cantitati_istoric.created_at', '>=', $search_data_inceput)
-            ->whereDate('produse_cantitati_istoric.created_at', '<=', $search_data_sfarsit)
-            ->get()
-            ->sortBy('categorie_nume')
-            ->sortBy('subcategorie_nume');
+            ->leftJoin('produse', 'produse_vandute.produs_id', '=', 'produse.id')
+            ->select(DB::raw('
+                        casa.*,
+                        produse_vandute.id as produs_vandut_id,
+                        produse.id as produs_id,
+                        produse.nume as produs_nume
+                    '))
+            ->whereDate('casa.created_at', '>=', $search_data_inceput)
+            ->whereDate('casa.created_at', '<=', $search_data_sfarsit)
+            ->latest()
+            ->simplePaginate(25);
+            // ->sortBy('categorie_nume')
+            // ->sortBy('subcategorie_nume')
+        // dd($casa);
 
-
-        return view('rapoarte.miscari_stocuri', compact('miscari_stocuri', 'search_data_inceput', 'search_data_sfarsit'));
+        return view('casa.index', compact('casa', 'search_data_inceput', 'search_data_sfarsit'));
     }
 
     /**

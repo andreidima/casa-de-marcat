@@ -135,10 +135,10 @@ class ProdusVandutController extends Controller
         $casa = Casa::make();
         $casa->referinta_tabel = 'produse_vandute';
         $casa->referinta_id = $produse_vandute->id;
-        $casa->suma_initiala = Casa::first()->suma ?? '';
+        $casa->suma_initiala = Casa::latest()->first()->suma;
         $casa->suma = $casa->suma_initiala - ($produse_vandute->cantitate * $produse_vandute->pret);
-        $casa->operatiune = 'vanzare stearsa';
-        $casa->operatiune->save();
+        $casa->operatiune = 'Vânzare ștearsă';
+        $casa->save();
         
         $produse_vandute->delete();
 
