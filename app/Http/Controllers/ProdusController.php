@@ -304,15 +304,15 @@ class ProdusController extends Controller
 
                 $produs_vandut->save();
 
-                if (is_null($produs_vandut->card) && is_null($produs_vandut->emag)){
-                    $casa = Casa::make();
-                    $casa->referinta_tabel = 'produse_vandute';
-                    $casa->referinta_id = $produs_vandut->id;
-                    $casa->suma_initiala = Casa::latest()->first()->suma;
-                    $casa->suma = $casa->suma_initiala + ($produs_vandut->cantitate * $produs_vandut->pret);
-                    $casa->operatiune = 'Vânzare';
-                    $casa->save();
-                }
+                // if (is_null($produs_vandut->card) && is_null($produs_vandut->emag)){
+                //     $casa = Casa::make();
+                //     $casa->referinta_tabel = 'produse_vandute';
+                //     $casa->referinta_id = $produs_vandut->id;
+                //     $casa->suma_initiala = Casa::latest()->first()->suma;
+                //     $casa->suma = $casa->suma_initiala + ($produs_vandut->cantitate * $produs_vandut->pret);
+                //     $casa->operatiune = 'Vânzare';
+                //     $casa->save();
+                // }
 
                 return redirect ('produse/vanzari')->with('success', 'A fost vândut ' . $request->nr_de_bucati . ' buc. "' . $produs->nume . '"!');
             }

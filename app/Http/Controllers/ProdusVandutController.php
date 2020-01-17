@@ -132,13 +132,13 @@ class ProdusVandutController extends Controller
         $produse_cantitati_istoric->operatiune = 'vanzare stearsa';
         $produse_cantitati_istoric->save();
         
-        $casa = Casa::make();
-        $casa->referinta_tabel = 'produse_vandute';
-        $casa->referinta_id = $produse_vandute->id;
-        $casa->suma_initiala = Casa::latest()->first()->suma;
-        $casa->suma = $casa->suma_initiala - ($produse_vandute->cantitate * $produse_vandute->pret);
-        $casa->operatiune = 'Vânzare ștearsă';
-        $casa->save();
+        // $casa = Casa::make();
+        // $casa->referinta_tabel = 'produse_vandute';
+        // $casa->referinta_id = $produse_vandute->id;
+        // $casa->suma_initiala = Casa::latest()->first()->suma;
+        // $casa->suma = $casa->suma_initiala - ($produse_vandute->cantitate * $produse_vandute->pret);
+        // $casa->operatiune = 'Vânzare ștearsă';
+        // $casa->save();
         
         $produse_vandute->delete();
 
