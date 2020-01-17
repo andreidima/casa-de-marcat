@@ -3,7 +3,7 @@
 @section('content')  
 
     <div class="container card">
-            <div class="row card-header">
+            <div class="row card-header px-2">
                 <div class="mt-2 mb-0">
                     <h5 class="">
                         <i class="fas fa-warehouse mr-1"></i>
@@ -154,28 +154,30 @@
                             <div class="row">
                                 @foreach ($subcategorie->produse->sortBy('pret')->groupby('pret') as $produse)
                                     <div class="col-sm-3 mb-2 px-0">
-                                        <a class="" data-toggle="collapse" href="#collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}" role="button" 
-                                            aria-expanded="false" aria-controls="collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}"
+                                        <a class="" data-toggle="collapse" href="#collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0,'','') }}" role="button" 
+                                            aria-expanded="false" aria-controls="collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0,'','') }}"
                                             style="font-size: 1.3em"
                                             >
                                             <span class="badge badge-dark"
                                                 style="background-color:darkcyan;"
                                             >
                                                 {{ \Illuminate\Support\Str::limit($subcategorie->nume, 18, $end='...') }}
-                                                {{ number_format($produse->first()->pret,0) }} lei = 
+                                                {{ number_format($produse->first()->pret,0,'','') }} lei = 
                                                 <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
                                                     {{ $produse->sum('cantitate') }}
                                                 </span>
                                             </span>
                                         </a>
-                                        <div class="collapse bg-white " 
-                                            id="collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0) }}"
+                                        <div class="collapse bg-white" 
+                                            id="collapse{{ $subcategorie->id }}pret{{ number_format($produse->first()->pret,0,'','') }}"
                                             style="font-size: 1em"
                                             >
                                             @foreach ($produse as $produs)
                                                 <span class="badge badge-dark"
                                                 >
-                                                    {{ $produs->nume }} = 
+                                                    {{ \Illuminate\Support\Str::limit($produs->nume, 25, $end='...') }}
+                                                    {{-- {{ $produs->nume }} --}}
+                                                    = 
                                                     <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
                                                             {{ $produs->cantitate }}
                                                     </span>

@@ -8,6 +8,7 @@ use App\ProdusCantitateIstoric;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\Avans;
+use App\Plata;
 use App\Casa;
 use DB;
 use Illuminate\Http\Request;
@@ -191,6 +192,11 @@ class ProdusVandutController extends Controller
         $avansuri = Avans::when($search_data, function ($query, $search_data) {
                 return $query->whereDate('created_at', $search_data);
             })
+            ->get();   
+
+        $plati = Plata::when($search_data, function ($query, $search_data) {
+                return $query->whereDate('created_at', $search_data);
+            })
             ->get();
 
         $produse_vandute_nr = ProdusVandut::
@@ -204,7 +210,7 @@ class ProdusVandutController extends Controller
             })
             ->sum(DB::raw('cantitate * pret'));  
 
-        return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'avansuri', 'search_data'));
+        return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'produse_vandute_nr', 'produse_vandute_suma_totala', 'avansuri', 'plati', 'search_data'));
     }
 
     public function pdfExportRaportZilnic(Request $request, $search_data)
@@ -341,6 +347,33 @@ class ProdusVandutController extends Controller
             )
                 ->setPaper('a4');
             return $pdf->download('Raport avansuri ' .
+                \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
+        }
+    }
+
+    public function pdfExportRaportZilnicPlati(Request $request, $search_data)
+    {
+        if (isset($search_data)) {
+            $plati = Plata::when($search_data, function ($query, $search_data) {
+                return $query->whereDate('created_at', $search_data);
+            })
+                ->get();
+        } else {
+            return view('produse-vandute.rapoarte.raport-zilnic', compact('produse_vandute', 'search_data'));
+        }
+
+        if ($request->view_type === 'raport-html') {
+            return view(
+                'produse-vandute.rapoarte.export.raport-zilnic-plati-pdf',
+                compact('plati', 'search_data')
+            );
+        } elseif ($request->view_type === 'raport-pdf') {
+            $pdf = \PDF::loadView(
+                'produse-vandute.rapoarte.export.raport-zilnic-plati-pdf',
+                compact('plati', 'search_data')
+            )
+                ->setPaper('a4');
+            return $pdf->download('Raport plati ' .
                 \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
         }
     }

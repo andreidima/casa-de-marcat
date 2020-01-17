@@ -66,7 +66,7 @@
                     <thead class="text-white rounded" style="background-color:#e66800;">
                         <tr class="" style="padding:2rem">
                             <th>Nr. Crt.</th>
-                            <th>Produs</th>
+                            <th class="w-50">Produs</th>
                             <th class="text-center">Cantitatea</th>
                             <th class="text-center">Preț raft</th>
                             <th class="text-center">Preț vânzare</th>

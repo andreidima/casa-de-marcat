@@ -10,7 +10,7 @@
                 </h5>
             </div> 
             <div class="col-lg-5 p-0 align-self-center text-center">
-                    Produse: 
+                    {{-- Produse: 
                     <span class="badge badge-success" style="background-color:#e66800;">
                         <h6 class="my-0">
                             {{ $produse_vandute->sum('cantitate') + $avansuri->count() }}
@@ -21,7 +21,7 @@
                         <h6 class="my-0">
                             {{ $produse_vandute->sum('total_vandut') + $avansuri->sum('suma') }} lei
                         </h6>
-                    </span>
+                    </span> --}}
                 {{-- <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/export/raport-pdf"
                     class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
                 >
@@ -105,7 +105,7 @@
                             <h5 class="" style="display:inline">Avansuri</h5>
                         </div>
                         <div class="col-4">
-                            Număr: 
+                            Avansuri: 
                             <span class="badge badge-success" style="background-color:#e66800;">
                                 <h6 class="my-0">{{ $avansuri->count() }}</h6>
                             </span>
@@ -117,6 +117,33 @@
                         </div>
                         <div class="col-3 text-right">
                             <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/avansuri/export/raport-pdf"
+                                class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
+                            >
+                                <i class="fas fa-file-pdf mr-1"></i>Export PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 m-4 p-4 border d-flex" style="border-left: 5px solid darkcyan !important;">
+                        <div class="col-5">
+                            <h5 class="" style="display:inline">Plăți</h5>
+                        </div>
+                        <div class="col-4">
+                            Plăți: 
+                            <span class="badge badge-success" style="background-color:#e66800;">
+                                <h6 class="my-0">{{ $plati->count() }}</h6>
+                            </span>
+                            / 
+                            Suma: 
+                            <span class="badge badge-success" style="background-color:#e66800;">
+                                <h6 class="my-0">{{ $plati->sum('suma') }} lei</h6>
+                            </span>
+                        </div>
+                        <div class="col-3 text-right">
+                            <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/plati/export/raport-pdf"
                                 class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
                             >
                                 <i class="fas fa-file-pdf mr-1"></i>Export PDF

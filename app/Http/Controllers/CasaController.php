@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Casa;
+use App\ProdusVandut;
+use App\Avans;
+use App\Plata;
 use DB;
 use Illuminate\Http\Request;
 
@@ -15,9 +18,23 @@ class CasaController extends Controller
      */
     public function index()
     {
-        $search_data_inceput = \Request::get('search_data_inceput') ?? \Carbon\Carbon::now();; //<-- we use global request to get the param of URI 
-        $search_data_sfarsit = \Request::get('search_data_sfarsit') ?? \Carbon\Carbon::now();; //<-- we use global request to get the param of URI 
+        $search_data_inceput = \Request::get('search_data_inceput'); //<-- we use global request to get the param of URI 
+        $search_data_sfarsit = \Request::get('search_data_sfarsit'); //<-- we use global request to get the param of URI 
 
+        $casa = Casa::
+            when($search_data_inceput, function ($query, $search_data_inceput) {
+                return $query->whereDate('casa.created_at', '>=', $search_data_inceput);
+            })
+            ->when($search_data_sfarsit, function ($query, $search_data_sfarsit) {
+                return $query->whereDate('casa.created_at', '>=', $search_data_sfarsit);
+            })
+            ->latest()
+            ->simplePaginate(25);
+        
+        $suma['produse_vandute'] = ProdusVandut::where('created_at', '>', $casa->first()->created_at)->sum(DB::raw('cantitate * pret'));
+        $suma['avansuri'] = Avans::where('created_at', '>', $casa->first()->created_at)->sum('suma');
+        $suma['plati'] = Plata::where('created_at', '>', $casa->first()->created_at)->sum('suma');
+        $suma['suma_totala'] = $casa->first()->suma + $suma['produse_vandute'] + $suma['avansuri'] - $suma['plati'];
         // $casa = DB::table('casa')
         //     ->leftjoin('produse_vandute', function ($join) {
         //         $join->on('casa.referinta_id', '=', 'produse_vandute.id')
@@ -35,7 +52,7 @@ class CasaController extends Controller
         //     ->latest()
         //     ->simplePaginate(25);
 
-        return view('casa.index', compact('casa', 'search_data_inceput', 'search_data_sfarsit'));
+        return view('casa.index', compact('casa', 'search_data_inceput', 'search_data_sfarsit', 'suma'));
     }
 
     /**
@@ -45,7 +62,7 @@ class CasaController extends Controller
      */
     public function create()
     {
-        //
+        return view('casa.create');
     }
 
     /**
@@ -56,7 +73,12 @@ class CasaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $casa = Casa::make($this->validateRequest());
+        $casa->user_id = auth()->user()->id;
+        // $this->authorize('update', $proiecte);
+        $casa->save();
+
+        return redirect('/casa')->with('status', 'Casa a fost setată cu suma "'.$casa->suma.'"!');
     }
 
     /**
@@ -78,7 +100,7 @@ class CasaController extends Controller
      */
     public function edit(Casa $casa)
     {
-        //
+        return view('casa.edit', compact('casa'));
     }
 
     /**
@@ -90,7 +112,11 @@ class CasaController extends Controller
      */
     public function update(Request $request, Casa $casa)
     {
-        //
+        // $this->authorize('update', $proiecte);
+
+        $casa->update($this->validateRequest($casa));
+
+        return redirect('/casa')->with('status', 'Setarea sumei Casei a fost modificată cu succes!');
     }
 
     /**
@@ -101,6 +127,20 @@ class CasaController extends Controller
      */
     public function destroy(Casa $casa)
     {
-        //
+        $casa->delete();
+        return redirect('/casa')->with('status', 'Setarea sumei Casei a fost ștearsă cu succes!');
+    }
+
+    /**
+     * Validate the request attributes.
+     *
+     * @return array
+     */
+    protected function validateRequest()
+    {
+        return request()->validate([
+            'suma' => ['required', 'numeric', 'between:0.00,99999.99'],
+        ]
+        );
     }
 }

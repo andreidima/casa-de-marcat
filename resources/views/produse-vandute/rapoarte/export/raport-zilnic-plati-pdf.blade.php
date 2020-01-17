@@ -72,7 +72,7 @@
                         <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" width="150px">
                 </td>
                 <td style="border-width:0px; padding:0rem; width:60%; text-align:center; font-size:16px">
-                    Raport avansuri 
+                    Raport plati 
                     <br>
                     Pentru data: {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
                 </td>
@@ -88,16 +88,16 @@
                     <th style="text-align: center">Suma</th>
                 </tr>
                 
-                @forelse ($avansuri as $avans) 
+                @forelse ($plati as $plata) 
                     <tr>
                         <td>
                             {{ $loop->iteration }}
                         </td>
                         <td>
-                            {{ $avans->nume}} {{ $avans->descriere ? '- ' . $avans->descriere : '' }}
+                            {{ $plata->nume}} {{ $plata->descriere ? '- ' . $plata->descriere : '' }}
                         </td>
                         <td style="text-align: right">
-                            {{ $avans->suma }} lei
+                            {{ $plata->suma }} lei
                         </td>
                     </tr>
                 @empty
@@ -107,7 +107,7 @@
                             <b>Total</b>
                         </td>
                         <td style="text-align: right">
-                            <b>{{ $avansuri->sum('suma') }} lei</b>
+                            <b>{{ $plati->sum('suma') }} lei</b>
                         </td>
                     </tr>
             </table>
