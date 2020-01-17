@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Suplimentare stocuri
     Route::get('suplimenteaza-stocuri/adauga', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');
-    Route::any('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store')->name('suplimenteaza-stocuri.store');
+    Route::any('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store');
     Route::get('suplimenteaza-stocuri/goleste-lista', 'SuplimenteazaStocController@golesteLista');
 
     // Route::get('/makethemigration', function() {
