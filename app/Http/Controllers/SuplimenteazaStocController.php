@@ -32,6 +32,8 @@ class SuplimenteazaStocController extends Controller
             'cod_de_bare.exists' => 'Codul de bare „' . $request->cod_de_bare . '” nu exista in baza de date',
         ]);
         
+        dd($validatedData);
+
         $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
         dd($produs);
