@@ -34,6 +34,8 @@ class SuplimenteazaStocController extends Controller
         
         $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
+        dd($produs);
+
         if (isset($produs->id)) {
             $produse_cantitati_istoric = ProdusCantitateIstoric::make();
             $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
