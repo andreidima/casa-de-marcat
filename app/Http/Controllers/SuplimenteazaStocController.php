@@ -34,41 +34,37 @@ class SuplimenteazaStocController extends Controller
         
         dd($validatedData);
 
-        $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
+        // $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
-        dd($produs);
+        // dd($produs);
 
-        if (isset($produs->id)) {
-            $produse_cantitati_istoric = ProdusCantitateIstoric::make();
-            $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+        // if (isset($produs->id)) {
+        //     $produse_cantitati_istoric = ProdusCantitateIstoric::make();
+        //     $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
 
-            $produs->cantitate = $produs->cantitate + $validatedData['nr_de_bucati'];
-            $produs->update();
+        //     $produs->cantitate = $produs->cantitate + $validatedData['nr_de_bucati'];
+        //     $produs->update();
 
-            $produse_istoric = ProdusIstoric::make($produs->toArray());
-            unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
-            $produse_istoric->produs_id = $produs->id;
-            $produse_istoric->user = auth()->user()->id;
-            $produse_istoric->operatiune = 'suplimentare stoc';
-            $produse_istoric->save();
+        //     $produse_istoric = ProdusIstoric::make($produs->toArray());
+        //     unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+        //     $produse_istoric->produs_id = $produs->id;
+        //     $produse_istoric->user = auth()->user()->id;
+        //     $produse_istoric->operatiune = 'suplimentare stoc';
+        //     $produse_istoric->save();
 
-            $produse_cantitati_istoric->produs_id = $produs->id;
-            $produse_cantitati_istoric->cantitate = $produs->cantitate;
-            $produse_cantitati_istoric->operatiune = 'suplimentare stoc';
-            $produse_cantitati_istoric->save();
+        //     $produse_cantitati_istoric->produs_id = $produs->id;
+        //     $produse_cantitati_istoric->cantitate = $produs->cantitate;
+        //     $produse_cantitati_istoric->operatiune = 'suplimentare stoc';
+        //     $produse_cantitati_istoric->save();
 
-            // if ($request->session()->has('produse_vandute')) { 
-            // } else {
-            //     $request->session()->put('produse_vandute', []);
-            // }
-            $request->session()->has('suplimentare_stocuri') ?? $request->session()->put('suplimentare_stocuri', []);
+        //     $request->session()->has('suplimentare_stocuri') ?? $request->session()->put('suplimentare_stocuri', []);
 
-            $request->session()->push('suplimentare_stocuri', $produs->nume);
+        //     $request->session()->push('suplimentare_stocuri', $produs->nume);
 
-            return redirect('suplimenteaza-stocuri/adauga')->with('success', 'Produsul „' . $produs->nume . '” a fost suplimentat cu ' . $validatedData['nr_de_bucati'] . ' bucați!');
-        } else {
-            return redirect ('suplimenteaza-stocuri/adauga')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
-        }
+        //     return redirect('suplimenteaza-stocuri/adauga')->with('success', 'Produsul „' . $produs->nume . '” a fost suplimentat cu ' . $validatedData['nr_de_bucati'] . ' bucați!');
+        // } else {
+        //     return redirect ('suplimenteaza-stocuri/adauga')->with('error', 'Nu se află nici un produs in baza de date, care să aibă codul: "' . $request->cod_de_bare . '"!');
+        // }
     }
 
     public function golesteLista(Request $request)
