@@ -15,12 +15,16 @@
                         <input type="text" class="form-control form-control-sm col-md-4 mr-1 border rounded-pill mb-1 py-0" 
                         id="search_nume" name="search_nume" placeholder="Nume" autofocus
                                 value="{{ $search_nume }}">
-                        <button class="btn btn-sm btn-primary col-md-4 mr-1 border border-dark rounded-pill" type="submit">
-                            <i class="fas fa-search text-white mr-1"></i>Caută
-                        </button>
-                        <a class="btn btn-sm bg-secondary text-white col-md-4 border border-dark rounded-pill" href="{{ route('plati.index') }}" role="button">
-                            <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
-                        </a>
+                        <div class="col-md-4 px-1">
+                            <button class="btn btn-sm btn-primary col-md-12 border border-dark rounded-pill" type="submit">
+                                <i class="fas fa-search text-white mr-1"></i>Caută
+                            </button>
+                        </div>
+                        <div class="col-md-4 px-1">
+                            <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('avansuri.index') }}" role="button">
+                                <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
