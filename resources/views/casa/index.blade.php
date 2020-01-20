@@ -54,7 +54,7 @@
                         >
                             Suma inițială = 
                             <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                    {{ $casa->first()->suma }}
+                                    {{ $casa->first()->suma ?? 0 }}
                             </span>
                             lei
                         </span>        
@@ -175,7 +175,7 @@
                                 </td>
                             </tr>  
                         @empty
-                            <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
+                            {{-- <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div> --}}
                         @endforelse
                         </tbody>
                 </table>

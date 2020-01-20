@@ -31,26 +31,19 @@ class CasaController extends Controller
             ->latest()
             ->simplePaginate(25);
         
-        $suma['produse_vandute'] = ProdusVandut::where('created_at', '>', $casa->first()->created_at)->sum(DB::raw('cantitate * pret'));
-        $suma['avansuri'] = Avans::where('created_at', '>', $casa->first()->created_at)->sum('suma');
-        $suma['plati'] = Plata::where('created_at', '>', $casa->first()->created_at)->sum('suma');
-        $suma['suma_totala'] = $casa->first()->suma + $suma['produse_vandute'] + $suma['avansuri'] - $suma['plati'];
-        // $casa = DB::table('casa')
-        //     ->leftjoin('produse_vandute', function ($join) {
-        //         $join->on('casa.referinta_id', '=', 'produse_vandute.id')
-        //             ->where('casa.referinta_tabel', '=', 'produse_vandute');
-        //     })
-        //     ->leftJoin('produse', 'produse_vandute.produs_id', '=', 'produse.id')
-        //     ->select(DB::raw('
-        //                 casa.*,
-        //                 produse_vandute.id as produs_vandut_id,
-        //                 produse.id as produs_id,
-        //                 produse.nume as produs_nume
-        //             '))
-        //     ->whereDate('casa.created_at', '>=', $search_data_inceput)
-        //     ->whereDate('casa.created_at', '<=', $search_data_sfarsit)
-        //     ->latest()
-        //     ->simplePaginate(25);
+        if ($casa->isNotEmpty()) {
+            $suma['produse_vandute'] = ProdusVandut::where('created_at', '>', $casa->first()->created_at)->sum(DB::raw('cantitate * pret'));
+            $suma['avansuri'] = Avans::where('created_at', '>', $casa->first()->created_at)->sum('suma');
+            $suma['plati'] = Plata::where('created_at', '>', $casa->first()->created_at)->sum('suma');
+            $suma['suma_totala'] = $casa->first()->suma + $suma['produse_vandute'] + $suma['avansuri'] - $suma['plati'];
+        } else{
+            $suma = [
+                'produse_vandute' => 0,
+                'avansuri' => 0,
+                'plati' => 0,
+                'suma_totala' => 0,
+            ];
+        }
 
         return view('casa.index', compact('casa', 'search_data_inceput', 'search_data_sfarsit', 'suma'));
     }
