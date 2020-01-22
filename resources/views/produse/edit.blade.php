@@ -93,6 +93,7 @@
                                         name="pret"
                                         placeholder="Preț"         
                                         value="{{ old('pret') == '' ? $produse->pret : old('pret') }}"
+                                        {{ auth()->user()->role === ('admin') ? '' : 'readonly' }}
                                         >
                                 </div>
                             </div>
@@ -104,6 +105,7 @@
                                         name="cantitate"
                                         placeholder="Cantitate"        
                                         value="{{ old('cantitate') == '' ? $produse->cantitate : old('cantitate') }}"
+                                        {{ auth()->user()->role === ('admin') ? '' : 'readonly' }}
                                         >
                                 </div>
                             </div>

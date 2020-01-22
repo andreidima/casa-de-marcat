@@ -66,8 +66,8 @@ class ProdusController extends Controller
      */
     public function store(Request $request)
     {
-        $produse = Produs::make($this->validateRequest());
-        $produse_istoric = ProdusIstoric::make($this->validateRequest());
+        $produse = Produs::make($this->validateRequest($request));
+        $produse_istoric = ProdusIstoric::make($this->validateRequest($request));
         // $this->authorize('update', $proiecte);
         $produse->save();
         
@@ -92,7 +92,7 @@ class ProdusController extends Controller
 
         switch ($request->input('action')) {
             case 'salvare':
-                return redirect('/produse')->with('status', 'Produsul "' . $produse->nume  . $produse->id . '" a fost adăugat cu succes!');
+                return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost adăugat cu succes!');
             break;
 
             case 'adaugari_multiple':
@@ -147,12 +147,21 @@ class ProdusController extends Controller
     public function update(Request $request, Produs $produse)
     {
         // $this->authorize('update', $proiecte);
-        $produse_istoric = ProdusIstoric::make($this->validateRequest($produse));
+        $produse_istoric = ProdusIstoric::make($this->validateRequest($request, $produse));
 
         $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->cantitate_initiala = $produse->cantitate;
         
-        $produse->update($this->validateRequest($produse));
+        if (auth()->user()->role === ('admin')){
+            $produse->update($this->validateRequest($request, $produse));
+        } else{
+            $this->validateRequest($request, $produse);
+            // dd($request->except(['pret', 'cantitate']));
+            $produse->update($request->except(['pret', 'cantitate', 'categorie_produs_id']));
+            // $produse = $produse->except(['pret', 'cantitate']);
+            // dd($produse);
+            // $produse->update();
+        }        
         
         $produse_istoric->produs_id = $produse->id;
         $produse_istoric->user = auth()->user()->id;
@@ -211,7 +220,7 @@ class ProdusController extends Controller
      *
      * @return array
      */
-    protected function validateRequest($produse = null)
+    protected function validateRequest(Request $request, $produse = null)
     {
         // dd ($request->_method);
         return request()->validate([
@@ -221,7 +230,7 @@ class ProdusController extends Controller
             // 'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
-            'cantitate' => [ 'required', 'numeric', 'between:0,999999999'],
+            'cantitate' => [ 'required', 'required', 'numeric', 'between:0,999999999'],
             'cod_de_bare' => ['nullable', 'max:20', 'unique:produse,cod_de_bare,' . ($produse->id ?? '')],
             'imei' => ['nullable', 'max:50'],
             'localizare' => ['nullable', 'max:250'],
