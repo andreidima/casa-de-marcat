@@ -118,7 +118,7 @@
                             {{ $produs_vandut->produs->pret ?? ''}} lei
                         </td>
                         <td style="text-align: right">
-                            {{ $produs_vandut->pret }} lei
+                            {{ $produs_vandut->cantitate * $produs_vandut->pret }} lei
                         </td>
                     </tr>
                 @empty

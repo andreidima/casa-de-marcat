@@ -190,7 +190,9 @@ class ProdusController extends Controller
         // if ($produse->has('produse_vandute'))
         // return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
         // dd($produse->produse_vandute->count());
-        if ($produse->produse_vandute->count() > 0) {
+        if (auth()->user()->role !== ('admin')){
+            return back();
+        }elseif ($produse->produse_vandute->count() > 0) {
             return redirect('/produse')
                 ->with('eroare', 'Produsul "' . $produse->nume . '" nu poate fi șters pentru că are un număr de ' . $produse->produse_vandute->count() . ' vânzări!');
         } else{
@@ -251,7 +253,7 @@ class ProdusController extends Controller
      */
     public function vanzari(Request $request)
     {         
-        return view ('produse/vanzari');
+        return view ('produse.vanzari');
     }
 
     public function vanzariDescarcaProdus(Request $request)
@@ -332,7 +334,7 @@ class ProdusController extends Controller
             //     return redirect ('produse/vanzari')->with('warning', 'Introdu un cod de bare!');
             // } 
         
-        return view ('produse/vanzari');
+        return view ('produse.vanzari');
     }
 
     public function vanzariGolesteCos(Request $request)

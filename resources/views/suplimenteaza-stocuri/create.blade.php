@@ -37,6 +37,7 @@
                                             placeholder="Nr. de bucăți"                                        
                                             value="{{ old('nr_de_bucati') == '' ? '' : old('nr_de_bucati') }}"
                                             autofocus
+                                            autocomplete="off"
                                             >
                                     </div>
                                 </div>
@@ -48,6 +49,7 @@
                                             name="cod_de_bare"
                                             placeholder="Cod de bare"                                        
                                             value=""
+                                            autocomplete="off"
                                             {{-- autofocus --}}
                                             >
                                     </div>

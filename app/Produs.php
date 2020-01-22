@@ -23,4 +23,9 @@ class Produs extends Model
     {
         return $this->hasMany('App\ProdusVandut', 'produs_id');
     }
+
+    public function cantitati()
+    {
+        return $this->hasMany('App\ProdusCantitateIstoric', 'produs_id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 // use App\ProdusCantitateIstoric;
+use App\Produs;
 use DB;
 
 use Illuminate\Http\Request;
@@ -59,5 +60,19 @@ class RaportController extends Controller
         //     return $pdf->download('Raport produse vandute - ' . $produse_vandute->first()->categorie_nume . ' - ' .
         //         \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
         // }
-    } 
+    }
+
+    public function miscariProdus(Request $request, $search_data_inceput = null, $search_data_sfarsit = null)
+    {
+        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI   
+        $produse = Produs::with('cantitati')
+            ->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%')
+            // ->when($search_nume, function ($query, $search_nume) {
+            //     return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
+            // })
+            ->latest()
+            ->simplePaginate(25);
+
+        return view('rapoarte.miscari-produs', compact('produse', 'search_nume'));
+    }
 }

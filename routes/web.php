@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Rute pentru rapoarte - controller separat
     Route::get('rapoarte/miscari-stocuri', 'RaportController@miscariStocuri')->name('rapoarte.miscari_stocuri');
+    Route::get('rapoarte/miscari-produs', 'RaportController@miscariProdus')->name('miscari.produs');
 
     // Suplimentare stocuri
     Route::get('suplimenteaza-stocuri/adauga', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');

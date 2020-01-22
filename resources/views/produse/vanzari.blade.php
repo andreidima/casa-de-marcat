@@ -39,6 +39,7 @@
                                             placeholder="Cod de bare"                                        
                                             value="{{ old('cod_de_bare') }}"
                                             autofocus
+                                            autocomplete="off"
                                             v-model="cod_de_bare" 
                                             @change="getPret()"
                                             v-on:keydown.enter.prevent
@@ -54,6 +55,7 @@
                                             name="nr_de_bucati"
                                             placeholder="1"                                        
                                             value="{{ old('nr_de_bucati') == '' ? '0' : old('nr_de_bucati') }}"
+                                            autocomplete="off"
                                             >
                                     </div>
                                 </div>
@@ -66,6 +68,7 @@
                                             name="pret"
                                             v-model="pret"                                        
                                             value="{{ old('pret')}}"
+                                            autocomplete="off"
                                             >
                                     </div>
                                 </div>
@@ -77,6 +80,7 @@
                                             id="detalii" 
                                             name="detalii"                                      
                                             value="{{ old('detalii')}}"
+                                            autocomplete="off"
                                             >
                                     </div>
                                 </div>

@@ -118,6 +118,10 @@
                                     <i class="fas fa-people-carry mr-1"></i>Mișcări stocuri
                                 </a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/rapoarte/miscari-produs">
+                                    <i class="fas fa-box mr-1"></i>Mișcări produs
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/produse/rapoarte/lista-inventar/lista-inventar-html" target="_blank">
                                     <i class="fas fa-file-pdf mr-1"></i>Listă inventar
                                 </a>
