@@ -24,7 +24,8 @@ class ProdusController extends Controller
     public function index()
     {
         $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI   
-        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI  
+        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI   
+        $search_subcategorie_produs_id = \Request::get('search_subcategorie_produs_id'); //<-- we use global request to get the param of URI  
         $search_pret = \Request::get('search_pret'); //<-- we use global request to get the param of URI       
         $produse = Produs::
                 when($search_cod_de_bare, function ($query, $search_cod_de_bare) {
@@ -33,13 +34,20 @@ class ProdusController extends Controller
             ->when($search_nume, function ($query, $search_nume) {
                     return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
                 })
+            ->when($search_subcategorie_produs_id, function ($query, $search_subcategorie_produs_id) {
+                    return $query->where('subcategorie_produs_id', $search_subcategorie_produs_id);
+                })
             ->when($search_pret, function ($query, $search_pret) {
                     return $query->where('pret', 'like', $search_pret . '%');
                 })
             ->latest()
             ->Paginate(25);
+
+        $subcategorii = SubcategoriiProduse::select('id', 'nume')->get()->sortBy('nume');
                 
-        return view('produse.index', compact('produse', 'search_cod_de_bare', 'search_nume', 'search_pret'));
+        // dd($subcategorii);
+
+        return view('produse.index', compact('produse', 'search_cod_de_bare', 'search_nume', 'search_subcategorie_produs_id', 'search_pret', 'subcategorii'));
     }
 
     /**

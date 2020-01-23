@@ -10,24 +10,53 @@
                 <form class="needs-validation" novalidate method="GET" action="/produse">
                     @csrf                    
                     <div class="input-group custom-search-form justify-content-center">
-                        <div class="d-flex">
+                        <div class="row">
+                            <div class="col-7 px-0">
+                                <input type="text" class="form-control" id="search_nume" value="{{ $search_nume }}"
+                                    name="search_nume" placeholder="Caută nume" autofocus>
+                            </div>
+                            <div class="col-5 px-0">                                   
+                                <select name="search_subcategorie_produs_id" 
+                                    class="custom-select {{ $errors->has('search_subcategorie_produs_id') ? 'is-invalid' : '' }}" 
+                                >
+                                        <option value='' selected>Selectează categorie</option>
+                                    @foreach ($subcategorii as $subcategorie)                           
+                                        <option 
+                                            value='{{ $subcategorie->id }}'
+                                                {{-- @if($search_subcategorie_produs_id !== null) --}}
+                                                    @if ($subcategorie->id == $search_subcategorie_produs_id)
+                                                        selected
+                                                    @endif
+                                                {{-- @else
+                                                    @if ($categorie->id == $produse->categorie_produs_id)
+                                                        selected
+                                                    @endif --}}
+                                                {{-- @endif --}}
+                                        >{{ $subcategorie->nume }} </option>                                                
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-4 px-0">
                             <input type="text" class="form-control" id="search_cod_de_bare" value="{{ $search_cod_de_bare }}"
                                 name="search_cod_de_bare" placeholder="Caută cod bare" autofocus>
-                            <input type="text" class="form-control" id="search_nume" value="{{ $search_nume }}"
-                                name="search_nume" placeholder="Caută nume" autofocus>
+                            </div>
+                            <div class="col-3 px-0">
                             <input type="text" class="form-control" id="search_pret" value="{{ $search_pret }}"
                                 name="search_pret" placeholder="Caută preț" autofocus>
+                            </div>
                             {{-- <small class="form-text text-muted">Caută după cod de bare</small> --}}
                         {{-- </div>
                         <div class=""> --}}
                             {{-- <span class="input-group-btn"> --}}
-                                <button class="btn btn-primary mr-2" type="submit" title="Caută">
-                                    <i class="fas fa-search text-white"></i>
+                            <div class="col-5 text-right px-0">
+                                <button class="btn btn-primary" type="submit" title="Caută">
+                                    <i class="fas fa-search text-white mr-1"></i>Caută
                                 </button>
                                 <a class="btn btn-secondary" href="{{ route('produse.index') }}" 
                                     role="button" title="Resetează căutarea">
-                                    <i class="fas fa-redo text-white mr-1"></i>
+                                    <i class="fas fa-redo text-white mr-1"></i>Resetează
                                 </a>
+                            </div>
                             {{-- </span> --}}
                         </div>
                     </div>
