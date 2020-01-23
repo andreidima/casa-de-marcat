@@ -32,7 +32,10 @@ class CasaController extends Controller
             ->simplePaginate(25);
         
         if ($casa->isNotEmpty()) {
-            $suma['produse_vandute'] = ProdusVandut::where('created_at', '>', $casa->first()->created_at)->sum(DB::raw('cantitate * pret'));
+            $suma['produse_vandute'] = ProdusVandut::where('created_at', '>', $casa->first()->created_at)
+                ->whereNull('card')
+                ->whereNull('emag')
+                ->sum(DB::raw('cantitate * pret'));
             $suma['avansuri'] = Avans::where('created_at', '>', $casa->first()->created_at)->sum('suma');
             $suma['plati'] = Plata::where('created_at', '>', $casa->first()->created_at)->sum('suma');
             $suma['suma_totala'] = $casa->first()->suma + $suma['produse_vandute'] + $suma['avansuri'] - $suma['plati'];
