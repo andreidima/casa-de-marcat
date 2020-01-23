@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use App\ProdusCantitateIstoric;
 use App\Produs;
+use App\ProdusCantitateIstoric;
 use DB;
 
 use Illuminate\Http\Request;
@@ -64,15 +65,24 @@ class RaportController extends Controller
 
     public function miscariProdus(Request $request, $search_data_inceput = null, $search_data_sfarsit = null)
     {
-        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI   
-        $produse = Produs::with('cantitati')
-            ->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%')
-            // ->when($search_nume, function ($query, $search_nume) {
-            //     return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
-            // })
+        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI  
+        
+        $produse = DB::table('produse_cantitati_istoric')
+            ->leftJoin('produse', 'produse_cantitati_istoric.produs_id', '=', 'produse.id')
+            ->select(DB::raw('
+                        produse_cantitati_istoric.id as istoric_id,
+                        produse.id as produs_id,
+                        produse.nume,
+                        produse.cod_de_bare,
+                        produse_cantitati_istoric.cantitate_initiala,
+                        produse_cantitati_istoric.cantitate,
+                        produse_cantitati_istoric.operatiune,
+                        produse_cantitati_istoric.created_at
+                    '))
+            ->where('produse.cod_de_bare', $search_cod_de_bare)
             ->latest()
             ->simplePaginate(25);
 
-        return view('rapoarte.miscari-produs', compact('produse', 'search_nume'));
+        return view('rapoarte.miscari-produs', compact('produse', 'search_cod_de_bare'));
     }
 }

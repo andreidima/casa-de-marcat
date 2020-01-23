@@ -16,6 +16,6 @@ class ProdusCantitateIstoric extends Model
 
     public function produs()
     {
-        return $this->belongsTo('App\Produse', 'produs_id');
+        return $this->belongsTo('App\Produs', 'produs_id');
     }
 }
