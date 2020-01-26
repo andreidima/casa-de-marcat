@@ -28,4 +28,9 @@ class Produs extends Model
     {
         return $this->hasMany('App\ProdusCantitateIstoric', 'produs_id');
     }
+
+    public function produs_inventar_verificare()
+    {
+        return $this->hasOne('App\ProdusInventarVerificare', 'produs_id');
+    }
 }

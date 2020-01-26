@@ -11,18 +11,22 @@
             <div class="col-lg-8" id="">
                 <form class="needs-validation" novalidate method="GET" action="{{ route('miscari.produs') }}">
                     @csrf                    
-                    <div class="row input-group custom-search-form justify-content-center align-self-end">
-                        <div class="col-md-3">
+                    <div class="row input-group custom-search-form justify-content-end">
+                        <div class="col-md-6 px-0 mx-0">
                             <input type="text" class="form-control form-control-sm border rounded-pill mb-1 py-0" 
-                            id="search_cod_de_bare" name="search_cod_de_bare" placeholder="Nume" autofocus
-                                    value="{{ $search_cod_de_bare }}">
+                            id="search_nume" name="search_nume" placeholder="Nume" autofocus
+                                    value="{{ $search_nume }}">
+                        </div>                        
+                        <div class="col-md-3 px-0 mx-0">
+                            <button class="btn btn-sm btn-primary col-md-12 mr-1 border border-dark rounded-pill" type="submit">
+                                <i class="fas fa-search text-white mr-1"></i>Caută
+                            </button>
+                        </div>                        
+                        <div class="col-md-3 px-0 mx-0">
+                            <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('miscari.produs') }}" role="button">
+                                <i class="fas fa-undo text-white mr-1"></i>Resetează căutarea
+                            </a>
                         </div>
-                        <button class="btn btn-sm btn-primary col-md-4 mr-1 border border-dark rounded-pill" type="submit">
-                            <i class="fas fa-search text-white mr-1"></i>Caută
-                        </button>
-                        <a class="btn btn-sm bg-secondary text-white col-md-4 border border-dark rounded-pill" href="{{ route('miscari.produs') }}" role="button">
-                            <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
-                        </a>
                     </div>
                 </form>
             </div>

@@ -62,27 +62,128 @@
                 dd($categorii_produse_vandute);
             @endphp --}}
                 <div class="row justify-content-center">
-                    <div class="col-sm-10 m-4 p-4 border d-flex" style="border-left: 5px solid darkcyan !important;">
-                        <div class="col-5">
-                            <h5 class="" style="display:inline">{{ ($categorii_produse_vandute->first()->categorie_nume) }}</h5>
+                    <div class="col-sm-10 m-4 px-4 border" style="border-left: 5px solid darkcyan !important;">
+                        <div class="row py-3">
+                            <div class="col-5">
+                                <h5 class="" style="display:inline">{{ ($categorii_produse_vandute->first()->categorie_nume) }}</h5>
+                            </div>
+                            <div class="col-4">
+                                Produse: 
+                                <span class="badge badge-success" style="background-color:#e66800;">
+                                    <h6 class="my-0">{{ $categorii_produse_vandute->sum('cantitate') }}</h6>
+                                </span>
+                                / 
+                                Suma: 
+                                <span class="badge badge-success" style="background-color:#e66800;">
+                                    <h6 class="my-0">{{ $categorii_produse_vandute->sum('total_vandut') }} lei</h6>
+                                </span>
+                            </div>
+                            <div class="col-3 text-right">
+                                <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/{{ $categorii_produse_vandute->first()->categorie_id }}/export/raport-pdf"
+                                    class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
+                                >
+                                    <i class="fas fa-file-pdf mr-1"></i>Export PDF
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-4">
-                            Produse: 
-                            <span class="badge badge-success" style="background-color:#e66800;">
-                                <h6 class="my-0">{{ $categorii_produse_vandute->sum('cantitate') }}</h6>
-                            </span>
-                            / 
-                            Suma: 
-                            <span class="badge badge-success" style="background-color:#e66800;">
-                                <h6 class="my-0">{{ $categorii_produse_vandute->sum('total_vandut') }} lei</h6>
-                            </span>
-                        </div>
-                        <div class="col-3 text-right">
-                            <a href="/produse-vandute/rapoarte/raport-zilnic/{{ \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') }}/{{ $categorii_produse_vandute->first()->categorie_id }}/export/raport-pdf"
-                                class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
-                            >
-                                <i class="fas fa-file-pdf mr-1"></i>Export PDF
-                            </a>
+                        <div class="row mb-0 justify-content-center">
+                            <div class="col-8 d-flex justify-content-between">           
+                                {{-- @php
+                                    dd($categorii_produse_vandute);
+                                @endphp --}}
+                                <span class="badge badge-dark"
+                                >
+                                    Cash = 
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('card', null)
+                                                ->where('emag', null)
+                                                ->where('pret_vandut', '>' , 0)
+                                                ->sum('cantitate') 
+                                        }}
+                                    </span>
+                                    /
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('card', null)
+                                                ->where('emag', null)
+                                                ->where('pret_vandut', '>' , 0)
+                                                ->sum('total_vandut') 
+                                        }}
+                                        lei
+                                    </span>
+                                </span>
+                                <span class="badge badge-dark"
+                                >
+                                    Card = 
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('card', '!=', null)
+                                                ->where('emag', null)
+                                                ->where('pret_vandut', '>' , 0)
+                                                ->sum('cantitate') 
+                                        }}
+                                    </span>
+                                    /
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('card', '!=', null)
+                                                ->where('emag', null)
+                                                ->where('pret_vandut', '>' , 0)
+                                                ->sum('total_vandut') 
+                                        }}
+                                        lei
+                                    </span>
+                                </span>
+                                <span class="badge badge-dark"
+                                >
+                                    Emag = 
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('card', null)
+                                                ->where('emag', '!=', null)
+                                                ->where('pret_vandut', '>' , 0)
+                                                ->sum('cantitate') 
+                                        }}
+                                    </span>
+                                    /
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('card', null)
+                                                ->where('emag', '!=', null)
+                                                ->where('pret_vandut', '>' , 0)
+                                                ->sum('total_vandut') 
+                                        }}
+                                        lei
+                                    </span>
+                                </span>
+                                <span class="badge badge-dark"
+                                >
+                                    Vânzări cu 0 = 
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('pret_vandut', 0)
+                                                ->sum('cantitate') 
+                                        }}
+                                    </span>
+                                    /
+                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                        {{ 
+                                            $categorii_produse_vandute
+                                                ->where('pret_vandut', 0)
+                                                ->sum('total_vandut') 
+                                        }}
+                                        lei
+                                    </span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

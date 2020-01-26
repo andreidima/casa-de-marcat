@@ -59,6 +59,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('plati', 'PlataController');
     Route::resource('casa', 'CasaController');
 
+    Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');
+    Route::get('produse-inventar-verificare/produse-lipsa', 'ProdusInventarVerificareController@produseLipsa')->name('produse-inventar-verificare.produse-lipsa');
+    Route::resource('produse-inventar-verificare', 'ProdusInventarVerificareController');
+
     // Rute pentru rapoarte - controller separat
     Route::get('rapoarte/miscari-stocuri', 'RaportController@miscariStocuri')->name('rapoarte.miscari_stocuri');
     Route::get('rapoarte/miscari-produs', 'RaportController@miscariProdus')->name('miscari.produs');

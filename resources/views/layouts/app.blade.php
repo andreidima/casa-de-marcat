@@ -69,6 +69,24 @@
                                 <a class="dropdown-item" href="/produse/gestiune">
                                     <i class="fas fa-warehouse mr-1"></i>Gestiune
                                 </a>
+                                {{-- <div class="dropdown-divider"></div> 
+                                <a class="dropdown-item dropdown-toggle" href="#" id="inventar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-boxes mr-1"></i>Inventar
+                                </a>
+                                    <div class="dropdown-menu" aria-labelledby="inventar"
+                                        style="
+                                            top: 74%;
+                                            left: 100%;
+                                            "
+                                    >
+                                        <a class="dropdown-item" href="/produse-inventar-verificare">
+                                            <i class="fas fa-boxes mr-1"></i>Produse inventar
+                                        </a>
+                                        <div class="dropdown-divider"></div> 
+                                        <a class="dropdown-item" href="/produse-inventar-verificare/produse-lipsa">
+                                            <i class="fas fa-boxes mr-1"></i>Produse lipsă
+                                        </a>
+                                    </div> --}}
                             </div>
                         </li>
                         <li class="nav-item active mr-4">
