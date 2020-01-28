@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="shadow-lg" style="border-radius: 40px 40px 40px 40px;">
                 <div class="border border-secondary p-2" style="border-radius: 40px 40px 0px 0px; background-color:#e66800">
-                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-money-bill-wave mr-1"></i>Avansuri / {{ $avansuri->nume }}</h6>
+                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-money-bill-wave mr-1"></i>Plăți / {{ $plati->nume }}</h6>
                 </div>
 
                 <div class="card-body py-2 border border-secondary" 
@@ -29,7 +29,7 @@
                                     Nume
                                 </td>
                                 <td>
-                                    {{ $avansuri->nume }}
+                                    {{ $plati->nume }}
                                 </td>
                             </tr>
                             <tr>
@@ -37,7 +37,7 @@
                                     Descriere
                                 </td>
                                 <td>
-                                    {{ $avansuri->descriere }}
+                                    {{ $plati->descriere }}
                                 </td>
                             </tr>
                             <tr>
@@ -45,29 +45,15 @@
                                     Suma
                                 </td>
                                 <td>
-                                    {{ $avansuri->suma }}
+                                    {{ $plati->suma }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Stare
+                                    Dată plată
                                 </td>
                                 <td>
-                                    @if($avansuri->stare === 1)
-                                        <p class='text-success m-0'><b>Deschis</b></p>
-                                    @else
-                                        Închis
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Data avans
-                                </td>
-                                <td>
-                                    @isset($avansuri->contract_data)
-                                        {{ \Carbon\Carbon::parse($contracte->contract_data)->isoFormat('HH:MM - DD.MM.YYYY') }}
-                                    @endisset
+                                    {{ \Carbon\Carbon::parse($plati->created_at)->isoFormat('HH:MM - DD.MM.YYYY') }}
                                 </td>
                             </tr>
                         </table>
@@ -75,7 +61,7 @@
                                         
                     <div class="form-row mb-0 px-2 justify-content-center">                                    
                         <div class="col-lg-8 d-flex justify-content-center">  
-                            <a class="btn btn-primary btn-sm mr-4 rounded-pill" href="/avansuri">Înapoi la Avansuri</a> 
+                            <a class="btn btn-primary btn-sm mr-4 rounded-pill" href="/plati">Înapoi la plăți</a> 
                         </div>
                     </div>
 
