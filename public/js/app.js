@@ -88940,15 +88940,15 @@ if (document.querySelector('#cautare_produse_vandute')) {
 
 if (document.querySelector('#produse')) {
   var app = new Vue({
-    el: '#produse',
-    methods: {
-      formfocus: function formfocus() {
-        document.getElementById("search_cod_de_bare").focus();
-      }
-    },
-    mounted: function mounted() {
-      this.formfocus();
-    }
+    el: '#produse' // methods: {
+    //     formfocus() {
+    //         document.getElementById("search_cod_de_bare").focus();
+    //     }
+    // },
+    // mounted() {
+    //     this.formfocus()
+    // }
+
   });
 }
 

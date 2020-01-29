@@ -6,7 +6,7 @@
             <div class="col-lg-3 my-1">
                 <h4 class="mt-2 mb-0"><a href="/produse"><i class="fas fa-list-ul mr-1"></i>Produse</a></h4>
             </div> 
-            <div class="col-lg-6 my-1" id="produse">
+            <div class="col-lg-6 my-1" id="">
                 <form class="needs-validation" novalidate method="GET" action="/produse">
                     @csrf                    
                     <div class="input-group custom-search-form justify-content-center">
@@ -38,11 +38,11 @@
                             </div>
                             <div class="col-4 px-0">
                             <input type="text" class="form-control" id="search_cod_de_bare" value="{{ $search_cod_de_bare }}"
-                                name="search_cod_de_bare" placeholder="Caută cod bare" autofocus>
+                                name="search_cod_de_bare" placeholder="Caută cod bare">
                             </div>
                             <div class="col-3 px-0">
                             <input type="text" class="form-control" id="search_pret" value="{{ $search_pret }}"
-                                name="search_pret" placeholder="Caută preț" autofocus>
+                                name="search_pret" placeholder="Caută preț">
                             </div>
                             {{-- <small class="form-text text-muted">Caută după cod de bare</small> --}}
                         {{-- </div>

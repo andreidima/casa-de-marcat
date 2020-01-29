@@ -87,10 +87,7 @@
                             </div>
                         </div>
                         <div class="row mb-0 justify-content-center">
-                            <div class="col-8 d-flex justify-content-between">           
-                                {{-- @php
-                                    dd($categorii_produse_vandute);
-                                @endphp --}}
+                            <div class="col-lg-2">     
                                 <span class="badge badge-dark"
                                 >
                                     Cash = 
@@ -115,6 +112,8 @@
                                         lei
                                     </span>
                                 </span>
+                            </div>
+                            <div class="col-lg-2">    
                                 <span class="badge badge-dark"
                                 >
                                     Card = 
@@ -139,6 +138,8 @@
                                         lei
                                     </span>
                                 </span>
+                            </div>
+                            <div class="col-lg-2"> 
                                 <span class="badge badge-dark"
                                 >
                                     Emag = 
@@ -163,6 +164,8 @@
                                         lei
                                     </span>
                                 </span>
+                            </div>
+                            <div class="col-lg-2"> 
                                 <span class="badge badge-dark"
                                 >
                                     Vânzări cu 0 = 

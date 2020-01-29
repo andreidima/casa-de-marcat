@@ -85,14 +85,14 @@ if (document.querySelector('#cautare_produse_vandute')) {
 if (document.querySelector('#produse')) {
     const app = new Vue({
         el: '#produse',
-        methods: {
-            formfocus() {
-                document.getElementById("search_cod_de_bare").focus();
-            }
-        },
-        mounted() {
-            this.formfocus()
-        }
+        // methods: {
+        //     formfocus() {
+        //         document.getElementById("search_cod_de_bare").focus();
+        //     }
+        // },
+        // mounted() {
+        //     this.formfocus()
+        // }
     });
 }
 

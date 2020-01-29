@@ -44,7 +44,7 @@
                             <th>Nr. Crt.</th>
                             <th class="">Produs</th>
                             <th class="">Cod de bare</th>
-                            <th class="text-center">Cantitate în program</th>
+                            <th class="text-center">Cantitate în baza de date</th>
                             <th class="text-center">Cantitate la inventar</th>
                         </tr>
                     </thead>
