@@ -87,105 +87,184 @@
                             </div>
                         </div>
                         <div class="row mb-0 justify-content-center">
-                            <div class="col-lg-2">     
-                                <span class="badge badge-dark"
-                                >
-                                    Cash = 
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('card', null)
-                                                ->where('emag', null)
-                                                ->where('pret_vandut', '>' , 0)
-                                                ->sum('cantitate') 
-                                        }}
+                            <div class="col-lg-2"> 
+                                <a class="" data-toggle="collapse" href="#collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-cash" role="button" 
+                                    aria-expanded="false" aria-controls="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-cash"
+                                    >    
+                                    <span class="badge badge-dark">
+                                        Cash = 
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('card', null)
+                                                    ->where('emag', null)
+                                                    ->where('pret_vandut', '>' , 0)
+                                                    ->sum('cantitate') 
+                                            }}
+                                        </span>
+                                        /
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('card', null)
+                                                    ->where('emag', null)
+                                                    ->where('pret_vandut', '>' , 0)
+                                                    ->sum('total_vandut') 
+                                            }}
+                                            lei
+                                        </span>
                                     </span>
-                                    /
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('card', null)
-                                                ->where('emag', null)
-                                                ->where('pret_vandut', '>' , 0)
-                                                ->sum('total_vandut') 
-                                        }}
-                                        lei
-                                    </span>
-                                </span>
+                                </a>
+                                <div class="collapse bg-white" 
+                                    id="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-cash"
+                                    style="font-size: 1em"
+                                    >
+                                    @foreach ($categorii_produse_vandute->where('card', null)->where('emag', null)->where('pret_vandut', '>' , 0) as $produs)
+                                        <span class="badge badge-dark"
+                                        >
+                                            {{ \Illuminate\Support\Str::limit($produs->nume, 25, $end='...') }}
+                                            = 
+                                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                                    {{ $produs->cantitate }}
+                                            </span>
+                                        </span>
+                                        <br>
+                                    @endforeach
+                                </div>
                             </div>
-                            <div class="col-lg-2">    
-                                <span class="badge badge-dark"
-                                >
-                                    Card = 
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('card', '!=', null)
-                                                ->where('emag', null)
-                                                ->where('pret_vandut', '>' , 0)
-                                                ->sum('cantitate') 
-                                        }}
+                            <div class="col-lg-2">  
+                                <a class="" data-toggle="collapse" href="#collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-card" role="button" 
+                                    aria-expanded="false" aria-controls="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-card"
+                                    >     
+                                    <span class="badge badge-dark"
+                                    >
+                                        Card = 
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('card', '!=', null)
+                                                    ->where('emag', null)
+                                                    ->where('pret_vandut', '>' , 0)
+                                                    ->sum('cantitate') 
+                                            }}
+                                        </span>
+                                        /
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('card', '!=', null)
+                                                    ->where('emag', null)
+                                                    ->where('pret_vandut', '>' , 0)
+                                                    ->sum('total_vandut') 
+                                            }}
+                                            lei
+                                        </span>
                                     </span>
-                                    /
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('card', '!=', null)
-                                                ->where('emag', null)
-                                                ->where('pret_vandut', '>' , 0)
-                                                ->sum('total_vandut') 
-                                        }}
-                                        lei
-                                    </span>
-                                </span>
+                                </a>
+                                <div class="collapse bg-white" 
+                                    id="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-card"
+                                    style="font-size: 1em"
+                                    >
+                                    @foreach ($categorii_produse_vandute->where('card', '!=', null)->where('emag', null)->where('pret_vandut', '>' , 0) as $produs)
+                                        <span class="badge badge-dark"
+                                        >
+                                            {{ \Illuminate\Support\Str::limit($produs->nume, 25, $end='...') }}
+                                            = 
+                                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                                    {{ $produs->cantitate }}
+                                            </span>
+                                        </span>
+                                        <br>
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="col-lg-2"> 
-                                <span class="badge badge-dark"
-                                >
-                                    Emag = 
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('card', null)
-                                                ->where('emag', '!=', null)
-                                                ->where('pret_vandut', '>' , 0)
-                                                ->sum('cantitate') 
-                                        }}
+                                <a class="" data-toggle="collapse" href="#collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-emag" role="button" 
+                                    aria-expanded="false" aria-controls="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-emag"
+                                    >    
+                                    <span class="badge badge-dark"
+                                    >
+                                        Emag = 
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('card', null)
+                                                    ->where('emag', '!=', null)
+                                                    ->where('pret_vandut', '>' , 0)
+                                                    ->sum('cantitate') 
+                                            }}
+                                        </span>
+                                        /
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('card', null)
+                                                    ->where('emag', '!=', null)
+                                                    ->where('pret_vandut', '>' , 0)
+                                                    ->sum('total_vandut') 
+                                            }}
+                                            lei
+                                        </span>
                                     </span>
-                                    /
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('card', null)
-                                                ->where('emag', '!=', null)
-                                                ->where('pret_vandut', '>' , 0)
-                                                ->sum('total_vandut') 
-                                        }}
-                                        lei
-                                    </span>
-                                </span>
+                                </a>
+                                <div class="collapse bg-white" 
+                                    id="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-emag"
+                                    style="font-size: 1em"
+                                    >
+                                    @foreach ($categorii_produse_vandute->where('card', null)->where('emag', '!=', null)->where('pret_vandut', '>' , 0) as $produs)
+                                        <span class="badge badge-dark"
+                                        >
+                                            {{ \Illuminate\Support\Str::limit($produs->nume, 25, $end='...') }}
+                                            = 
+                                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                                    {{ $produs->cantitate }}
+                                            </span>
+                                        </span>
+                                        <br>
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="col-lg-2"> 
-                                <span class="badge badge-dark"
-                                >
-                                    Vânzări cu 0 = 
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('pret_vandut', 0)
-                                                ->sum('cantitate') 
-                                        }}
+                                <a class="" data-toggle="collapse" href="#collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-vanzari0" role="button" 
+                                    aria-expanded="false" aria-controls="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-vanzari0"
+                                    >   
+                                    <span class="badge badge-dark"
+                                    >
+                                        Vânzări cu 0 = 
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('pret_vandut', 0)
+                                                    ->sum('cantitate') 
+                                            }}
+                                        </span>
+                                        /
+                                        <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                            {{ 
+                                                $categorii_produse_vandute
+                                                    ->where('pret_vandut', 0)
+                                                    ->sum('total_vandut') 
+                                            }}
+                                            lei
+                                        </span>
                                     </span>
-                                    /
-                                    <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                        {{ 
-                                            $categorii_produse_vandute
-                                                ->where('pret_vandut', 0)
-                                                ->sum('total_vandut') 
-                                        }}
-                                        lei
-                                    </span>
-                                </span>
+                                </a>
+                                <div class="collapse bg-white" 
+                                    id="collapse{{ str_replace(' ', '', $categorii_produse_vandute->first()->categorie_nume) }}-vanzari0"
+                                    style="font-size: 1em"
+                                    >
+                                    @foreach ($categorii_produse_vandute->where('pret_vandut', 0) as $produs)
+                                        <span class="badge badge-dark"
+                                        >
+                                            {{ \Illuminate\Support\Str::limit($produs->nume, 25, $end='...') }}
+                                            = 
+                                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                                    {{ $produs->cantitate }}
+                                            </span>
+                                        </span>
+                                        <br>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>

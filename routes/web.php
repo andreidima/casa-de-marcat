@@ -72,6 +72,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store');
     Route::get('suplimenteaza-stocuri/goleste-lista', 'SuplimenteazaStocController@golesteLista');
 
+    //Nir
+    Route::get('nir', 'NirController@index')->name('nir.index');
+    Route::get('nir/{view_type?}', 'NirController@index');
+
     // Route::get('/makethemigration', function() {
     //     Artisan::call('php artisan migrate:refresh --seed');
     // return "Cleared!";
