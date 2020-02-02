@@ -74,7 +74,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Nir
     Route::get('nir', 'NirController@index')->name('nir.index');
-    Route::get('nir/{view_type?}', 'NirController@index');
+    Route::get('nir/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
 
     // Route::get('/makethemigration', function() {
     //     Artisan::call('php artisan migrate:refresh --seed');
