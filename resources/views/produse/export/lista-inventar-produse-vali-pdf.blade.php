@@ -90,6 +90,7 @@
                 <table style="width:690px;">
                     <tr style="background-color:#e7d790;">
                         <th style="width:50px; text-align: center">Produs</th>
+                        <th style="width:50px; text-align: center">Cod de bare</th>
                         <th style="width:370px; text-align: center">Subcategorie</th>
                         <th style="width:30px; text-align: center">Categorie</th>
                     </tr>
@@ -99,6 +100,9 @@
                     <tr>
                         <td>
                             {{ $produs->nume }}
+                        </td>
+                        <td>
+                            {{ $produs->cod_de_bare }}
                         </td>
                         <td>
                             {{ $produs->subcategorie->nume }}
