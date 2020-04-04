@@ -69,6 +69,12 @@
                                 <a class="dropdown-item" href="/produse/gestiune">
                                     <i class="fas fa-warehouse mr-1"></i>Gestiune
                                 </a>
+                                @if (auth()->user()->id === 1)
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/furnizori">
+                                        <i class="fas fa-store mr-1"></i>Furnizori
+                                    </a>
+                                @endif
                                 <div class="dropdown-divider"></div> 
                                 <a class="dropdown-item dropdown-toggle" href="#" id="inventar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-boxes mr-1"></i>Inventar

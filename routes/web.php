@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('avansuri', 'AvansController');
     Route::resource('plati', 'PlataController');
     Route::resource('casa', 'CasaController');
+    Route::resource('furnizori', 'FurnizorController');
 
     Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');
     Route::get('produse-inventar-verificare/produse-lipsa', 'ProdusInventarVerificareController@produseLipsa')->name('produse-inventar-verificare.produse-lipsa');
@@ -76,6 +77,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('nir', 'NirController@index')->name('nir.index');
     Route::get('nir/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
 
+    //Export pentru Vali de pus produsele la vanzare pe site
+    Route::get('produse/rapoarte/lista-inventar-produse-vali/{view_type}', 'ProdusController@pdfExportListaProduseVali');
     // Route::get('/makethemigration', function() {
     //     Artisan::call('php artisan migrate:refresh --seed');
     // return "Cleared!";

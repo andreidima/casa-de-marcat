@@ -470,4 +470,23 @@ class ProdusController extends Controller
             // return $pdf->stream();
         }
     }
+
+    // Export produse pentru Vali de pus pe site la vanzare
+    public function pdfExportListaProduseVali(Request $request)
+    {
+        $produse = Produs::
+            with('subcategorie', 'subcategorie.categorie')
+            // ->select('id', 'nume', 'subcategorie.nume')
+            // ->take(10)
+            ->get();
+
+        if ($request->view_type === 'html') {
+            return view('produse.export.lista-inventar-produse-vali-pdf', compact('produse'));
+        } elseif ($request->view_type === 'pdf') {
+            $pdf = \PDF::loadView('produse.export.lista-inventar-produse-vali-pdf', compact('produse'))
+                ->setPaper('a4', 'portrait');
+            return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            // return $pdf->stream();
+        }
+    }
 }
