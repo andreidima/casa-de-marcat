@@ -21,12 +21,42 @@
 
                             @include('errors')
 
+                            {{-- @php
+                                dd($furnizor_id ?? '');
+                            @endphp --}}
+
                             <form  class="needs-validation" novalidate method="POST" 
                                 action="{{ action('SuplimenteazaStocController@store') }}"
                             >
                                 @method('PATCH')
                                 @csrf  
 
+                                <div class="form-group row">
+                                    <label for="furnizor_id" class="col-sm-6 col-form-label">Furnizor:</label>
+                                    <div class="col-sm-6">                                     
+                                        <select name="furnizor_id" 
+                                            class="custom-select {{ $errors->has('furnizor_id') ? 'is-invalid' : '' }}" 
+                                        >
+                                                <option value='' selected>Selectează</option>
+                                            @foreach ($furnizori as $furnizor)                           
+                                                <option 
+                                                    value='{{ $furnizor->id }}'
+                                                        @if(old('furnizor_id') !== null)
+                                                            @if ($furnizor->id == old('furnizor_id'))
+                                                                selected
+                                                            @endif
+                                                        @else
+                                                            @isset ($furnizor_id)
+                                                                @if ($furnizor_id == $furnizor->id)
+                                                                    selected
+                                                                @endif
+                                                            @endisset
+                                                        @endif
+                                                >{{ $furnizor->nume }} </option>                                                
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                         <label for="nr_de_bucati" class="col-sm-6 col-form-label">Număr de bucăți:</label>
                                     <div class="col-sm-6">

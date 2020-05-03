@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
+    Route::resource('stocuri', 'ProdusCantitateIstoricController');
     Route::resource('produse-vandute', 'ProdusVandutController');
     Route::resource('avansuri', 'AvansController');
     Route::resource('plati', 'PlataController');
@@ -69,7 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('rapoarte/miscari-produs', 'RaportController@miscariProdus')->name('miscari.produs');
 
     // Suplimentare stocuri
-    Route::get('suplimenteaza-stocuri/adauga', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');
+    Route::get('suplimenteaza-stocuri/adauga/{furnizor_id?}', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');
     Route::any('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store');
     Route::get('suplimenteaza-stocuri/goleste-lista', 'SuplimenteazaStocController@golesteLista');
 

@@ -95,8 +95,14 @@ class FurnizorController extends Controller
      */
     public function destroy(Furnizor $furnizori)
     {
-        $furnizori->delete();
-        return redirect('/furnizori')->with('status', 'Furnizorul "' . $furnizori->nume . '" a fost șters cu succes!');
+        if (count($furnizori->cantitati)){
+            return back()->with('error', 'Furnizorul "' . $furnizori->nume . '" nu poate fi șters pentru că are produse înregistrate!');
+        } else {
+            $furnizori->delete();
+            return back()->with('status', 'Furnizorul "' . $furnizori->nume . '" a fost șters cu succes!');
+        }
+        // $furnizori->delete();
+        // return redirect('/furnizori')->with('status', 'Furnizorul "' . $furnizori->nume . '" a fost șters cu succes!');
     }
 
     /**
