@@ -69,7 +69,7 @@ if (document.querySelector('#adaugare_modificare_produse')) {
                     .then(function (response) {
                         app1.subcategorii = '',
 
-                        app1.subcategorii = response.data.subcategorii;
+                            app1.subcategorii = response.data.subcategorii;
                     });
             },
         }
@@ -98,7 +98,7 @@ if (document.querySelector('#produse')) {
 
 if (document.querySelector('#vanzari')) {
     const app = new Vue({
-        el: '#vanzari', 
+        el: '#vanzari',
         data: {
             cod_de_bare: codDeBareVechi,
             pret: '',

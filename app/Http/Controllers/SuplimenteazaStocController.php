@@ -6,6 +6,7 @@ use App\Produs;
 use App\ProdusCantitateIstoric;
 use App\ProdusIstoric;
 use App\Furnizor;
+use App\ProdusStoc;
 
 use Illuminate\Http\Request;
 
@@ -53,16 +54,22 @@ class SuplimenteazaStocController extends Controller
             $produse_istoric = ProdusIstoric::make($produs->toArray());
             unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
             $produse_istoric->produs_id = $produs->id;
-            $produse_istoric->furnizor_id = $furnizor_id;
+            // $produse_istoric->furnizor_id = $furnizor_id;
             $produse_istoric->user = auth()->user()->id;
             $produse_istoric->operatiune = 'suplimentare stoc';
             $produse_istoric->save();
 
             $produse_cantitati_istoric->produs_id = $produs->id;
-            $produse_cantitati_istoric->furnizor_id = $furnizor_id;
+            // $produse_cantitati_istoric->furnizor_id = $furnizor_id;
             $produse_cantitati_istoric->cantitate = $produs->cantitate;
             $produse_cantitati_istoric->operatiune = 'suplimentare stoc';
             $produse_cantitati_istoric->save();
+
+            $produs_stoc = ProdusStoc::make();
+            $produs_stoc->produs_id = $produs->id;
+            $produs_stoc->furnizor_id = $validatedData['furnizor_id'];
+            $produs_stoc->cantitate = $validatedData['nr_de_bucati'];
+            $produs_stoc->save();
 
             $request->session()->has('suplimentare_stocuri') ?? $request->session()->put('suplimentare_stocuri', []);
 
