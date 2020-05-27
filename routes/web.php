@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('plati', 'PlataController');
     Route::resource('casa', 'CasaController');
     Route::resource('furnizori', 'FurnizorController');
+    Route::resource('produse-stocuri', 'ProdusStocController');
 
     Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');
     Route::get('produse-inventar-verificare/produse-lipsa', 'ProdusInventarVerificareController@produseLipsa')->name('produse-inventar-verificare.produse-lipsa');
@@ -73,6 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('suplimenteaza-stocuri/adauga/{furnizor_id?}', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');
     Route::any('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store');
     Route::get('suplimenteaza-stocuri/goleste-lista', 'SuplimenteazaStocController@golesteLista');
+
+
 
     //Nir
     Route::get('nir', 'NirController@index')->name('nir.index');

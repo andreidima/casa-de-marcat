@@ -14,15 +14,15 @@ class ProdusStocController extends Controller
      */
     public function index()
     {
-        $search_produs_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI  
+        $search_produs_nume = \Request::get('search_produs_nume'); //<-- we use global request to get the param of URI  
         $stocuri = ProdusStoc::
-            when($search_nume, function ($query, $search_nume) {
-                return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
+            when($search_produs_nume, function ($query, $search_produs_nume) {
+                return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_produs_nume) . '%');
             })
             ->latest()
             ->Paginate(25);
 
-        return view('avansuri.index', compact('avansuri', 'search_nume'));
+        return view('produse-stocuri.index', compact('stocuri', 'search_produs_nume'));
     }
 
     /**
