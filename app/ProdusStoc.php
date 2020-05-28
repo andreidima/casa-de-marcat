@@ -11,7 +11,7 @@ class ProdusStoc extends Model
 
     public function path()
     {
-        return "/produse_stocuri/{$this->id}";
+        return "/produse-stocuri/{$this->id}";
     }
 
     public function produs()

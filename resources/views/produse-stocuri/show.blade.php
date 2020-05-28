@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="shadow-lg" style="border-radius: 40px 40px 40px 40px;">
                 <div class="border border-secondary p-2" style="border-radius: 40px 40px 0px 0px; background-color:#e66800">
-                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-money-bill-wave mr-1"></i>Plăți / {{ $plati->nume }}</h6>
+                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-list-ul mr-1"></i>Produse - stocuri</h6>
                 </div>
 
                 <div class="card-body py-2 border border-secondary" 
@@ -26,34 +26,34 @@
                         > 
                             <tr>
                                 <td>
-                                    Nume
+                                    Produs
                                 </td>
                                 <td>
-                                    {{ $plati->nume }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Descriere
-                                </td>
-                                <td>
-                                    {{ $plati->descriere }}
+                                    {{ $produse_stocuri->produs->nume }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Suma
+                                    Furnizor
                                 </td>
                                 <td>
-                                    {{ $plati->suma }}
+                                    {{ $produse_stocuri->furnizor->nume }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Dată plată
+                                    Cantitate
                                 </td>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($plati->created_at)->isoFormat('HH:MM - DD.MM.YYYY') }}
+                                    {{ $produse_stocuri->cantitate }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Data adăugării
+                                </td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($produse_stocuri->created_at)->isoFormat('HH:MM - DD.MM.YYYY') }}
                                 </td>
                             </tr>
                         </table>
@@ -61,7 +61,7 @@
                                         
                     <div class="form-row mb-0 px-2 justify-content-center">                                    
                         <div class="col-lg-8 d-flex justify-content-center">  
-                            <a class="btn btn-primary btn-sm mr-4 rounded-pill" href="/plati">Înapoi la plăți</a> 
+                            <a class="btn btn-primary btn-sm mr-4 rounded-pill" href="/produse-stocuri">Înapoi la Produse-Stocuri</a> 
                         </div>
                     </div>
 

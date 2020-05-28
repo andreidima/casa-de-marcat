@@ -76,7 +76,7 @@
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/produse-stocuri">
-                                        <i class="fas fa-list-ul mr-1"></i>Stocuri produse
+                                        <i class="fas fa-list-ul mr-1"></i>Produse - stocuri
                                     </a>
                                 @endif
                                 <div class="dropdown-divider"></div> 

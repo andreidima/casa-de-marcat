@@ -5,7 +5,7 @@
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
             <div class="col-lg-3 align-self-center">
                 <h4 class=" mb-0">
-                    <a href="{{ route('plati.index') }}"><i class="fas fa-list-ul mr-1"></i></i>Stocuri produse</a>
+                    <a href="{{ route('produse-stocuri.index') }}"><i class="fas fa-list-ul mr-1"></i></i>Produse - stocuri</a>
                 </h4>
             </div> 
             <div class="col-lg-6" id="">
@@ -62,7 +62,7 @@
                                     {{ ($stocuri ->currentpage()-1) * $stocuri ->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td>
-                                    {{ $stoc->produs->nume ?? '' }}
+                                    {{ $stoc->produs->nume ?? '' }}                              
                                 </td>
                                 <td class="">
                                     {{ $stoc->furnizor->nume ?? '' }}
@@ -74,12 +74,15 @@
                                     {{ \Carbon\Carbon::parse($stoc->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                 </td>
                                 <td class="d-flex justify-content-end"> 
-                                    {{-- <a href="{{ $plata->path() }}/modifica"
+                                    <a href="{{ $stoc->path() }}">
+                                        <span class="badge badge-secondary mr-1">Vizualizează</span>                   
+                                    </a>  
+                                    <a href="{{ $stoc->path() }}/modifica"
                                         class="flex"    
                                     >
-                                        <span class="badge badge-primary">Modifică</span>
+                                        <span class="badge badge-primary mr-1">Modifică</span>
                                     </a>                                   
-                                    <div style="flex" class="">
+                                    {{-- <div style="flex" class="">
                                         <a 
                                             href="#" 
                                             data-toggle="modal" 
@@ -122,7 +125,7 @@
                                 </td>
                             </tr>  
                         @empty
-                            <div>Nu s-au gasit înregistrări în baza de date. Încearcă alte date de căutare</div>
+                            {{-- <div>Nu s-au gasit înregistrări în baza de date. Încearcă alte date de căutare</div> --}}
                         @endforelse
                         </tbody>
                 </table>

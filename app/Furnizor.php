@@ -16,6 +16,6 @@ class Furnizor extends Model
 
     public function cantitati()
     {
-        return $this->hasMany('App\ProdusCantitateIstoric', 'furnizor_id');
+        return $this->hasMany('App\ProdusStoc', 'furnizor_id');
     }
 }

@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="shadow-lg" style="border-radius: 40px 40px 40px 40px;">
                 <div class="border border-secondary p-2" style="border-radius: 40px 40px 0px 0px; background-color:#e66800">                     
-                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-money-bill-wave mr-1"></i>Schimbă datele plății</h6>
+                    <h6 class="ml-4 my-0" style="color:white"><i class="fas fa-list-ul mr-1"></i>Modifică stocul</h6>
                 </div>
                 
                 @include ('errors')                
@@ -15,12 +15,12 @@
                     style="border-radius: 0px 0px 40px 40px;"
                     id="app1"
                 >
-                    <form  class="needs-validation" novalidate method="POST" action="{{ $plati->path() }}">
+                    <form  class="needs-validation" novalidate method="POST" action="{{ $produse_stocuri->path() }}">
                         @method('PATCH')
                             
                                 
-                                @include ('plati.form', [
-                                    'buttonText' => 'Modifică Plata'
+                                @include ('produse-stocuri.form', [
+                                    'buttonText' => 'Modifică stocul'
                                 ])
                                 
                     </form>
