@@ -4,16 +4,18 @@
     <div class="form-group col-lg-12 px-2 mb-0">
         <div class="form-group row px-2 py-2 mb-0">    
             <label for="produs_id" class="col-sm-4 col-form-label mb-0 pl-3">Produs:</label>                                   
-            <div class="col-lg-8">  
-                    <select name="produs_id" 
-                        class="custom-select {{ $errors->has('produs_id') ? 'is-invalid' : '' }}"             
-                        disabled
-                    > 
-                        <option                                 
-                        value= {{ $produse_stocuri->produs_id }}                                       
-                        > {{ $produse_stocuri->produs->nume }} </option>    
-                    </select>
-            </div> 
+            <label for="produs_id" class="col-sm-8 col-form-label mb-0 pl-3">{{ $produse_stocuri->produs->nume }}</label>      
+        </div>
+        <div class="form-group row px-2 py-2 mb-0">    
+            <label for="cod_de_bare" class="col-sm-4 col-form-label mb-0 pl-3">Cod de bare:</label>      
+            <div class="col-sm-8">
+                <input type="text" 
+                    class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
+                    name="cod_de_bare"
+                    placeholder=""        
+                    value="{{ old('cod_de_bare') == '' ? $produse_stocuri->produs->cod_de_bare : old('cod_de_bare') }}"
+                    >
+            </div>
         </div>
         <div class="form-group row px-2 py-2 mb-0">          
             <label for="furnizor_id" class="col-sm-4 col-form-label mb-0 pl-3">Furnizor:</label>                                   
@@ -57,7 +59,7 @@
             <div class="col-lg-8 d-flex justify-content-center">  
                 <button type="submit" class="btn btn-primary btn-sm mr-2 rounded-pill">{{ $buttonText }}</button> 
                 {{-- <a class="btn btn-secondary btn-sm mr-4 rounded-pill" href="{{ $clienti->path() }}">Renunță</a>  --}}
-                <a class="btn btn-secondary btn-sm mr-4 rounded-pill" href="/plati">Renunță</a> 
+                <a class="btn btn-secondary btn-sm mr-4 rounded-pill" href="/produse-stocuri">Renunță</a> 
             </div>
         </div>
     </div>

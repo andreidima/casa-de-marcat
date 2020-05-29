@@ -78,7 +78,7 @@ class ProdusStocController extends Controller
     public function update(Request $request, ProdusStoc $produse_stocuri)
     {
         $validatedData = $request->validate([
-            'produs_id' => ['nullable', 'exists:produse,id'],
+            // 'produs_id' => ['nullable', 'exists:produse,id'],
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
             'cantitate' => ['required', 'numeric', 'between:0,99999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
@@ -86,107 +86,118 @@ class ProdusStocController extends Controller
         [            
             'cod_de_bare.exists' => 'Codul de bare „' . $request->cod_de_bare . '” nu exista in baza de date',
         ]);
+
+        // Cautare produs
+        $produs = \App\Produs::where('cod_de_bare', $request->cod_de_bare)->first();
         
-        // Verificare daca a fost schimbat produsul
-        if ($produse_stocuri->id === $request->produs_id){ // produsul este acelasi
+        // Daca produsul a fost gasit, se face actualizarea tuturor tabelelor
+        if (isset($produs->id)) {
+        
+            // Verificare daca a fost schimbat produsul
+            if ($produse_stocuri->id === $produs->id){ // produsul este acelasi
 
-            // Cautare produs
-            $produs = App\Produs::where('id', $request->produs_id)->first();
+                    if (($produs->cantitate - $produse_stocuri->cantitate + $request->cantitate) < 0){
+                        return redirect('/produse-stocuri')->with('error', 'Această modificare va scade cantitatea produsului sub 0, ceea ce este incorect!');
+                    }
 
-            // Daca produsul a fost gasit, se face actualizarea tuturor tabelelor
-            if (isset($produs->id)) {
-                if (($produs->cantitate - $produse_stocuri->cantitate + $request->cantitate) < 0){
-                    return redirect('/produse-stocuri')->with('error', 'Această modificare va scade cantitatea produsului sub 0, ceea ce este incorect!');
-                }
+                    // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
+                    $produse_cantitati_istoric = \App\ProdusCantitateIstoric::make();
+                    $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
 
-                // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
-                $produse_cantitati_istoric = App\ProdusCantitateIstoric::make();
-                $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+                    // Actualizarea cantitatii produsului din tabela "Produs"
+                    $produs->cantitate = $produs->cantitate - $produse_stocuri->cantitate + $request->cantitate;
+                    $produs->update();
 
-                // Actualizarea cantitatii produsului din tabela "Produs"
-                $produs->cantitate = $produs->cantitate - $produse_stocuri->cantitate + $request->cantitate;
-                $produs->update();
-
-                // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
-                $produse_istoric = ProdusIstoric::make($produs->toArray());
-                unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
-                $produse_istoric->produs_id = $produs->id;
-                // $produse_istoric->furnizor_id = $furnizor_id;
-                $produse_istoric->user = auth()->user()->id;
-                $produse_istoric->operatiune = 'modificare stoc';
-                $produse_istoric->save();
+                    // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
+                    $produse_istoric = \App\ProdusIstoric::make($produs->toArray());
+                    unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+                    $produse_istoric->produs_id = $produs->id;
+                    // $produse_istoric->furnizor_id = $furnizor_id;
+                    $produse_istoric->user = auth()->user()->id;
+                    $produse_istoric->operatiune = 'modificare stoc';
+                    $produse_istoric->save();
+                    
+                    // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
+                    $produse_cantitati_istoric->produs_id = $produs->id;
+                    $produse_cantitati_istoric->cantitate = $produs->cantitate;
+                    $produse_cantitati_istoric->operatiune = 'modificare stoc';
+                    $produse_cantitati_istoric->save();
+                    
+                    // Actualizarea cantitatii produsului din tabela "ProdusStoc"
+                    $produse_stocuri->produs_id = $produs->id;
+                    $produse_stocuri->furnizor_id = $request->furnizor_id; 
+                    $produse_stocuri->cantitate = $request->cantitate;
+                    $produse_stocuri->update();
                 
-                // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
-                $produse_cantitati_istoric->produs_id = $produs->id;
-                $produse_cantitati_istoric->cantitate = $produs->cantitate;
-                $produse_cantitati_istoric->operatiune = 'modificare stoc';
-                $produse_cantitati_istoric->save();
+            } else { // produsul este altul
+
+                // Stergere produs vechi
+                    // Cautare produs
+                    $produs = \App\Produs::where('id', $produse_stocuri->produs_id)->first();
+
+                    // Verificare initiala pentru a nu scadea cantitatea sub 0
+                    if (($produs->cantitate - $produse_stocuri->cantitate) < 0){
+                        return redirect('/produse-stocuri')->with('error', 'Această modificare va scade cantitatea produsului sub 0, ceea ce este incorect!');
+                    }
+
+                    // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
+                    $produse_cantitati_istoric = \App\ProdusCantitateIstoric::make();
+                    $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+
+                    // Actualizarea cantitatii produsului din tabela "Produs"
+                    $produs->cantitate = $produs->cantitate - $produse_stocuri->cantitate;
+                    $produs->update();
+
+                    // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
+                    $produse_istoric = \App\ProdusIstoric::make($produs->toArray());
+                    unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+                    $produse_istoric->produs_id = $produs->id;
+                    $produse_istoric->user = auth()->user()->id;
+                    $produse_istoric->operatiune = 'stergere stoc';
+                    $produse_istoric->save();
                 
-                // Actualizarea cantitatii produsului din tabela "ProdusStoc"
-                $produse_stocuri->update($this->validateRequest($produse_stocuri));
+                    // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
+                    $produse_cantitati_istoric->produs_id = $produs->id;
+                    $produse_cantitati_istoric->cantitate = $produs->cantitate;
+                    $produse_cantitati_istoric->operatiune = 'stergere stoc';
+                    $produse_cantitati_istoric->save();
+
+                    // Stergerea cantitatii produsului din tabela "ProdusStoc"
+                    $produse_stocuri->delete();
+
+                // Adaugarea stocului la un alt produs
+                    // Cautare produs
+                    $produs = \App\Produs::where('cod_de_bare', $request->cod_de_bare)->first();
+
+                    // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
+                    $produse_cantitati_istoric = \App\ProdusCantitateIstoric::make();
+                    $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+
+                    // Actualizarea cantitatii produsului din tabela "Produs"
+                    $produs->cantitate = $produs->cantitate + $request->cantitate;
+                    $produs->update();
+
+                    // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
+                    $produse_istoric = \App\ProdusIstoric::make($produs->toArray());
+                    unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+                    $produse_istoric->produs_id = $produs->id;
+                    // $produse_istoric->furnizor_id = $furnizor_id;
+                    $produse_istoric->user = auth()->user()->id;
+                    $produse_istoric->operatiune = 'suplimentare stoc';
+                    $produse_istoric->save();
+                    
+                    // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
+                    $produse_cantitati_istoric->produs_id = $produs->id;
+                    $produse_cantitati_istoric->cantitate = $produs->cantitate;
+                    $produse_cantitati_istoric->operatiune = 'suplimentare stoc';
+                    $produse_cantitati_istoric->save();
+                    
+                    // Inserarea cantitatii produsului in tabela "ProdusStoc"
+                    $produse_stocuri->produs_id = $produs->id;
+                    $produse_stocuri->furnizor_id = $request->furnizor_id; 
+                    $produse_stocuri->cantitate = $request->cantitate;
+                    $produse_stocuri->save(); 
             }
-        } else { // produsul este altul
-
-            // Stergere produs vechi
-                // Cautare produs
-                $produs = App\Produs::where('id', $produse_stocuri->produs_id)->first();
-
-                // Verificare initiala pentru a nu scadea cantitatea sub 0
-                if (($produs->cantitate - $produse_stocuri->cantitate) < 0){
-                    return redirect('/produse-stocuri')->with('error', 'Această modificare va scade cantitatea produsului sub 0, ceea ce este incorect!');
-                }
-
-                // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
-                $produse_cantitati_istoric = App\ProdusCantitateIstoric::make();
-                $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
-
-                // Actualizarea cantitatii produsului din tabela "Produs"
-                $produs->cantitate = $produs->cantitate - $produse_stocuri->cantitate;
-                $produs->update();
-
-                // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
-                $produse_istoric = ProdusIstoric::make($produs->toArray());
-                unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
-                $produse_istoric->produs_id = $produs->id;
-                $produse_istoric->user = auth()->user()->id;
-                $produse_istoric->operatiune = 'stergere stoc';
-                $produse_istoric->save();
-            
-                // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
-                $produse_cantitati_istoric->produs_id = $produs->id;
-                $produse_cantitati_istoric->cantitate = $produs->cantitate;
-                $produse_cantitati_istoric->operatiune = 'stergere stoc';
-                $produse_cantitati_istoric->save();
-
-            // Adaugarea stocului la un alt produs
-                // Cautare produs
-                $produs = App\Produs::where('id', $request->produs_id)->first();
-
-                // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
-                $produse_cantitati_istoric = App\ProdusCantitateIstoric::make();
-                $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
-
-                // Actualizarea cantitatii produsului din tabela "Produs"
-                $produs->cantitate = $produs->cantitate + $request->cantitate;
-                $produs->update();
-
-                // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
-                $produse_istoric = ProdusIstoric::make($produs->toArray());
-                unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
-                $produse_istoric->produs_id = $produs->id;
-                // $produse_istoric->furnizor_id = $furnizor_id;
-                $produse_istoric->user = auth()->user()->id;
-                $produse_istoric->operatiune = 'suplimentare stoc';
-                $produse_istoric->save();
-                
-                // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
-                $produse_cantitati_istoric->produs_id = $produs->id;
-                $produse_cantitati_istoric->cantitate = $produs->cantitate;
-                $produse_cantitati_istoric->operatiune = 'suplimentare stoc';
-                $produse_cantitati_istoric->save();
-                
-                // Actualizarea cantitatii produsului din tabela "ProdusStoc"
-                $produse_stocuri->update($this->validateRequest($produse_stocuri)); 
         }
 
             // return redirect('suplimenteaza-stocuri/adauga/' . $furnizor_id)->with('success', 'Produsul „' . $produs->nume . '” a fost suplimentat cu ' . $validatedData['nr_de_bucati'] . ' bucați!');
