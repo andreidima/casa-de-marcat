@@ -29,7 +29,7 @@
                                     Produs
                                 </td>
                                 <td>
-                                    {{ $produse_stocuri->produs->nume }}
+                                    {{ $produse_stocuri->produs->nume ?? ''}}
                                 </td>
                             </tr>
                             <tr>
@@ -37,7 +37,15 @@
                                     Furnizor
                                 </td>
                                 <td>
-                                    {{ $produse_stocuri->furnizor->nume }}
+                                    {{ $produse_stocuri->furnizor->nume ?? ''}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Nr. factură
+                                </td>
+                                <td>
+                                    {{ $produse_stocuri->nr_factura }}
                                 </td>
                             </tr>
                             <tr>

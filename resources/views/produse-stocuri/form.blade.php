@@ -4,7 +4,7 @@
     <div class="form-group col-lg-12 px-2 mb-0">
         <div class="form-group row px-2 py-2 mb-0">    
             <label for="produs_id" class="col-sm-4 col-form-label mb-0 pl-3">Produs:</label>                                   
-            <label for="produs_id" class="col-sm-8 col-form-label mb-0 pl-3">{{ $produse_stocuri->produs->nume }}</label>      
+            <label for="produs_id" class="col-sm-8 col-form-label mb-0 pl-3">{{ $produse_stocuri->produs->nume ?? ''}}</label>      
         </div>
         <div class="form-group row px-2 py-2 mb-0">    
             <label for="cod_de_bare" class="col-sm-4 col-form-label mb-0 pl-3">Cod de bare:</label>      
@@ -18,16 +18,40 @@
             </div>
         </div>
         <div class="form-group row px-2 py-2 mb-0">          
-            <label for="furnizor_id" class="col-sm-4 col-form-label mb-0 pl-3">Furnizor:</label>                                   
+            <label for="furnizor_id" class="col-sm-4 col-form-label mb-0 pl-3">Furnizor:{{ $produse_stocuri->furnizor_id }} {{  old('furnizor_id') }}</label>                                   
+            <div class="col-lg-8">                                     
+                <select name="furnizor_id" 
+                    class="custom-select {{ $errors->has('furnizor_id') ? 'is-invalid' : '' }}" 
+                >
+                        <option value='' selected>Selectează</option>
+                    @foreach ($furnizori as $furnizor)                           
+                        <option 
+                            value='{{ $furnizor->id }}'
+                                @if(old('furnizor_id') !== null)
+                                    @if ($furnizor->id == old('furnizor_id'))
+                                        selected
+                                    @endif
+                                @else
+                                    @isset ($furnizor->id)                                       
+                                        @if ($furnizor->id == $produse_stocuri->furnizor_id)
+                                            selected
+                                        @endif
+                                    @endisset
+                                @endif
+                        >{{ $furnizor->nume }} </option>                                                
+                    @endforeach
+                </select>
+            </div> 
+        </div>
+        <div class="form-group row px-2 py-2 mb-0">          
+            <label for="nr_factura" class="col-sm-4 col-form-label mb-0 pl-3">Nr. factură:</label>                                   
             <div class="col-lg-8">  
-                    <select name="furnizor_id" 
-                        class="custom-select {{ $errors->has('furnizor_id') ? 'is-invalid' : '' }}"   
-                        disabled          
-                    > 
-                        <option                                 
-                        value= {{ $produse_stocuri->furnizor_id }}                                       
-                        > {{ $produse_stocuri->furnizor->nume }} </option>    
-                    </select>
+                <input type="text" 
+                    class="form-control {{ $errors->has('nr_factura') ? 'is-invalid' : '' }}" 
+                    name="nr_factura"
+                    placeholder="Nr. factură"                                        
+                    value="{{ old('nr_factura') == '' ? $produse_stocuri->nr_factura : old('nr_factura') }}"                                        
+                    >
             </div> 
         </div>
         <div class="form-group row px-2 py-2 mb-0">          

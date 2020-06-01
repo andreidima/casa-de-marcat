@@ -73,11 +73,9 @@
                         @forelse ($produse_intrate->groupby('produs_id') as $produse_grupate_dupa_id)         
                             <tr>                  
                                 <td align="">
-                                    {{-- {{ ($produse_intrate ->currentpage()-1) * $produse_intrate ->perpage() + $loop->index + 1 }} --}}
                                     {{ $loop->iteration }}
                                 </td>
                                 <td>
-                                    {{-- <b>{{ $produs->nume ?? '' }}</b> --}}
                                     <b>{{ ($produse_grupate_dupa_id->first()->nume) }}</b>
                                 </td>
                                 <td>
@@ -134,35 +132,11 @@
                                 <td class="text-right">
                                     {{ round($produse_intrate->sum('total_suma_vanzare'), 2) }}                                    
                                 </td>
-                                {{-- <td class="text-right">
-                                    {{ $produse_grupate_dupa_id->first()->pret_de_achizitie ? 
-                                        (
-                                            round(($produse_grupate_dupa_id->first()->pret_de_achizitie * 0.19), 2) 
-                                            * 
-                                            ($produse_grupate_dupa_id->sum('cantitate') - $produse_grupate_dupa_id->sum('cantitate_initiala'))
-                                        ) : '' }}
-                                </td>
-                                <td class="text-right">
-                                    {{ $produse_grupate_dupa_id->first()->pret }}
-                                </td>
-                                <td class="text-right">
-                                    {{ $produse_grupate_dupa_id->first()->pret ? 
-                                        (
-                                            $produse_grupate_dupa_id->first()->pret 
-                                            * 
-                                            ($produse_grupate_dupa_id->sum('cantitate') - $produse_grupate_dupa_id->sum('cantitate_initiala'))
-                                        ) : '' }}
-                                </td>  --}}
                             </tr>
                         </tbody>
                 </table>
             </div>
 
-                {{-- <nav>
-                    <ul class="pagination pagination-sm justify-content-center">
-                        {{$produse_intrate->appends(Request::except('page'))->links()}}
-                    </ul>
-                </nav> --}}
 
         </div>
     </div>

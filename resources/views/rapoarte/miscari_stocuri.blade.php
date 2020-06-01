@@ -55,7 +55,7 @@
                             Produs nou
                         </span>
                         <span class="badge badge-success mx-1" style="font-size: 1em">
-                            Suplimentare stoc
+                            Suplimentare/ Modificare/ Ștergere stoc
                         </span>
                         <span class="badge badge-danger mx-1" style="font-size: 1em">
                             Vânzare
@@ -121,6 +121,14 @@
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
                                             </span>
                                         @elseif($cantitate->operatiune == "suplimentare stoc")
+                                            <span class="badge badge-success" style="font-size: 1em">
+                                                + {{ $cantitate->cantitate - $cantitate_veche }}
+                                            </span>
+                                        @elseif($cantitate->operatiune == "modificare stoc")
+                                            <span class="badge badge-success" style="font-size: 1em">
+                                                + {{ $cantitate->cantitate - $cantitate_veche }}
+                                            </span>
+                                        @elseif($cantitate->operatiune == "stergere stoc")
                                             <span class="badge badge-success" style="font-size: 1em">
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
                                             </span>

@@ -65,7 +65,9 @@ class ProdusStocController extends Controller
      */
     public function edit(ProdusStoc $produse_stocuri)
     {
-        return view('produse-stocuri.edit', compact('produse_stocuri'));
+        $furnizori = \App\Furnizor::select('id', 'nume')->get();
+
+        return view('produse-stocuri.edit', compact('produse_stocuri', 'furnizori'));
     }
 
     /**
@@ -80,6 +82,7 @@ class ProdusStocController extends Controller
         $validatedData = $request->validate([
             // 'produs_id' => ['nullable', 'exists:produse,id'],
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
+            'nr_factura' => ['nullable', 'max:190'],
             'cantitate' => ['required', 'numeric', 'between:0,99999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
             ],
@@ -92,12 +95,13 @@ class ProdusStocController extends Controller
         
         // Daca produsul a fost gasit, se face actualizarea tuturor tabelelor
         if (isset($produs->id)) {
+            // dd($produse_stocuri->produs->id, $produs->id);
         
             // Verificare daca a fost schimbat produsul
-            if ($produse_stocuri->id === $produs->id){ // produsul este acelasi
+            if ($produse_stocuri->produs->id === $produs->id){ // produsul este acelasi
 
                     if (($produs->cantitate - $produse_stocuri->cantitate + $request->cantitate) < 0){
-                        return redirect('/produse-stocuri')->with('error', 'Această modificare va scade cantitatea produsului sub 0, ceea ce este incorect!');
+                        return back()->with('error', 'Această modificare va scade cantitatea totala a produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
                     }
 
                     // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
@@ -125,7 +129,8 @@ class ProdusStocController extends Controller
                     
                     // Actualizarea cantitatii produsului din tabela "ProdusStoc"
                     $produse_stocuri->produs_id = $produs->id;
-                    $produse_stocuri->furnizor_id = $request->furnizor_id; 
+                    $produse_stocuri->furnizor_id = $request->furnizor_id;
+                    $produse_stocuri->nr_factura = $request->nr_factura;
                     $produse_stocuri->cantitate = $request->cantitate;
                     $produse_stocuri->update();
                 
@@ -137,7 +142,7 @@ class ProdusStocController extends Controller
 
                     // Verificare initiala pentru a nu scadea cantitatea sub 0
                     if (($produs->cantitate - $produse_stocuri->cantitate) < 0){
-                        return redirect('/produse-stocuri')->with('error', 'Această modificare va scade cantitatea produsului sub 0, ceea ce este incorect!');
+                        return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
                     }
 
                     // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
@@ -194,7 +199,8 @@ class ProdusStocController extends Controller
                     
                     // Inserarea cantitatii produsului in tabela "ProdusStoc"
                     $produse_stocuri->produs_id = $produs->id;
-                    $produse_stocuri->furnizor_id = $request->furnizor_id; 
+                    $produse_stocuri->furnizor_id = $request->furnizor_id;
+                    $produse_stocuri->nr_factura = $request->nr_factura;
                     $produse_stocuri->cantitate = $request->cantitate;
                     $produse_stocuri->save(); 
             }
@@ -214,8 +220,40 @@ class ProdusStocController extends Controller
      */
     public function destroy(ProdusStoc $produse_stocuri)
     {
+        // Cautare produs
+        $produs = \App\Produs::where('id', $produse_stocuri->produs_id)->first();
+
+        // Verificare initiala pentru a nu scadea cantitatea sub 0
+        if (($produs->cantitate - $produse_stocuri->cantitate) < 0) {
+            return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+        }
+
+        // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
+        $produse_cantitati_istoric = \App\ProdusCantitateIstoric::make();
+        $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
+
+        // Actualizarea cantitatii produsului din tabela "Produs"
+        $produs->cantitate = $produs->cantitate - $produse_stocuri->cantitate;
+        $produs->update();
+
+        // Actualizarea cantitatii produsului din tabela "ProdusIstoric"
+        $produse_istoric = \App\ProdusIstoric::make($produs->toArray());
+        unset($produse_istoric['id'], $produse_istoric['created_at'], $produse_istoric['updated_at']);
+        $produse_istoric->produs_id = $produs->id;
+        $produse_istoric->user = auth()->user()->id;
+        $produse_istoric->operatiune = 'stergere stoc';
+        $produse_istoric->save();
+
+        // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
+        $produse_cantitati_istoric->produs_id = $produs->id;
+        $produse_cantitati_istoric->cantitate = $produs->cantitate;
+        $produse_cantitati_istoric->operatiune = 'stergere stoc';
+        $produse_cantitati_istoric->save();
+
+        // Stergerea cantitatii produsului din tabela "ProdusStoc"
         $produse_stocuri->delete();
-        return redirect('/produse-stocuri')->with('status', 'Înregistrarea a fost ștearsă cu succes!');
+
+        return redirect('/produse-stocuri')->with('status', 'Stocul a fost șters cu succes!');
     }
 
     /**
@@ -228,6 +266,7 @@ class ProdusStocController extends Controller
         return request()->validate([
             'produs_id' => ['nullable', 'exists:produse,id'],
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
+            'nr_factura' => ['nullable', 'max:190'],
             'cantitate' => ['required', 'numeric', 'between:0,99999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
         ]

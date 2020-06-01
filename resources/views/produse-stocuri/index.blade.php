@@ -37,11 +37,7 @@
 
         <div class="card-body px-0 py-3">
 
-            @if (session()->has('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-            @endif
+            @include('errors')
 
             <div class="table-responsive rounded">
                 <table class="table table-striped table-hover table-sm rounded"> 
@@ -49,10 +45,11 @@
                         <tr class="" style="padding:2rem">
                             <th>Nr.</th>
                             <th>Produs</th>
-                            <th class="text-center">Furnizor</th>
+                            <th class="text-left">Furnizor</th>                            
+                            <th class="text-left">Nr. factură</th>
                             <th class="text-center">Cantitate</th>
                             <th class="text-center">Data</th>
-                            <th class="text-right">Acțiuni</th>
+                            <th class="text-center">Acțiuni</th>
                         </tr>
                     </thead>
                     <tbody>               
@@ -67,6 +64,9 @@
                                 <td class="">
                                     {{ $stoc->furnizor->nume ?? '' }}
                                 </td>
+                                <td class="">
+                                    {{ $stoc->nr_factura }}
+                                </td>
                                 <td class="text-center">
                                     {{ $stoc->cantitate }}
                                 </td>
@@ -75,45 +75,45 @@
                                 </td>
                                 <td class="d-flex justify-content-end"> 
                                     <a href="{{ $stoc->path() }}">
-                                        <span class="badge badge-secondary mr-1">Vizualizează</span>                   
+                                        <span class="badge badge-success mr-1">Vizualizează</span>                   
                                     </a>  
                                     <a href="{{ $stoc->path() }}/modifica"
                                         class="flex"    
                                     >
                                         <span class="badge badge-primary mr-1">Modifică</span>
                                     </a>                                   
-                                    {{-- <div style="flex" class="">
+                                    <div style="flex" class="">
                                         <a 
                                             href="#" 
                                             data-toggle="modal" 
-                                            data-target="#stergePlata{{ $plata->id }}"
-                                            title="Șterge Plata"
+                                            data-target="#stergeStoc{{ $stoc->id }}"
+                                            title="Șterge Stoc"
                                             >
                                             <span class="badge badge-danger">Șterge</span>
                                         </a>
-                                            <div class="modal fade text-dark" id="stergePlata{{ $plata->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade text-dark" id="stergeStoc{{ $stoc->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                     <div class="modal-header bg-danger">
-                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Plata: <b>{{ $plata->nume }}</b></h5>
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Stoc: <b>{{ $stoc->produs->nume }}</b></h5>
                                                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        Ești sigur ca vrei să ștergi Plata?
+                                                        Ești sigur ca vrei să ștergi Stocul?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
                                                         
-                                                        <form method="POST" action="{{ $plata->path() }}">
+                                                        <form method="POST" action="{{ $stoc->path() }}">
                                                             @method('DELETE')  
                                                             @csrf   
                                                             <button 
                                                                 type="submit" 
                                                                 class="btn btn-danger"  
                                                                 >
-                                                                Șterge Plata
+                                                                Șterge Stoc
                                                             </button>                    
                                                         </form>
                                                     
@@ -121,7 +121,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div>  --}}
+                                    </div> 
                                 </td>
                             </tr>  
                         @empty

@@ -58,6 +58,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                        <label for="nr_factura" class="col-sm-6 col-form-label">Număr factură:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"
+                                            class="form-control {{ $errors->has('nr_factura') ? 'is-invalid' : '' }}" 
+                                            id="nr_factura" 
+                                            name="nr_factura"
+                                            placeholder="Nr. factură"                                        
+                                            value="{{ old('nr_factura') == '' ? '' : old('nr_factura') }}"
+                                            autofocus
+                                            autocomplete="off"
+                                            >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                         <label for="nr_de_bucati" class="col-sm-6 col-form-label">Număr de bucăți:</label>
                                     <div class="col-sm-6">
                                         <input type="number" min="1" max="99"
