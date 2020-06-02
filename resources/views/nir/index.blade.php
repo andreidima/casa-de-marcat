@@ -55,6 +55,7 @@
             @include ('errors')
 
             @forelse ($produse_stocuri->groupBy('furnizor_id') as $produse_per_furnizor)
+            @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
 
                 @php
                     $total_suma_achizitie = 0;
@@ -62,16 +63,14 @@
                     $total_suma_vanzare = 0;
                 @endphp
             
-                <div class="table-responsive rounded mb-4">
+                <div class="table-responsive rounded mb-5">
                     <table class="table table-striped table-hover table-sm rounded"> 
                         <thead class="text-white rounded" style="background-color:#e66800;">
                             <tr>
                                 <th colspan="9" class="py-0 border-0 text-center bg-secondary">
-                                    @isset ($produse_per_furnizor->first()->furnizor->nume)
-                                        {{ $produse_per_furnizor->first()->furnizor->nume ?? '' }}
-                                    @else 
-                                        Furnizor lipsă
-                                    @endif
+                                    Furnizor: {{ $produse_per_factura->first()->furnizor->nume ?? 'nu este specificat' }}
+                                    |
+                                    Factură: {{ $produse_per_factura->first()->nr_factura ?? 'nu este specificată'}}
                                 </th>
                             </tr>
                             <tr class="" style="padding:2rem">
@@ -87,15 +86,12 @@
                             </tr>
                         </thead>
                         <tbody>      
-                            @forelse ($produse_per_furnizor as $produs_stoc)         
+                            @forelse ($produse_per_factura as $produs_stoc)
                                 <tr>                  
                                     <td align="">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td>
-                                    {{-- @php
-                                        dd($produse_stoc);
-                                    @endphp --}}
                                         <b>{{ $produs_stoc->produs->nume ?? '' }}</b>
                                     </td>
                                     <td>
@@ -156,6 +152,9 @@
                             </tbody>
                     </table>
                 </div>
+            @empty
+                <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
+            @endforelse
             @empty
                 <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
             @endforelse
