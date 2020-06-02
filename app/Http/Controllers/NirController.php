@@ -17,7 +17,7 @@ class NirController extends Controller
     public function index()
     {        
         $search_data = \Request::get('search_data'); //<-- we use global request to get the param of URI
-        $search_nume = \Request::get('search_nume');      
+        // $search_nume = \Request::get('search_nume');      
         
         $search_data = $search_data ?? \Carbon\Carbon::today();
 
@@ -60,42 +60,44 @@ class NirController extends Controller
         //     ->orderBy('nume')
         //     ->get();
 
-        $produse_intrate = DB::table('produse_stocuri')
-            ->leftJoin('produse', 'produse_stocuri.produs_id', '=', 'produse.id')
-            ->select(DB::raw('
-                            produse_cantitati_istoric.id as produse_cantitati_istoric_id,
-                            ifnull(produse_cantitati_istoric.cantitate_initiala, 0) as cantitate_initiala,
-                            produse_cantitati_istoric.cantitate as cantitate,
-                            produse_cantitati_istoric.operatiune,
-                            produse_cantitati_istoric.created_at,
-                            produse.id as produs_id,
-                            produse.nume,
-                            produse.pret_de_achizitie,
-                            produse.pret,
-                            round(
-                                    (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-                                    (produse.pret_de_achizitie / 1.19) 
-                                , 2) as total_suma_achizitie,
-                            round(
-                                    (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-                                    (produse.pret_de_achizitie * 0.19)
-                                , 2) as total_suma_tva,
-                            round(
-                                    (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-                                    produse.pret
-                                , 2) as total_suma_vanzare
-                    '))
-            ->whereDate('produse_stocuri.created_at', $search_data)
-            ->when($search_nume, function ($query, $search_nume) {
-                return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
-            })
-            ->orderBy('nume')
+        $produse_stocuri = \App\ProdusStoc::
+            // DB::table('produse_stocuri')
+            // ->leftJoin('produse', 'produse_stocuri.produs_id', '=', 'produse.id')
+            // ->select(DB::raw('
+            //                 produse_cantitati_istoric.id as produse_cantitati_istoric_id,
+            //                 ifnull(produse_cantitati_istoric.cantitate_initiala, 0) as cantitate_initiala,
+            //                 produse_cantitati_istoric.cantitate as cantitate,
+            //                 produse_cantitati_istoric.operatiune,
+            //                 produse_cantitati_istoric.created_at,
+            //                 produse.id as produs_id,
+            //                 produse.nume,
+            //                 produse.pret_de_achizitie,
+            //                 produse.pret,
+            //                 round(
+            //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+            //                         (produse.pret_de_achizitie / 1.19) 
+            //                     , 2) as total_suma_achizitie,
+            //                 round(
+            //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+            //                         (produse.pret_de_achizitie * 0.19)
+            //                     , 2) as total_suma_tva,
+            //                 round(
+            //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+            //                         produse.pret
+            //                     , 2) as total_suma_vanzare
+            //         '))
+            whereDate('created_at', $search_data)
+            // ->when($search_nume, function ($query, $search_nume) {
+            //     return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_nume) . '%');
+            // })
+            // ->orderBy('furnizor_id')
+            // ->whereNotNull('furnizor_id')
             ->get();
 
         // dd($search_data);
-        // dd($produse_intrate);
+        // dd($produse_stocuri);
 
-        return view('nir.index', compact('produse_intrate', 'search_data', 'search_nume'));
+        return view('nir.index', compact('produse_stocuri', 'search_data'));
     }
 
     public function pdfExport(Request $request, $search_data)
