@@ -113,14 +113,14 @@
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->produs->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->produs->pret_de_achizitie / 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round(($produs_stoc->produs->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($produs_stoc->produs->pret_de_achizitie / 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round(($produs_stoc->produs->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td class="text-right">
-                                        {{ $produs_stoc->produs->pret_de_achizitie ?? '' }}
+                                        {{ $produs_stoc->produs->pret ?? '' }}
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->produs->pret)
