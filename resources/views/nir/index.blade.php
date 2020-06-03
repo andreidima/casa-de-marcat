@@ -54,7 +54,8 @@
 
             @include ('errors')
 
-            @forelse ($produse_stocuri->groupBy('furnizor_id') as $produse_per_furnizor)
+            {{-- Telefoane noi --}}
+            @forelse ($produse_stocuri_telefoane_noi->groupBy('furnizor_id') as $produse_per_furnizor)
             @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
 
                 @php
@@ -132,7 +133,6 @@
                                     </td>                             
                                 </tr>  
                             @empty
-                                <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
                             @endforelse
                                 <tr>
                                     <td colspan="5" class="text-right">
@@ -153,10 +153,111 @@
                     </table>
                 </div>
             @empty
-                <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
             @endforelse
             @empty
-                <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
+            @endforelse
+
+            {{-- Accesorii --}}
+            @forelse ($produse_stocuri_accesorii->groupBy('furnizor_id') as $produse_per_furnizor)
+            @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
+
+                @php
+                    $total_suma_achizitie = 0;
+                    $total_suma_tva = 0;
+                    $total_suma_vanzare = 0;
+                @endphp
+            
+                <div class="table-responsive rounded mb-5">
+                    <table class="table table-striped table-hover table-sm rounded"> 
+                        <thead class="text-white rounded" style="background-color:#e66800;">
+                            <tr>
+                                <th colspan="9" class="py-0 border-0 text-center bg-secondary">
+                                    Furnizor: {{ $produse_per_factura->first()->furnizor->nume ?? 'nu este specificat' }}
+                                    |
+                                    Factură: {{ $produse_per_factura->first()->nr_factura ?? 'nu este specificată'}}
+                                </th>
+                            </tr>
+                            <tr class="" style="padding:2rem">
+                                <th>Nr. Crt.</th>
+                                <th class="">Produs</th>
+                                <th class="text-center">U/M</th>
+                                <th class="text-center">Cantitatea</th>
+                                <th class="text-center">Pret achizitie</th>
+                                <th class="text-center">Valoare</th>
+                                <th class="text-center">TVA</th>
+                                {{-- <th class="text-center">Pret Vanzare</th>
+                                <th class="text-center">Total</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>      
+                            @forelse ($produse_per_factura as $produs_stoc)
+                                <tr>                  
+                                    <td align="">
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td>
+                                        <b>{{ $produs_stoc->produs->nume ?? '' }}</b>
+                                    </td>
+                                    <td>
+                                        buc
+                                    </td>
+                                    <td class="text-right">
+                                        {{ $produs_stoc->cantitate }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                    </td>
+                                    <td class="text-right">
+                                        @isset($produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_achizitie += round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
+                                            @endphp
+                                        @endisset
+                                    </td>
+                                    <td class="text-right">
+                                        @isset($produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_tva += round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                            @endphp
+                                        @endisset
+                                    </td>
+                                    {{-- <td class="text-right">
+                                        {{ $produs_stoc->produs->pret ?? '' }}
+                                    </td>
+                                    <td class="text-right">
+                                        @isset($produs_stoc->produs->pret)
+                                            {{ $produs_stoc->produs->pret * $produs_stoc->cantitate }} 
+                                            @php 
+                                                $total_suma_vanzare += $produs_stoc->produs->pret * $produs_stoc->cantitate
+                                            @endphp
+                                        @endisset
+                                    </td>                              --}}
+                                </tr>  
+                            @empty
+                            @endforelse
+                                <tr>
+                                    <td colspan="5" class="text-right">
+                                        Total
+                                    </td>
+                                    <td class="text-right">
+                                        {{ $total_suma_achizitie }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ $total_suma_tva }}
+                                    </td>
+                                    {{-- <td></td>
+                                    <td class="text-right">
+                                        {{ $total_suma_vanzare }}
+                                    </td> --}}
+                                </tr>
+                            </tbody>
+                    </table>
+                </div>
+            @empty
+            @endforelse
+            @empty
             @endforelse
         </div>
     </div>

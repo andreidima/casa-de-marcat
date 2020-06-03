@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 use DB;
 
@@ -60,11 +61,25 @@ class NirController extends Controller
         //     ->orderBy('nume')
         //     ->get();
 
-        $produse_stocuri = \App\ProdusStoc::
-            whereDate('created_at', $search_data)
+        $produse_stocuri_telefoane_noi = \App\ProdusStoc::
+            whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query){
+                    $query->where('categorie_produs_id', 1);
+                });
+            })
+            ->whereDate('created_at', $search_data)
             ->get();
 
-        return view('nir.index', compact('produse_stocuri', 'search_data'));
+        $produse_stocuri_accesorii = \App\ProdusStoc::
+            whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query){
+                    $query->where('categorie_produs_id', 3);
+                });
+            })
+            ->whereDate('created_at', $search_data)
+            ->get();
+
+        return view('nir.index', compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data'));
     }
 
     public function pdfExport(Request $request, $search_data)
@@ -107,19 +122,34 @@ class NirController extends Controller
         //     ->orderBy('nume')
         //     ->get();
 
-        $produse_stocuri = \App\ProdusStoc::
-            whereDate('created_at', $search_data)
+        
+        $produse_stocuri_telefoane_noi = \App\ProdusStoc::
+            whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query){
+                    $query->where('categorie_produs_id', 1);
+                });
+            })
+            ->whereDate('created_at', $search_data)
+            ->get();
+
+        $produse_stocuri_accesorii = \App\ProdusStoc::
+            whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query){
+                    $query->where('categorie_produs_id', 3);
+                });
+            })
+            ->whereDate('created_at', $search_data)
             ->get();
 
         if ($request->view_type === 'raport-html') {
             return view(
                 'nir.export.nir-pdf',
-                compact('produse_stocuri', 'search_data')
+                compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data')
             );
         } elseif ($request->view_type === 'raport-pdf') {
             $pdf = \PDF::loadView(
                 'nir.export.nir-pdf',
-                compact('produse_stocuri', 'search_data')
+                compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data')
             )
                 ->setPaper('a4', 'landscape');
             return $pdf->stream('Nir ' .
