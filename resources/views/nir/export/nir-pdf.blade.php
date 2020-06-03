@@ -263,7 +263,7 @@
 
 
     {{-- Page break dupa ultimul nir de la telefoane --}}
-    @if(!is_null($produse_stocuri_telefoane_noi))
+    @if($produse_stocuri_telefoane_noi->isNotEmpty())
         <p style="page-break-after: always;"></p>
     @endif
 
