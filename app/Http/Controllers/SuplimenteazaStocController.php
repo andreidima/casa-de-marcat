@@ -31,6 +31,7 @@ class SuplimenteazaStocController extends Controller
         $validatedData = $request->validate([
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
             'nr_factura' => ['nullable', 'max:190'],
+            'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'nr_de_bucati' => ['required', 'numeric', 'between:0,99999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
             ],
@@ -70,6 +71,7 @@ class SuplimenteazaStocController extends Controller
             $produs_stoc->produs_id = $produs->id;
             $produs_stoc->furnizor_id = $validatedData['furnizor_id'];
             $produs_stoc->nr_factura = $validatedData['nr_factura'];
+            $produs_stoc->pret_de_achizitie = $validatedData['pret_de_achizitie'];
             $produs_stoc->cantitate = $validatedData['nr_de_bucati'];
             $produs_stoc->save();
 

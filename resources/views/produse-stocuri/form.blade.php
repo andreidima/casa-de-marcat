@@ -54,6 +54,17 @@
                     >
             </div> 
         </div>
+        <div class="form-group row px-2 py-2 mb-0">
+                <label for="pret_de_achizitie" class="col-sm-4 col-form-label mb-0 pl-3">Preț de achiziție:</label>
+            <div class="col-lg-8">
+                <input type="number" min="1" step="any" 
+                    class="form-control {{ $errors->has('pret_de_achizitie') ? 'is-invalid' : '' }}" 
+                    name="pret_de_achizitie"
+                    placeholder="Preț de achiziție"                                        
+                    value="{{ old('pret_de_achizitie') == '' ? $produse_stocuri->pret_de_achizitie : old('pret_de_achizitie') }}"
+                    >
+            </div>
+        </div>
         <div class="form-group row px-2 py-2 mb-0">          
             <label for="cantitate" class="col-sm-4 col-form-label mb-0 pl-3">Cantitate:</label>                                   
             <div class="col-lg-8">  

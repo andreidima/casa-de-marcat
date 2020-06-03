@@ -50,6 +50,14 @@
                             </tr>
                             <tr>
                                 <td>
+                                    Preț de achiziție
+                                </td>
+                                <td>
+                                    {{ $produse_stocuri->pret_de_achizitie }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     Cantitate
                                 </td>
                                 <td>

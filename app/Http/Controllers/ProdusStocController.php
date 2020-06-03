@@ -83,6 +83,7 @@ class ProdusStocController extends Controller
             // 'produs_id' => ['nullable', 'exists:produse,id'],
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
             'nr_factura' => ['nullable', 'max:190'],
+            'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'cantitate' => ['required', 'numeric', 'between:0,99999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
             ],
@@ -131,6 +132,7 @@ class ProdusStocController extends Controller
                     $produse_stocuri->produs_id = $produs->id;
                     $produse_stocuri->furnizor_id = $request->furnizor_id;
                     $produse_stocuri->nr_factura = $request->nr_factura;
+                    $produse_stocuri->pret_de_achizitie = $request->pret_de_achizitie;
                     $produse_stocuri->cantitate = $request->cantitate;
                     $produse_stocuri->update();
                 
@@ -201,6 +203,7 @@ class ProdusStocController extends Controller
                     $produse_stocuri->produs_id = $produs->id;
                     $produse_stocuri->furnizor_id = $request->furnizor_id;
                     $produse_stocuri->nr_factura = $request->nr_factura;
+                    $produse_stocuri->pret_de_achizitie = $request->pret_de_achizitie;
                     $produse_stocuri->cantitate = $request->cantitate;
                     $produse_stocuri->save(); 
             }

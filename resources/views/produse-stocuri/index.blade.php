@@ -46,7 +46,8 @@
                             <th>Nr.</th>
                             <th>Produs</th>
                             <th class="text-left">Furnizor</th>                            
-                            <th class="text-left">Nr. factură</th>
+                            <th class="text-left">Nr. factură</th>                            
+                            <th class="text-left">Preț de achiziție</th>
                             <th class="text-center">Cantitate</th>
                             <th class="text-center">Data</th>
                             <th class="text-center">Acțiuni</th>
@@ -66,6 +67,9 @@
                                 </td>
                                 <td class="">
                                     {{ $stoc->nr_factura }}
+                                </td>
+                                <td class="text-right">
+                                    {{ $stoc->pret_de_achizitie }}
                                 </td>
                                 <td class="text-center">
                                     {{ $stoc->cantitate }}

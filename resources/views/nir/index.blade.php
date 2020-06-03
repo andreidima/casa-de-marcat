@@ -101,21 +101,21 @@
                                         {{ $produs_stoc->cantitate }}
                                     </td>
                                     <td class="text-right">
-                                        {{ $produs_stoc->produs->pret_de_achizitie ? number_format(round(($produs_stoc->produs->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
                                     </td>
                                     <td class="text-right">
-                                        @isset($produs_stoc->produs->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->produs->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                        @isset($produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_achizitie += round(($produs_stoc->produs->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_achizitie += round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td class="text-right">
-                                        @isset($produs_stoc->produs->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->produs->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                        @isset($produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($produs_stoc->produs->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
