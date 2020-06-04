@@ -6,18 +6,18 @@
             <div class="col-lg-3 align-self-center">
                 <h4 class=" mb-0">
                     {{-- <a href="{{ route('nir.index') }}">Nir</a> --}}
-                    Nir - {{ \Carbon\Carbon::parse($search_data)->isoFormat('DD.MM.YYYY') }}
+                    Produse fără nir generat
                 </h4>
             </div> 
             <div class="col-lg-7" id="produse">
-                <form class="needs-validation" novalidate method="GET" action="{{ route('nir.index') }}">
+                {{-- <form class="needs-validation" novalidate method="GET" action="{{ route('nir.index') }}">
                     @csrf                    
                     <div class="row input-group custom-search-form justify-content-center align-self-end">
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <input type="text" class="form-control form-control-sm border rounded-pill mb-1 py-0" 
                             id="search_nume" name="search_nume" placeholder="Nume" autofocus
                                     value="{{ $search_nume }}">
-                        </div> --}}
+                        </div>
                         <div class="col-md-4 d-flex mb-0 align-self-center">
                             <label for="search_data" class="mb-0 align-self-center mr-1">Data:</label>
                             <vue2-datepicker
@@ -38,15 +38,21 @@
                             </a>
                         </div>
                     </div>
-                </form>
+                </form> --}}
             </div>
-            <div class="col-lg-2 align-self-center text-right">
-                <a href="nir/{{ $search_data }}/raport-pdf"
+            <div class="col-lg-2 align-middle">
+                {{-- <a href="nir/{{ $search_data }}/raport-pdf"
                     class="btn btn-sm btn-success mx-1 border border-dark rounded-pill"
                     target="_blank"
                 >
                     <i class="fas fa-file-pdf mr-1"></i>Export PDF
-                </a>
+                </a> --}}         
+
+                @if(count($produse_stocuri_telefoane_noi) || count($produse_stocuri_accesorii))
+                    <a href="/niruri/genereaza-nir">
+                        <h4 class="mb-0"><span class="badge badge-primary">Generează Nirurile</span></h4>
+                    </a>
+                @endif
             </div>
         </div>
 
@@ -55,7 +61,10 @@
             @include ('errors')
 
             {{-- Telefoane noi --}}
-            @forelse ($produse_stocuri_telefoane_noi->groupBy('furnizor_id') as $produse_per_furnizor)
+            @forelse ($produse_stocuri_telefoane_noi->groupBy(function ($data) {
+                    return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
+                }) as $produse_per_data)
+            @forelse ($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor)
             @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
 
                 @php
@@ -156,9 +165,14 @@
             @endforelse
             @empty
             @endforelse
+            @empty
+            @endforelse
 
             {{-- Accesorii --}}
-            @forelse ($produse_stocuri_accesorii->groupBy('furnizor_id') as $produse_per_furnizor)
+            @forelse ($produse_stocuri_accesorii->groupBy(function ($data) {
+                    return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
+                }) as $produse_per_data)
+            @forelse ($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor)
             @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
 
                 @php
@@ -193,7 +207,7 @@
                             @forelse ($produse_per_factura as $produs_stoc)
                                 <tr>                  
                                     <td align="">
-                                        {{ $loop->iteration }}
+                                        {{ $loop->iteration }}{{ $produs_stoc->id }}
                                     </td>
                                     <td>
                                         <b>{{ $produs_stoc->produs->nume ?? '' }}</b>
@@ -258,7 +272,16 @@
             @empty
             @endforelse
             @empty
-            @endforelse
+            @endforelse  
+            @empty
+            @endforelse          
+
+            @if(!count($produse_stocuri_telefoane_noi) && !count($produse_stocuri_accesorii))
+                <div class="p-4">
+                    <h5>Lista este goala. Toate produsele sunt atasate la niruri.</h5>
+                </div>
+            @endif
+
         </div>
     </div>
 @endsection

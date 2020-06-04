@@ -2,25 +2,107 @@
 
 namespace App\Http\Controllers;
 
+use App\Nir;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-use DB;
-
 class NirController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $search_nir = \Request::get('search_nir'); //<-- we use global request to get the param of URI
 
+        $niruri = Nir::latest()->orderBy('nir', 'desc')->simplePaginate(25);
+
+        return view('niruri.index', compact('niruri', 'search_nir'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Nir  $nir
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Nir $nir)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Nir  $nir
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Nir $nir)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Nir  $nir
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Nir $nir)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Nir  $nir
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Nir $nir)
+    {
+        //
+    }    
+
+    public function produse()
+    {
+        dd('aici');   
+    }
     /**
      * Pagina principala Nir.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function produseStocuriFaraNir()
     {        
-        $search_data = \Request::get('search_data'); //<-- we use global request to get the param of URI
+        // $search_data = \Request::get('search_data'); //<-- we use global request to get the param of URI
         // $search_nume = \Request::get('search_nume');      
         
-        $search_data = $search_data ?? \Carbon\Carbon::today();
+        // $search_data = $search_data ?? \Carbon\Carbon::today();
 
         // $produse_intrate = DB::table('produse_cantitati_istoric')
         //     ->leftJoin('produse', 'produse_cantitati_istoric.produs_id', '=', 'produse.id')
@@ -62,24 +144,91 @@ class NirController extends Controller
         //     ->get();
 
         $produse_stocuri_telefoane_noi = \App\ProdusStoc::
-            whereHas('produs', function (Builder $query) {
+            whereDoesntHave('nir')
+            ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query){
                     $query->where('categorie_produs_id', 1);
                 });
             })
-            ->whereDate('created_at', $search_data)
+            ->oldest()
             ->get();
 
         $produse_stocuri_accesorii = \App\ProdusStoc::
-            whereHas('produs', function (Builder $query) {
+            whereDoesntHave('nir')
+            ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query){
                     $query->where('categorie_produs_id', 3);
                 });
             })
-            ->whereDate('created_at', $search_data)
+            ->oldest()
             ->get();
 
-        return view('nir.index', compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data'));
+        return view('niruri.produse-stocuri-fara-nir', compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi'));
+    }
+
+    public function genereazaNir(Request $request)
+    {
+        // Telefoane noi
+        $produse_stocuri_telefoane_noi = \App\ProdusStoc::
+            whereDoesntHave('nir')
+            ->whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query){
+                    $query->where('categorie_produs_id', 1);
+                });
+            })
+            ->oldest()
+            ->get();
+
+        foreach($produse_stocuri_telefoane_noi->groupBy(function ($data) {
+                    return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
+                }) as $produse_per_data){
+            foreach($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor){
+                foreach ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura){
+                    $urmatorul_nir = Nir::where('categorie_id', 1)->max('nir')+1 ?? 1;
+                    foreach ($produse_per_factura as $produs_stoc){
+                        $nir = Nir::make();
+                        $nir->nir = $urmatorul_nir;
+                        $nir->categorie_id = 1;
+                        $nir->produs_stoc_id = $produs_stoc->id;
+                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');
+                        // $nir->updated_at = $produs_stoc->updated_at;
+                        $nir->save();
+                    }                
+                }
+            }
+        }
+
+        // Accesorii
+        $produse_stocuri_accesorii = \App\ProdusStoc::
+            whereDoesntHave('nir')
+            ->whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query){
+                    $query->where('categorie_produs_id', 3);
+                });
+            })
+            ->oldest()
+            ->get();            
+
+        foreach($produse_stocuri_accesorii->groupBy(function ($data) {
+                    return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
+                }) as $produse_per_data){
+            foreach($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor){
+                foreach ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura){
+                    $urmatorul_nir = Nir::where('categorie_id', 3)->max('nir')+1 ?? 1;
+                    foreach ($produse_per_factura as $produs_stoc){
+                        $nir = Nir::make();
+                        $nir->nir = $urmatorul_nir;
+                        $nir->categorie_id = 3;
+                        $nir->produs_stoc_id = $produs_stoc->id;
+                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');
+                        $nir->save();
+                    }                
+                }
+            }
+        }
+
+        return back()->with('status', 'Nirurile au fost generate!');
+        
     }
 
     public function pdfExport(Request $request, $search_data)
@@ -143,12 +292,12 @@ class NirController extends Controller
 
         if ($request->view_type === 'raport-html') {
             return view(
-                'nir.export.nir-pdf',
+                'niruri.export.nir-pdf',
                 compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data')
             );
         } elseif ($request->view_type === 'raport-pdf') {
             $pdf = \PDF::loadView(
-                'nir.export.nir-pdf',
+                'niruri.export.nir-pdf',
                 compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data')
             )
                 ->setPaper('a4', 'landscape');

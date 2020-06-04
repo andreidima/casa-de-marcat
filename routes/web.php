@@ -52,6 +52,11 @@ Route::group(['middleware' => 'auth'], function () {
     // Inchide avans dupa finalizare reparatie si predare restul de bani si produs
     Route::any('/avansuri/deschide-inchide/{avansuri}', 'AvansController@update_deschis_inchis');
 
+    //Nir
+    Route::get('niruri/produse-stocuri-fara-nir', 'NirController@produseStocuriFaraNir')->name('nir.produse-stocuri-fara-nir');
+    Route::get('niruri/genereaza-nir', 'NirController@genereazaNir')->name('nir.genereaza-nir');
+    Route::get('niruri/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
+
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
     Route::resource('stocuri', 'ProdusCantitateIstoricController');
@@ -61,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('casa', 'CasaController');
     Route::resource('furnizori', 'FurnizorController');
     Route::resource('produse-stocuri', 'ProdusStocController');
+    Route::resource('niruri', 'NirController');
 
     Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');
     Route::get('produse-inventar-verificare/produse-lipsa', 'ProdusInventarVerificareController@produseLipsa')->name('produse-inventar-verificare.produse-lipsa');
@@ -74,12 +80,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('suplimenteaza-stocuri/adauga/{furnizor_id?}', 'SuplimenteazaStocController@create')->name('suplimenteaza-stocuri.create');
     Route::any('suplimenteaza-stocuri/salveaza', 'SuplimenteazaStocController@store');
     Route::get('suplimenteaza-stocuri/goleste-lista', 'SuplimenteazaStocController@golesteLista');
-
-
-
-    //Nir
-    Route::get('nir', 'NirController@index')->name('nir.index');
-    Route::get('nir/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
 
     //Export pentru Vali de pus produsele la vanzare pe site
     Route::get('produse/rapoarte/lista-inventar-produse-vali/{view_type}', 'ProdusController@pdfExportListaProduseVali');

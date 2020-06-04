@@ -78,9 +78,30 @@
                                     <i class="fas fa-list-ul mr-1"></i>Produse - stocuri
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/nir">
+                                <a class="dropdown-item dropdown-toggle" href="#" id="nir" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-truck-loading mr-1"></i>Nir
                                 </a>
+                                    <div class="dropdown-menu" aria-labelledby="nir"
+                                        style="
+                                            top: 74%;
+                                            left: 100%;
+                                            "
+                                    >
+                                        <a class="dropdown-item" href="/niruri/produse-stocuri-fara-nir">
+                                            <i class="fas fa-truck-loading mr-1"></i>Produse fără nir
+                                        </a>
+                                        <div class="dropdown-divider"></div> 
+                                        <a class="dropdown-item" href="/niruri">
+                                            <i class="fas fa-truck-loading mr-1"></i>Listă niruri
+                                        </a>
+                                        <div class="dropdown-divider"></div> 
+                                        {{-- <a class="dropdown-item" href="/nir/genereaza-nir">
+                                            <i class="fas fa-truck-loading mr-1"></i>Generează niruri
+                                        </a> --}}
+                                    </div>
+                                {{-- <a class="dropdown-item" href="nir/produse-stocuri-fara-nir">
+                                    <i class="fas fa-truck-loading mr-1"></i>Nir
+                                </a> --}}
                                 <div class="dropdown-divider"></div> 
                                 <a class="dropdown-item dropdown-toggle" href="#" id="inventar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-boxes mr-1"></i>Inventar

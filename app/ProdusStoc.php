@@ -23,4 +23,9 @@ class ProdusStoc extends Model
     {
         return $this->belongsTo('App\Furnizor', 'furnizor_id');
     }
+
+    public function nir()
+    {
+        return $this->hasOne('App\Nir', 'produs_stoc_id');
+    }
 }
