@@ -16,8 +16,12 @@ class NirController extends Controller
     public function index()
     {
         $search_nir = \Request::get('search_nir'); //<-- we use global request to get the param of URI
-
-        $niruri = Nir::latest()->orderBy('nir', 'desc')->simplePaginate(25);
+        $niruri = Nir::latest()
+            ->when($search_nir, function ($query, $search_nir) {
+                    return $query->where('nir', $search_nir);
+                })
+            ->orderBy('nir', 'desc')
+            ->simplePaginate(25);
 
         return view('niruri.index', compact('niruri', 'search_nir'));
     }
@@ -83,9 +87,10 @@ class NirController extends Controller
      * @param  \App\Nir  $nir
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Nir $nir)
+    public function destroy(Nir $niruri)
     {
-        //
+        $niruri->delete();
+        return redirect('/niruri')->with('status', 'Nirul "' . $niruri->niruri . '" a fost șters cu succes!');
     }    
 
     public function produse()

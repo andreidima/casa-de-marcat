@@ -83,44 +83,44 @@
                                 <td class="text-center">
                                     {{ \Carbon\Carbon::parse($nir->created_at)->isoFormat('DD.MM.YYYY') ?? '' }}
                                 </td>
-                                {{-- <td class="d-flex justify-content-end"> 
-                                    <a href="{{ $plata->path() }}/modifica"
+                                <td class="d-flex justify-content-end"> 
+                                    {{-- <a href="{{ $plata->path() }}/modifica"
                                         class="flex"    
                                     >
                                         <span class="badge badge-primary">Modifică</span>
-                                    </a>                                   
+                                    </a>                                    --}}
                                     <div style="flex" class="">
                                         <a 
                                             href="#" 
                                             data-toggle="modal" 
-                                            data-target="#stergePlata{{ $plata->id }}"
-                                            title="Șterge Plata"
+                                            data-target="#stergeNir{{ $nir->id }}"
+                                            title="Șterge Nir"
                                             >
                                             <span class="badge badge-danger">Șterge</span>
                                         </a>
-                                            <div class="modal fade text-dark" id="stergePlata{{ $plata->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade text-dark" id="stergeNir{{ $nir->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                     <div class="modal-header bg-danger">
-                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Plata: <b>{{ $plata->nume }}</b></h5>
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Nir: <b>{{ $nir->nir }}</b></h5>
                                                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        Ești sigur ca vrei să ștergi Plata?
+                                                        Ești sigur ca vrei să ștergi Nirul?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
                                                         
-                                                        <form method="POST" action="{{ $plata->path() }}">
+                                                        <form method="POST" action="{{ $nir->path() }}">
                                                             @method('DELETE')  
                                                             @csrf   
                                                             <button 
                                                                 type="submit" 
                                                                 class="btn btn-danger"  
                                                                 >
-                                                                Șterge Plata
+                                                                Șterge Nir
                                                             </button>                    
                                                         </form>
                                                     
@@ -129,7 +129,7 @@
                                                 </div>
                                             </div>
                                     </div> 
-                                </td> --}}
+                                </td>
                             </tr>  
                         @empty
                             {{-- <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div> --}}
