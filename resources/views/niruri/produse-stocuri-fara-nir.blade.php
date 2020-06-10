@@ -207,7 +207,7 @@
                             @forelse ($produse_per_factura as $produs_stoc)
                                 <tr>                  
                                     <td align="">
-                                        {{ $loop->iteration }}{{ $produs_stoc->id }}
+                                        {{ $loop->iteration }}
                                     </td>
                                     <td>
                                         <b>{{ $produs_stoc->produs->nume ?? '' }}</b>
