@@ -95,9 +95,9 @@
                                             <i class="fas fa-truck-loading mr-1"></i>Listă niruri
                                         </a>
                                         <div class="dropdown-divider"></div> 
-                                        {{-- <a class="dropdown-item" href="/nir/genereaza-nir">
-                                            <i class="fas fa-truck-loading mr-1"></i>Generează niruri
-                                        </a> --}}
+                                        <a class="dropdown-item" href="/niruri/export">
+                                            <i class="fas fa-truck-loading mr-1"></i>Export PDF
+                                        </a>
                                     </div>
                                 {{-- <a class="dropdown-item" href="nir/produse-stocuri-fara-nir">
                                     <i class="fas fa-truck-loading mr-1"></i>Nir

@@ -28,11 +28,6 @@
                     </div>
                 </form>
             </div>
-            {{-- <div class="col-lg-3 text-right">
-                <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('plati.create') }}" role="button">
-                    <i class="fas fa-plus-square text-white mr-1"></i>Adaugă plată
-                </a>
-            </div>  --}}
         </div>
 
         <div class="card-body px-0 py-3">
@@ -132,7 +127,6 @@
                                 </td>
                             </tr>  
                         @empty
-                            {{-- <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div> --}}
                         @endforelse
                         </tbody>
                 </table>
@@ -140,7 +134,6 @@
 
                 <nav>
                     <ul class="pagination pagination-sm justify-content-center">
-                        {{-- {{$produse_vandute->links()}} --}}
                         {{$niruri->appends(Request::except('page'))->links()}}
                     </ul>
                 </nav>
