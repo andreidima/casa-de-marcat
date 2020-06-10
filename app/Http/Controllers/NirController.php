@@ -245,80 +245,92 @@ class NirController extends Controller
         return view('niruri.export', compact('search_data'));
     }
 
-    // public function pdfExport(Request $request)
-    // {
-    //     $search_data = \Request::get('search_data'); //<-- we use global request to get the param of URI
-    //     // dd( $search_data);
-    //     $search_data = $search_data ?? \Carbon\Carbon::today();
+    public function pdfExport(Request $request)
+    {
+        $search_data = \Request::get('search_data'); //<-- we use global request to get the param of URI
+        // dd( $search_data);
+        $search_data = $search_data ?? \Carbon\Carbon::today();
 
-    //     // $produse_intrate = DB::table('produse_cantitati_istoric')
-    //     //     ->leftJoin('produse', 'produse_cantitati_istoric.produs_id', '=', 'produse.id')
-    //     //     // ->leftJoin('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
-    //     //     // ->leftJoin('categorii_produse', 'subcategorii_produse.categorie_produs_id', '=', 'categorii_produse.id')
-    //     //     ->select(DB::raw('
-    //     //                 produse_cantitati_istoric.id as produse_cantitati_istoric_id,
-    //     //                 ifnull(produse_cantitati_istoric.cantitate_initiala, 0) as cantitate_initiala,
-    //     //                 produse_cantitati_istoric.cantitate as cantitate,
-    //     //                 produse_cantitati_istoric.operatiune,
-    //     //                 produse_cantitati_istoric.created_at,
-    //     //                 produse.id as produs_id,
-    //     //                 produse.nume,
-    //     //                 produse.pret_de_achizitie,
-    //     //                 produse.pret,
-    //     //                 round(
-    //     //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-    //     //                         (produse.pret_de_achizitie / 1.19) 
-    //     //                     , 2) as total_suma_achizitie,
-    //     //                 round(
-    //     //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-    //     //                         (produse.pret_de_achizitie * 0.19)
-    //     //                     , 2) as total_suma_tva,
-    //     //                 round(
-    //     //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-    //     //                         produse.pret
-    //     //                     , 2) as total_suma_vanzare
-    //     //         '))
-    //     //     ->whereDate('produse_cantitati_istoric.created_at', $search_data)
-    //     //     ->where(function ($query) {
-    //     //         $query->where('produse_cantitati_istoric.operatiune', 'adaugare')
-    //     //             ->orWhere('produse_cantitati_istoric.operatiune', 'modificare')
-    //     //             ->orWhere('produse_cantitati_istoric.operatiune', 'suplimentare stoc');
-    //     //     })
-    //     //     ->orderBy('nume')
-    //     //     ->get();
+        // $produse_intrate = DB::table('produse_cantitati_istoric')
+        //     ->leftJoin('produse', 'produse_cantitati_istoric.produs_id', '=', 'produse.id')
+        //     // ->leftJoin('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
+        //     // ->leftJoin('categorii_produse', 'subcategorii_produse.categorie_produs_id', '=', 'categorii_produse.id')
+        //     ->select(DB::raw('
+        //                 produse_cantitati_istoric.id as produse_cantitati_istoric_id,
+        //                 ifnull(produse_cantitati_istoric.cantitate_initiala, 0) as cantitate_initiala,
+        //                 produse_cantitati_istoric.cantitate as cantitate,
+        //                 produse_cantitati_istoric.operatiune,
+        //                 produse_cantitati_istoric.created_at,
+        //                 produse.id as produs_id,
+        //                 produse.nume,
+        //                 produse.pret_de_achizitie,
+        //                 produse.pret,
+        //                 round(
+        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                         (produse.pret_de_achizitie / 1.19) 
+        //                     , 2) as total_suma_achizitie,
+        //                 round(
+        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                         (produse.pret_de_achizitie * 0.19)
+        //                     , 2) as total_suma_tva,
+        //                 round(
+        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                         produse.pret
+        //                     , 2) as total_suma_vanzare
+        //         '))
+        //     ->whereDate('produse_cantitati_istoric.created_at', $search_data)
+        //     ->where(function ($query) {
+        //         $query->where('produse_cantitati_istoric.operatiune', 'adaugare')
+        //             ->orWhere('produse_cantitati_istoric.operatiune', 'modificare')
+        //             ->orWhere('produse_cantitati_istoric.operatiune', 'suplimentare stoc');
+        //     })
+        //     ->orderBy('nume')
+        //     ->get();
 
-        
-    //     $produse_stocuri_telefoane_noi = \App\ProdusStoc::
-    //         whereHas('produs', function (Builder $query) {
-    //             $query->whereHas('subcategorie', function (Builder $query){
-    //                 $query->where('categorie_produs_id', 1);
-    //             });
-    //         })
-    //         ->whereDate('created_at', $search_data)
-    //         ->get();
 
-    //     $produse_stocuri_accesorii = \App\ProdusStoc::
-    //         whereHas('produs', function (Builder $query) {
-    //             $query->whereHas('subcategorie', function (Builder $query){
-    //                 $query->where('categorie_produs_id', 3);
-    //             });
-    //         })
-    //         ->whereDate('created_at', $search_data)
-    //         ->get();
+        // Telefoane noi
+        $niruri_telefoane_noi = Nir::where('categorie_id', 1)
+            ->whereDate('created_at', $search_data)
+            ->oldest()
+            ->get();
 
-    //     if ($request->view_type === 'raport-html') {
-    //         return view(
-    //             'niruri.export.nir-pdf',
-    //             compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data')
-    //         );
-    //     } elseif ($request->view_type === 'raport-pdf') {
-    //         $pdf = \PDF::loadView(
-    //             'niruri.export.nir-pdf',
-    //             compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi', 'search_data')
-    //         )
-    //             ->setPaper('a4', 'landscape');
-    //         return $pdf->stream('Nir ' .
-    //             \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
-    //     }
-    // }
+        // Accesorii
+        $niruri_accesorii = Nir::where('categorie_id', 3)
+            ->whereDate('created_at', $search_data)
+            ->oldest()
+            ->get(); 
+        // dd($niruri_telefoane_noi, $niruri_accesorii);
+        // $produse_stocuri_telefoane_noi = \App\ProdusStoc::
+        //     whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 1);
+        //         });
+        //     })
+        //     ->whereDate('created_at', $search_data)
+        //     ->get();
+
+        // $produse_stocuri_accesorii = \App\ProdusStoc::
+        //     whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 3);
+        //         });
+        //     })
+        //     ->whereDate('created_at', $search_data)
+        //     ->get();
+
+        if ($request->view_type === 'raport-html') {
+            return view(
+                'niruri.export.nir-pdf',
+                compact('niruri_accesorii', 'niruri_telefoane_noi', 'search_data')
+            );
+        } elseif ($request->view_type === 'raport-pdf') {
+            $pdf = \PDF::loadView(
+                'niruri.export.nir-pdf',
+                compact('niruri_accesorii', 'niruri_telefoane_noi', 'search_data')
+            )
+                ->setPaper('a4', 'landscape');
+            return $pdf->stream('Niruri ' .
+                \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
+        }
+    }
 }

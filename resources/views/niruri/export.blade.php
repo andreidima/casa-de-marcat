@@ -16,7 +16,7 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-3" id="app1">
-                    <form class="needs-validation" novalidate method="GET" action="/niruri/raport-pdf">
+                    <form class="needs-validation" novalidate method="GET" action="/niruri/export/raport-pdf">
                         @csrf                    
                         <div class="row input-group custom-search-form justify-content-center">                        
                             <div class="col-md-12 d-flex mb-3 justify-content-center">

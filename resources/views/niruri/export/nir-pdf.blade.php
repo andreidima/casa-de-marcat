@@ -57,8 +57,10 @@
 
 <body>
     {{-- Telefoane noi --}}
-    @forelse ($produse_stocuri_telefoane_noi->groupBy('furnizor_id') as $produse_per_furnizor)
-    @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
+    {{-- @forelse ($produse_stocuri_telefoane_noi->groupBy('furnizor_id') as $produse_per_furnizor)
+    @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura) --}}
+    @forelse ($niruri_telefoane_noi->groupBy('nir') as $nir)
+    {{-- @forelse ($nir as $nir_produs_stoc) --}}
 
         @php
             $total_suma_achizitie = 0;
@@ -107,7 +109,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    
+                                    {{ $nir->first()->nir }}
                                 </td>
                                 <td>
                                     {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
@@ -119,10 +121,9 @@
                 </tr>
                 <tr style="">
                     <td colspan="2" style="border-width:0px; text-align:center">
-                        {{-- <br> --}}
-                        Se receptioneaza marfurile furnizate de {{ $produse_per_furnizor->first()->furnizor->nume ?? '"furnizor nu este specificat"' }}, din localitatea {{ $produse_per_furnizor->first()->furnizor->localitate ?? '"localitatea furnizorului nu este specificată"' }}
+                        Se receptioneaza marfurile furnizate de {{ $nir->first()->produs_stoc->furnizor->nume ?? '"furnizor nu este specificat"' }}, din localitatea {{ $nir->first()->produs_stoc->furnizor->localitate ?? '"localitatea furnizorului nu este specificată"' }}
                         <br>
-                        conform facturii nr {{ $produse_per_factura->first()->nr_factura ?? '"nu este specificată"'}}, din data de {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
+                        conform facturii nr {{ $nir->first()->produs_stoc->nr_factura ?? '"nu este specificată"'}}, din data de {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
                     </td>
                 </tr>
             </table>
@@ -143,51 +144,51 @@
                             <th style="width:70px; text-align: center">Total</th>
                         </tr>
                             
-                            @forelse ($produse_per_factura as $produs_stoc)         
+                            @forelse ($nir as $nir_produs_stoc)         
                                 <tr>                  
                                     <td align="">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td>
-                                        {{ $produs_stoc->produs->nume ?? '' }}
+                                        {{ $nir_produs_stoc->produs_stoc->produs->nume ?? '' }}
                                     </td>
                                     <td>
                                         buc
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $produs_stoc->cantitate }}
+                                        {{ $nir_produs_stoc->produs_stoc->cantitate ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                        @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_achizitie += round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_achizitie += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td style="text-align:right;">
-                                        @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                        @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $produs_stoc->produs->pret ?? '' }}
+                                        {{ $nir_produs_stoc->produs_stoc->produs->pret ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        @isset($produs_stoc->produs->pret)
-                                            {{ $produs_stoc->produs->pret * $produs_stoc->cantitate }} 
+                                        @isset($nir_produs_stoc->produs_stoc->produs->pret)
+                                            {{ $nir_produs_stoc->produs_stoc->produs->pret * $nir_produs_stoc->produs_stoc->cantitate }} 
                                             @php 
-                                                $total_suma_vanzare += $produs_stoc->produs->pret * $produs_stoc->cantitate
+                                                $total_suma_vanzare += $nir_produs_stoc->produs_stoc->produs->pret * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>                             
-                                </tr>  
+                                </tr> 
                             @empty
                                 <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
                             @endforelse
@@ -204,7 +205,7 @@
                                     <td></td>
                                     <td  style="text-align:right;">
                                         {{ $total_suma_vanzare }}
-                                    </td>
+                                    </td> 
                                 </tr>
                     </table>
 
@@ -251,26 +252,18 @@
         @if(!$loop->last)
             <p style="page-break-after: always;"></p>  
         @endif
-
-    @empty
-    @endforelse  
-
-        @if(!$loop->last)
-            <p style="page-break-after: always;"></p>  
-        @endif
     @empty
     @endforelse
 
 
     {{-- Page break dupa ultimul nir de la telefoane --}}
-    @if($produse_stocuri_telefoane_noi->isNotEmpty())
+    @if($niruri_telefoane_noi->isNotEmpty())
         <p style="page-break-after: always;"></p>
     @endif
 
     
     {{-- Accesorii --}}
-    @forelse ($produse_stocuri_accesorii->groupBy('furnizor_id') as $produse_per_furnizor)
-    @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
+    @forelse ($niruri_accesorii->groupBy('nir') as $nir)
 
         @php
             $total_suma_achizitie = 0;
@@ -319,7 +312,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    
+                                    {{ $nir->first()->nir }}
                                 </td>
                                 <td>
                                     {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
@@ -331,10 +324,9 @@
                 </tr>
                 <tr style="">
                     <td colspan="2" style="border-width:0px; text-align:center">
-                        {{-- <br> --}}
-                        Se receptioneaza marfurile furnizate de {{ $produse_per_furnizor->first()->furnizor->nume ?? '"furnizor nu este specificat"' }}, din localitatea {{ $produse_per_furnizor->first()->furnizor->localitate ?? '"localitatea furnizorului nu este specificată"' }}
+                        Se receptioneaza marfurile furnizate de {{ $nir->first()->produs_stoc->furnizor->nume ?? '"furnizor nu este specificat"' }}, din localitatea {{ $nir->first()->produs_stoc->furnizor->localitate ?? '"localitatea furnizorului nu este specificată"' }}
                         <br>
-                        conform facturii nr {{ $produse_per_factura->first()->nr_factura ?? '"nu este specificată"'}}, din data de {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
+                        conform facturii nr {{ $nir->first()->produs_stoc->nr_factura ?? '"nu este specificată"'}}, din data de {{ \Carbon\Carbon::parse($search_data)->isoFormat('D.MM.YYYY') }}
                     </td>
                 </tr>
             </table>
@@ -355,51 +347,51 @@
                             <th style="width:70px; text-align: center">Total</th> --}}
                         </tr>
                             
-                            @forelse ($produse_per_factura as $produs_stoc)         
+                            @forelse ($nir as $nir_produs_stoc)         
                                 <tr>                  
                                     <td align="">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td>
-                                        {{ $produs_stoc->produs->nume ?? '' }}
+                                        {{ $nir_produs_stoc->produs_stoc->produs->nume ?? '' }}
                                     </td>
                                     <td>
                                         buc
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $produs_stoc->cantitate }}
+                                        {{ $nir_produs_stoc->produs_stoc->cantitate ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                        @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_achizitie += round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_achizitie += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td style="text-align:right;">
-                                        @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                        @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
+                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     {{-- <td style="text-align:right;">
-                                        {{ $produs_stoc->produs->pret ?? '' }}
+                                        {{ $nir_produs_stoc->produs_stoc->produs->pret ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        @isset($produs_stoc->produs->pret)
-                                            {{ $produs_stoc->produs->pret * $produs_stoc->cantitate }} 
+                                        @isset($nir_produs_stoc->produs_stoc->produs->pret)
+                                            {{ $nir_produs_stoc->produs_stoc->produs->pret * $nir_produs_stoc->produs_stoc->cantitate }} 
                                             @php 
-                                                $total_suma_vanzare += $produs_stoc->produs->pret * $produs_stoc->cantitate
+                                                $total_suma_vanzare += $nir_produs_stoc->produs_stoc->produs->pret * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>                              --}}
-                                </tr>  
+                                </tr> 
                             @empty
                                 <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
                             @endforelse
@@ -416,7 +408,7 @@
                                     {{-- <td></td>
                                     <td  style="text-align:right;">
                                         {{ $total_suma_vanzare }}
-                                    </td> --}}
+                                    </td>  --}}
                                 </tr>
                     </table>
 
@@ -459,13 +451,6 @@
                         </tr>
                     </table> 
         </div>   
-
-        @if(!$loop->last)
-            <p style="page-break-after: always;"></p>  
-        @endif
-
-    @empty
-    @endforelse  
 
         @if(!$loop->last)
             <p style="page-break-after: always;"></p>  

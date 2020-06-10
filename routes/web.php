@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('niruri/genereaza-nir', 'NirController@genereazaNir')->name('nir.genereaza-nir');
     Route::get('niruri/export', 'NirController@export')->name('nir.export');
     // Route::get('niruri/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
-    Route::get('niruri/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
+    Route::get('niruri/export/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
 
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
