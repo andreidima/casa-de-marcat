@@ -117,14 +117,25 @@
                         </div>    
                         <div class="card-body">                    
                             @if (session()->has('produse_vandute'))
-                                <div class="alert alert-success text-center">
+                                <div class="alert alert-success text-center pb-2">
+                                    {{-- @php
+                                        dd(Session::get('produse_vandute'));
+                                    @endphp --}}
                                     @foreach(Session::get('produse_vandute') as $produs_vandut => $produs)
-                                        {{ $produs }}
+                                        {{ $produs['cantitate'] }} buc. {{ $produs['nume'] }} - {{ $produs['pret'] }} lei
                                         <br>
                                     @endforeach
                                 </div>
-                                <div class="text-center">
-                                    <a class="btn btn-danger btn-lg py-2" href="/produse/vanzari/goleste-cos" role="button">Golește lista</a>
+                                <div class="row">
+                                    <div class="col-lg-12 text-center pb-5">
+                                        <a class="btn btn-danger btn-lg" href="/produse/vanzari/goleste-cos" role="button">Golește lista</a>
+                                    </div>
+                                    <div class="col-lg-12 text-center">
+                                        <a class="btn btn-primary btn-lg" href="/produse/generare-factura-client/completare-date" role="button">
+                                            <i class="fas fa-file-invoice mr-1"></i>
+                                            Generează factură
+                                        </a>
+                                    </div>
                                 </div>
                             @else
                                 <div class="alert alert-info text-center">

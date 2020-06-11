@@ -59,6 +59,9 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('niruri/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
     Route::get('niruri/export/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
 
+    // Generare factura client
+    Route::get('/produse/generare-factura-client/completare-date', 'GenereazaFacturaClientController@completareDate');
+
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
     Route::resource('stocuri', 'ProdusCantitateIstoricController');

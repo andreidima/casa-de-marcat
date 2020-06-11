@@ -311,7 +311,15 @@ class ProdusController extends Controller
                 $produse_cantitati_istoric->save();
 
                 $request->session()->has('produse_vandute') ?? $request->session()->put('produse_vandute', []);
-                $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');
+                // $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');                
+                $request->session()->push('produse_vandute', 
+                    [
+                        'id' => $produs->id,
+                        'nume' => $produs->nume,
+                        'cantitate' => $request->nr_de_bucati,
+                        'pret' => $request->pret
+                    ]);
+                    // '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');
 
                 $produs_vandut = ProdusVandut::make();
                 $produs_vandut->produs_id = $produs->id;
