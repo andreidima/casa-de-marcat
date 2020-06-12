@@ -316,6 +316,7 @@ class ProdusController extends Controller
                     [
                         'id' => $produs->id,
                         'nume' => $produs->nume,
+                        'um' => 'BUC',
                         'cantitate' => $request->nr_de_bucati,
                         'pret' => $request->pret
                     ]);

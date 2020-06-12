@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Generare factura client
     Route::get('/produse/generare-factura-client/completare-date', 'GenereazaFacturaClientController@completareDate');
+    Route::post('/produse/generare-factura-client/salvare-date', 'GenereazaFacturaClientController@salvareDate');
 
     // Rutele default ale controllerului
     Route::resource('produse', 'ProdusController');
