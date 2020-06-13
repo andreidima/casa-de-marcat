@@ -1,6 +1,14 @@
 @extends ('layouts.app')
 
 @section('content')   
+                                            @php
+                                                function round_up($number, $precision = 2)
+                                                {
+                                                    $fig = pow(10, $precision);
+                                                    return (ceil($number * $fig) / $fig);
+                                                }
+                                            @endphp
+
 <div class="container card" style="border-radius: 40px 40px 40px 40px;">
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
             <div class="col-lg-3 align-self-center">
@@ -111,22 +119,31 @@
                                         {{ $produs_stoc->cantitate }}
                                     </td>
                                     <td class="text-right">
-                                        {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{-- {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }} --}}
+                                        {{ $produs_stoc->pret_de_achizitie }}
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{-- {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
                                                 $total_suma_achizitie += round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
+                                            @endphp --}}
+                                            {{ number_format($produs_stoc->pret_de_achizitie * $produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_achizitie += $produs_stoc->pret_de_achizitie * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
                                             @endphp
+                                            {{-- {{ number_format($produs_stoc->pret_de_achizitie * $produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_tva += $produs_stoc->pret_de_achizitie * $produs_stoc->cantitate
+                                            @endphp --}}
                                         @endisset
                                     </td>
                                     <td class="text-right">
@@ -219,22 +236,31 @@
                                         {{ $produs_stoc->cantitate }}
                                     </td>
                                     <td class="text-right">
-                                        {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{-- {{ $produs_stoc->pret_de_achizitie ? number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }} --}}
+                                        {{ $produs_stoc->pret_de_achizitie }}
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{-- {{ number_format(round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
                                                 $total_suma_achizitie += round(($produs_stoc->pret_de_achizitie / 1.19), 2) * $produs_stoc->cantitate
+                                            @endphp --}}
+                                            {{ number_format($produs_stoc->pret_de_achizitie * $produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_achizitie += $produs_stoc->pret_de_achizitie * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
                                             @endphp
+                                            {{-- {{ number_format($produs_stoc->pret_de_achizitie * $produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_tva += $produs_stoc->pret_de_achizitie * $produs_stoc->cantitate
+                                            @endphp --}}
                                         @endisset
                                     </td>
                                     {{-- <td class="text-right">

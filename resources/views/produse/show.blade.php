@@ -45,14 +45,14 @@
                                     {{ $produse->subcategorie->nume ?? ''}}
                                 </td>
                             </tr>
-                            </tr>
+                            {{-- </tr>
                                 <td>
                                     Preț de achiziție
                                 </td>
                                 <td>
                                     {{ $produse->pret_de_achizitie }}
                                 </td>
-                            </tr>
+                            </tr> --}}
                             </tr>
                                 <td>
                                     Preț de vânzare

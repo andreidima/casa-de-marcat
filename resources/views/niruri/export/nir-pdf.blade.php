@@ -1,3 +1,12 @@
+
+                                            @php
+                                                function round_up($number, $precision = 2)
+                                                {
+                                                    $fig = pow(10, $precision);
+                                                    return (ceil($number * $fig) / $fig);
+                                                }
+                                            @endphp
+
 <!DOCTYPE  html>
 <html lang="ro">
 
@@ -159,21 +168,26 @@
                                         {{ $nir_produs_stoc->produs_stoc->cantitate ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{-- {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }} --}}
+                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie }}
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            {{-- {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
                                                 $total_suma_achizitie += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
+                                            @endphp --}}
+                                            {{ number_format($nir_produs_stoc->produs_stoc->pret_de_achizitie * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            @php 
+                                                $total_suma_achizitie += $nir_produs_stoc->produs_stoc->pret_de_achizitie * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
+                                                $total_suma_tva += round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
@@ -362,21 +376,22 @@
                                         {{ $nir_produs_stoc->produs_stoc->cantitate ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
-                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }}
+                                        {{-- {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }} --}}
+                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie }}
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            {{ number_format($nir_produs_stoc->produs_stoc->pret_de_achizitie * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_achizitie += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
+                                                $total_suma_achizitie += $nir_produs_stoc->produs_stoc->pret_de_achizitie * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
                                             @php 
-                                                $total_suma_tva += round(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
+                                                $total_suma_tva += round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
                                     </td>

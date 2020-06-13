@@ -74,7 +74,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                     <label for="pret_de_achizitie" class="col-sm-5 col-form-label">Preț de achiziție:</label>
                                 <div class="col-sm-7">
                                     <input type="number" min="1" step="any" 
@@ -84,7 +84,7 @@
                                         value="{{ old('pret_de_achizitie') == '' ? $produse->pret_de_achizitie : old('pret_de_achizitie') }}"
                                         >
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row">
                                     <label for="pret" class="col-sm-5 col-form-label">Preț de vânzare:</label>
                                 <div class="col-sm-7">
