@@ -56,9 +56,9 @@
                                     {{ ($niruri ->currentpage()-1) * $niruri ->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td>
-                                    <a href="{{ $nir->path() }}">
+                                    {{-- <a href="{{ $nir->path() }}"> --}}
                                         {{ $nir->nir }}
-                                    </a>
+                                    {{-- </a> --}}
                                 </td>
                                 <td>
                                     {{ $nir->produs_stoc->produs->nume ?? '' }}
