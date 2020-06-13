@@ -13,7 +13,7 @@
                     class="form-control {{ $errors->has('cod_de_bare') ? 'is-invalid' : '' }}" 
                     name="cod_de_bare"
                     placeholder=""        
-                    value="{{ old('cod_de_bare') == '' ? $produse_stocuri->produs->cod_de_bare : old('cod_de_bare') }}"
+                    value="{{ old('cod_de_bare') == '' ? $produse_stocuri->produs->cod_de_bare ?? '' : old('cod_de_bare') }}"
                     >
             </div>
         </div>
