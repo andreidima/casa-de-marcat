@@ -148,7 +148,7 @@
                                     </td>
                                     <td class="text-right">
                                         {{ $produs_stoc->produs->pret ?? '' }}
-                                    </td>
+                                    {{-- </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->produs->pret)
                                             {{ $produs_stoc->produs->pret * $produs_stoc->cantitate }} 
@@ -156,7 +156,7 @@
                                                 $total_suma_vanzare += $produs_stoc->produs->pret * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
-                                    </td>                             
+                                    </td>                              --}}
                                 </tr>  
                             @empty
                             @endforelse
@@ -170,10 +170,10 @@
                                     <td class="text-right">
                                         {{ $total_suma_tva }}
                                     </td>
-                                    <td></td>
+                                    {{-- <td></td>
                                     <td class="text-right">
                                         {{ $total_suma_vanzare }}
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             </tbody>
                     </table>
@@ -263,7 +263,7 @@
                                             @endphp --}}
                                         @endisset
                                     </td>
-                                    {{-- <td class="text-right">
+                                    <td class="text-right">
                                         {{ $produs_stoc->produs->pret ?? '' }}
                                     </td>
                                     <td class="text-right">
@@ -273,7 +273,7 @@
                                                 $total_suma_vanzare += $produs_stoc->produs->pret * $produs_stoc->cantitate
                                             @endphp
                                         @endisset
-                                    </td>                              --}}
+                                    </td>                             
                                 </tr>  
                             @empty
                             @endforelse
@@ -287,10 +287,10 @@
                                     <td class="text-right">
                                         {{ $total_suma_tva }}
                                     </td>
-                                    {{-- <td></td>
+                                    <td></td>
                                     <td class="text-right">
                                         {{ $total_suma_vanzare }}
-                                    </td> --}}
+                                    </td>
                                 </tr>
                             </tbody>
                     </table>

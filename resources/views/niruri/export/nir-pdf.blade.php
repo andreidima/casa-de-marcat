@@ -191,7 +191,7 @@
                                             @endphp
                                         @endisset
                                     </td>
-                                    <td style="text-align:right;">
+                                    {{-- <td style="text-align:right;">
                                         {{ $nir_produs_stoc->produs_stoc->produs->pret ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
@@ -201,7 +201,7 @@
                                                 $total_suma_vanzare += $nir_produs_stoc->produs_stoc->produs->pret * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
-                                    </td>                             
+                                    </td>                              --}}
                                 </tr> 
                             @empty
                                 <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
@@ -216,10 +216,10 @@
                                     <td  style="text-align:right;">
                                         {{ $total_suma_tva }}
                                     </td>
-                                    <td></td>
+                                    {{-- <td></td>
                                     <td  style="text-align:right;">
                                         {{ $total_suma_vanzare }}
-                                    </td> 
+                                    </td>  --}}
                                 </tr>
                     </table>
 
@@ -395,7 +395,7 @@
                                             @endphp
                                         @endisset
                                     </td>
-                                    {{-- <td style="text-align:right;">
+                                    <td style="text-align:right;">
                                         {{ $nir_produs_stoc->produs_stoc->produs->pret ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
@@ -405,7 +405,7 @@
                                                 $total_suma_vanzare += $nir_produs_stoc->produs_stoc->produs->pret * $nir_produs_stoc->produs_stoc->cantitate
                                             @endphp
                                         @endisset
-                                    </td>                              --}}
+                                    </td>                             
                                 </tr> 
                             @empty
                                 <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
@@ -420,10 +420,10 @@
                                     <td  style="text-align:right;">
                                         {{ $total_suma_tva }}
                                     </td>
-                                    {{-- <td></td>
+                                    <td></td>
                                     <td  style="text-align:right;">
                                         {{ $total_suma_vanzare }}
-                                    </td>  --}}
+                                    </td> 
                                 </tr>
                     </table>
 
