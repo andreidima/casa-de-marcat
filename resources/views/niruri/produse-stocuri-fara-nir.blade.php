@@ -99,8 +99,8 @@
                                 <th class="text-center">Pret achizitie</th>
                                 <th class="text-center">Valoare</th>
                                 <th class="text-center">TVA</th>
-                                <th class="text-center">Pret Vanzare</th>
-                                <th class="text-center">Total</th>
+                                {{-- <th class="text-center">Pret Vanzare</th>
+                                <th class="text-center">Total</th> --}}
                             </tr>
                         </thead>
                         <tbody>      
@@ -216,8 +216,8 @@
                                 <th class="text-center">Pret achizitie</th>
                                 <th class="text-center">Valoare</th>
                                 <th class="text-center">TVA</th>
-                                {{-- <th class="text-center">Pret Vanzare</th>
-                                <th class="text-center">Total</th> --}}
+                                <th class="text-center">Pret Vanzare</th>
+                                <th class="text-center">Total</th>
                             </tr>
                         </thead>
                         <tbody>      

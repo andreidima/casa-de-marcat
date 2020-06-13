@@ -149,8 +149,8 @@
                             <th style="width:70px; text-align: center">Preț achiziție</th>
                             <th style="width:70px; text-align: center">Valoare</th>
                             <th style="width:70px; text-align: center">TVA</th>
-                            <th style="width:70px; text-align: center">Pret Vanzare</th>
-                            <th style="width:70px; text-align: center">Total</th>
+                            {{-- <th style="width:70px; text-align: center">Pret Vanzare</th>
+                            <th style="width:70px; text-align: center">Total</th> --}}
                         </tr>
                             
                             @forelse ($nir as $nir_produs_stoc)         
@@ -357,8 +357,8 @@
                             <th style="width:70px; text-align: center">Preț achiziție</th>
                             <th style="width:70px; text-align: center">Valoare</th>
                             <th style="width:70px; text-align: center">TVA</th>
-                            {{-- <th style="width:70px; text-align: center">Pret Vanzare</th>
-                            <th style="width:70px; text-align: center">Total</th> --}}
+                            <th style="width:70px; text-align: center">Pret Vanzare</th>
+                            <th style="width:70px; text-align: center">Total</th>
                         </tr>
                             
                             @forelse ($nir as $nir_produs_stoc)         
