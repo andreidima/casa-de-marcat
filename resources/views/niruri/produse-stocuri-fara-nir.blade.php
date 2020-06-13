@@ -1,14 +1,6 @@
 @extends ('layouts.app')
 
 @section('content')   
-                                            @php
-                                                function round_up($number, $precision = 2)
-                                                {
-                                                    $fig = pow(10, $precision);
-                                                    return (ceil($number * $fig) / $fig);
-                                                }
-                                            @endphp
-
 <div class="container card" style="border-radius: 40px 40px 40px 40px;">
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
             <div class="col-lg-3 align-self-center">
