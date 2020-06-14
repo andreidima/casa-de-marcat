@@ -21,7 +21,7 @@
                             </button>
                         </div>
                         <div class="col-md-4 px-1">
-                            <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('avansuri.index') }}" role="button">
+                            <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('produse-stocuri.index') }}" role="button">
                                 <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
                             </a>
                         </div>
@@ -47,7 +47,7 @@
                             <th>Produs</th>
                             <th class="text-left">Furnizor</th>                            
                             <th class="text-left">Nr. factură</th>                            
-                            <th class="text-left">Preț de achiziție</th>
+                            <th class="text-center">Preț de achiziție</th>
                             <th class="text-center">Cantitate</th>
                             <th class="text-center">Data</th>
                             <th class="text-center">Acțiuni</th>

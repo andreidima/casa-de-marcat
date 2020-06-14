@@ -93,6 +93,14 @@
                                     {{ $produse->descriere }}
                                 </td>
                             </tr>
+                            </tr>
+                                <td>
+                                    Dată adăugare
+                                </td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($produse->created_at)->isoFormat('D.MM.YYYY') }}
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </div>

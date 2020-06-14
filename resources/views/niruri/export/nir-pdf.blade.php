@@ -176,9 +176,9 @@
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up((($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19) * $nir_produs_stoc->produs_stoc->cantitate), 2) , 2)  }} 
                                             @php 
-                                                $total_suma_tva += round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
+                                                $total_suma_tva += round_up((($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19) * $nir_produs_stoc->produs_stoc->cantitate), 2)
                                             @endphp
                                         @endisset
                                     </td>
@@ -380,9 +380,9 @@
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up((($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19) * $nir_produs_stoc->produs_stoc->cantitate), 2) , 2)  }} 
                                             @php 
-                                                $total_suma_tva += round_up(($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19), 2) * $nir_produs_stoc->produs_stoc->cantitate
+                                                $total_suma_tva += round_up((($nir_produs_stoc->produs_stoc->pret_de_achizitie * 0.19) * $nir_produs_stoc->produs_stoc->cantitate), 2)
                                             @endphp
                                         @endisset
                                     </td>

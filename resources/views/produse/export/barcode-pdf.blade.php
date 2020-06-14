@@ -65,7 +65,8 @@
             border-radius: 10px;
         ">
             Nume: <b> {{ $produse->nume }} </b>
-        {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39',2.48,55)!!}             
+        {{-- {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39',2.48,55)!!}   --}}
+        {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39E', 1.95,55)!!}             
             <div style="float:left">
                 Cod bare: <b>{{ $produse->cod_de_bare }}</b>
             </div>       

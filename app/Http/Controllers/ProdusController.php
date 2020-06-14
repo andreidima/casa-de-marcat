@@ -203,6 +203,9 @@ class ProdusController extends Controller
         }elseif ($produse->produse_vandute->count() > 0) {
             return redirect('/produse')
                 ->with('eroare', 'Produsul "' . $produse->nume . '" nu poate fi șters pentru că are un număr de ' . $produse->produse_vandute->count() . ' vânzări!');
+        }elseif ($produse->produse_stocuri->count() > 0) {
+            return redirect('/produse')
+                ->with('eroare', 'Produsul "' . $produse->nume . '" nu poate fi șters pentru că are un număr de ' . $produse->produse_stocuri->count() . ' stocuri!');
         } else{
             $produse->delete();
             $produse_istoric = ProdusIstoric::make($produse->toArray());

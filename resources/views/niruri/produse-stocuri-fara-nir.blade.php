@@ -81,6 +81,8 @@
                                     Furnizor: {{ $produse_per_factura->first()->furnizor->nume ?? 'nu este specificat' }}
                                     |
                                     Factură: {{ $produse_per_factura->first()->nr_factura ?? 'nu este specificată'}}
+                                    |
+                                    Data: {{ $produse_per_factura->first()->created_at }}
                                 </th>
                             </tr>
                             <tr class="" style="padding:2rem">
@@ -128,9 +130,9 @@
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up((($produs_stoc->pret_de_achizitie * 0.19) * $produs_stoc->cantitate), 2) , 2) }} 
                                             @php 
-                                                $total_suma_tva += round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round_up((($produs_stoc->pret_de_achizitie * 0.19) * $produs_stoc->cantitate), 2)
                                             @endphp
                                             {{-- {{ number_format($produs_stoc->pret_de_achizitie * $produs_stoc->cantitate , 2) }} 
                                             @php 
@@ -198,6 +200,8 @@
                                     Furnizor: {{ $produse_per_factura->first()->furnizor->nume ?? 'nu este specificat' }}
                                     |
                                     Factură: {{ $produse_per_factura->first()->nr_factura ?? 'nu este specificată'}}
+                                    |
+                                    Data: {{ \Carbon\Carbon::parse($produse_per_factura->first()->created_at)->isoFormat('D.MM.YYYY') }}
                                 </th>
                             </tr>
                             <tr class="" style="padding:2rem">
@@ -245,9 +249,9 @@
                                     </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->pret_de_achizitie)
-                                            {{ number_format(round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate , 2) }} 
+                                            {{ number_format(round_up((($produs_stoc->pret_de_achizitie * 0.19) * $produs_stoc->cantitate), 2) , 2) }} 
                                             @php 
-                                                $total_suma_tva += round_up(($produs_stoc->pret_de_achizitie * 0.19), 2) * $produs_stoc->cantitate
+                                                $total_suma_tva += round_up((($produs_stoc->pret_de_achizitie * 0.19) * $produs_stoc->cantitate), 2)
                                             @endphp
                                             {{-- {{ number_format($produs_stoc->pret_de_achizitie * $produs_stoc->cantitate , 2) }} 
                                             @php 

@@ -33,4 +33,9 @@ class Produs extends Model
     {
         return $this->hasOne('App\ProdusInventarVerificare', 'produs_id');
     }
+
+    public function produse_stocuri()
+    {
+        return $this->hasMany('App\ProdusStoc', 'produs_id');
+    }
 }

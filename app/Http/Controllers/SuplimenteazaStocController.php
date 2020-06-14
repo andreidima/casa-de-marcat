@@ -32,7 +32,7 @@ class SuplimenteazaStocController extends Controller
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
             'nr_factura' => ['nullable', 'max:190'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
-            'nr_de_bucati' => ['required', 'numeric', 'between:0,99999999'],
+            'nr_de_bucati' => ['required', 'numeric', 'between:-999999,999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
             ],
         [            
@@ -47,6 +47,10 @@ class SuplimenteazaStocController extends Controller
         // dd($produs);
 
         if (isset($produs->id)) {
+            if (($produs->cantitate + $request->nr_de_bucati) < 0) {
+                return back()->with('error', 'Această modificare va scade cantitatea totala a produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+            }
+
             $produse_cantitati_istoric = ProdusCantitateIstoric::make();
             $produse_cantitati_istoric->cantitate_initiala = $produs->cantitate;
 

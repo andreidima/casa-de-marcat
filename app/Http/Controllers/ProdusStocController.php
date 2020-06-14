@@ -16,11 +16,24 @@ class ProdusStocController extends Controller
     {
         $search_produs_nume = \Request::get('search_produs_nume'); //<-- we use global request to get the param of URI  
         $stocuri = ProdusStoc::
-            when($search_produs_nume, function ($query, $search_produs_nume) {
-                return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_produs_nume) . '%');
+            // when($search_produs_nume, function ($query, $search_produs_nume) {
+            //     return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_produs_nume) . '%');
+            // })
+            // with(['produs' => function ($query) use ($search_produs_nume) {
+            //     $query->when($search_produs_nume, function ($query, $search_produs_nume) {
+            //         return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_produs_nume) . '%');
+            //     });
+            // }])
+            with('produs', 'furnizor')
+            ->whereHas('produs', function ($query) use ($search_produs_nume) { 
+                $query->when($search_produs_nume, function ($query, $search_produs_nume) {
+                    return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_produs_nume) . '%');
+                });
             })
+            // ->where('produs.nume', 'asd')
             ->latest()
-            ->Paginate(25);
+            ->simplePaginate(25);
+        // dd($stocuri);
 
         return view('produse-stocuri.index', compact('stocuri', 'search_produs_nume'));
     }
@@ -84,7 +97,7 @@ class ProdusStocController extends Controller
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
             'nr_factura' => ['nullable', 'max:190'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
-            'cantitate' => ['required', 'numeric', 'between:0,99999999'],
+            'cantitate' => ['required', 'numeric', 'between:-999999,999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
             ],
         [            
@@ -142,6 +155,9 @@ class ProdusStocController extends Controller
                     // Cautare produs
                     $produs = \App\Produs::where('id', $produse_stocuri->produs_id)->first();
 
+                    // Salvare data pentru a o adauga la produsul nou
+                    $created_at = $produs->created_at;
+
                     // Verificare initiala pentru a nu scadea cantitatea sub 0
                     if (($produs->cantitate - $produse_stocuri->cantitate) < 0){
                         return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
@@ -191,12 +207,14 @@ class ProdusStocController extends Controller
                     // $produse_istoric->furnizor_id = $furnizor_id;
                     $produse_istoric->user = auth()->user()->id;
                     $produse_istoric->operatiune = 'suplimentare stoc';
+                    // $produse_istoric->created_at = $created_at;
                     $produse_istoric->save();
                     
                     // Actualizarea cantitatii produsului din tabela "ProdusCantitateIstoric"
                     $produse_cantitati_istoric->produs_id = $produs->id;
                     $produse_cantitati_istoric->cantitate = $produs->cantitate;
                     $produse_cantitati_istoric->operatiune = 'suplimentare stoc';
+                    // $produse_cantitati_istoric->created_at = $created_at;
                     $produse_cantitati_istoric->save();
                     
                     // Inserarea cantitatii produsului in tabela "ProdusStoc"
@@ -205,6 +223,7 @@ class ProdusStocController extends Controller
                     $produse_stocuri->nr_factura = $request->nr_factura;
                     $produse_stocuri->pret_de_achizitie = $request->pret_de_achizitie;
                     $produse_stocuri->cantitate = $request->cantitate;
+                    $produse_stocuri->created_at = $created_at;
                     $produse_stocuri->save(); 
             }
         }
@@ -270,7 +289,7 @@ class ProdusStocController extends Controller
             'produs_id' => ['nullable', 'exists:produse,id'],
             'furnizor_id' => ['nullable', 'exists:furnizori,id'],
             'nr_factura' => ['nullable', 'max:190'],
-            'cantitate' => ['required', 'numeric', 'between:0,99999999'],
+            'cantitate' => ['required', 'numeric', 'between:-999999,999999'],
             'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
         ]
         );
