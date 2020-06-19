@@ -140,9 +140,9 @@
                                             @endphp --}}
                                         @endisset
                                     </td>
-                                    <td class="text-right">
+                                    {{-- <td class="text-right">
                                         {{ $produs_stoc->produs->pret ?? '' }}
-                                    {{-- </td>
+                                    </td>
                                     <td class="text-right">
                                         @isset($produs_stoc->produs->pret)
                                             {{ $produs_stoc->produs->pret * $produs_stoc->cantitate }} 
