@@ -32,6 +32,8 @@ class GenereazaFacturaClientController extends Controller
             ]);
 
             $factura = \App\Factura::make($validatedData);
+            $factura->seria = 'VNGSM';
+            $factura->numar = \App\Factura::select('numar')->max('numar') + 1;
             $factura->save();
 
             foreach ($produse_vandute as $produs){
@@ -46,20 +48,26 @@ class GenereazaFacturaClientController extends Controller
                 $produs_factura->valoare_tva = $produs['pret'] - $produs_factura->valoare;
                 $produs_factura->save();
             }
-
-            dd($produse_vandute);
             
-            $pdf = \PDF::loadView('produse.export.lista-inventar-produse-vali-pdf', compact('produse'))
-                ->setPaper('a4', 'portrait');
-            return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            // $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
+            //     ->setPaper('a4', 'portrait');
+            // return $pdf->stream('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
 
-            dd($factura);
+            // dd($factura);
         
 
-            return view('genereaza-factura-client.completare-date', compact('produse_vandute'));
-        } else {
-            return redirect('/produse/vanzari');
+            return redirect('/produse/generare-factura-client/' . $factura->id . '/export-pdf');
+        // } else {
+        //     return redirect('/produse/vanzari');
         }
         
+    }
+
+    public function exportPDF(Request $request, $factura_id)
+    {
+        $factura = \App\Factura::where('id', $factura_id)->first();
+            $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
+                ->setPaper('a4', 'portrait');
+            return $pdf->stream('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
     }
 }
