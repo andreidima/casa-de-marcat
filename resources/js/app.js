@@ -47,6 +47,12 @@ if (document.querySelector('#app1')) {
     };
 }
 
+if (document.querySelector('#app2')) {
+    const app = new Vue({
+        el: '#app2',
+    });
+}
+
 if (document.querySelector('#adaugare_modificare_produse')) {
     const app1 = new Vue({
         el: '#adaugare_modificare_produse',

@@ -231,9 +231,58 @@ class NirController extends Controller
                 }
             }
         }
-
         return back()->with('status', 'Nirurile au fost generate!');
-        
+    }
+
+    public function genereazaNirSingular(Request $request, $furnizor_id = null, $nr_factura = null)
+    {
+        $data_nir = \Request::get('data_nir');
+
+        // Telefoane noi
+        $produse_stocuri_telefoane_noi = \App\ProdusStoc::whereDoesntHave('nir')
+            ->whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query) {
+                    $query->where('categorie_produs_id', 1);
+                });
+            })
+            ->where('furnizor_id', $furnizor_id)
+            ->where('nr_factura', $nr_factura)
+            ->get();
+
+        $urmatorul_nir = Nir::where('categorie_id', 1)->max('nir') + 1 ?? 1;
+        foreach ($produse_stocuri_telefoane_noi as $produs_stoc) {
+            $nir = Nir::make();
+            $nir->nir = $urmatorul_nir;
+            $nir->categorie_id = 1;
+            $nir->produs_stoc_id = $produs_stoc->id;
+            $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+            $nir->save();
+        }
+
+        // Accesorii
+        $produse_stocuri_accesorii = \App\ProdusStoc::whereDoesntHave('nir')
+            ->whereHas('produs', function (Builder $query) {
+                $query->whereHas('subcategorie', function (Builder $query) {
+                    $query->where('categorie_produs_id', 3);
+                });
+            })
+            ->where('furnizor_id', $furnizor_id)
+            ->where('nr_factura', $nr_factura)
+            ->get();
+
+        $urmatorul_nir = Nir::where('categorie_id', 1)->max('nir') + 1 ?? 1;
+        foreach ($produse_stocuri_accesorii as $produs_stoc) {
+            $nir = Nir::make();
+            $nir->nir = $urmatorul_nir;
+            $nir->categorie_id = 1;
+            $nir->produs_stoc_id = $produs_stoc->id;
+            $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+            $nir->save();
+        }
+
+        // dd($data_nir, $furnizor_id, $nr_factura, $produse_stocuri_telefoane_noi, $produse_stocuri_accesorii);
+
+        return back()->with('status', 'A fost generat Nirul ' . $urmatorul_nir . '!');
     }
 
     public function export()

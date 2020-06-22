@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Nir
     Route::get('niruri/produse-stocuri-fara-nir', 'NirController@produseStocuriFaraNir')->name('nir.produse-stocuri-fara-nir');
     Route::get('niruri/genereaza-nir', 'NirController@genereazaNir')->name('nir.genereaza-nir');
+    Route::get('niruri/genereaza-nir-singular/{furnizor_id}/{nr_factura}', 'NirController@genereazaNirSingular')->name('nir.genereaza-nir-singular');
     Route::get('niruri/export', 'NirController@export')->name('nir.export');
     // Route::get('niruri/{data}/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');
     Route::get('niruri/export/{view_type?}', 'NirController@pdfExport')->name('nir.pdfExport');

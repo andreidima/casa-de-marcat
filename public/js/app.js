@@ -88906,6 +88906,12 @@ if (document.querySelector('#app1')) {
   };
 }
 
+if (document.querySelector('#app2')) {
+  var app = new Vue({
+    el: '#app2'
+  });
+}
+
 if (document.querySelector('#adaugare_modificare_produse')) {
   var _app = new Vue({
     el: '#adaugare_modificare_produse',
@@ -88939,7 +88945,7 @@ if (document.querySelector('#cautare_produse_vandute')) {
 }
 
 if (document.querySelector('#produse')) {
-  var app = new Vue({
+  var _app3 = new Vue({
     el: '#produse' // methods: {
     //     formfocus() {
     //         document.getElementById("search_cod_de_bare").focus();
@@ -88953,7 +88959,7 @@ if (document.querySelector('#produse')) {
 }
 
 if (document.querySelector('#vanzari')) {
-  var _app3 = new Vue({
+  var _app4 = new Vue({
     el: '#vanzari',
     data: {
       cod_de_bare: codDeBareVechi,
@@ -88970,7 +88976,7 @@ if (document.querySelector('#vanzari')) {
             cod_de_bare: this.cod_de_bare
           }
         }).then(function (response) {
-          _app3.pret = response.data.pret;
+          _app4.pret = response.data.pret;
         });
       },
       formfocus: function formfocus() {
@@ -89255,8 +89261,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

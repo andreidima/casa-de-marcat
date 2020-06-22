@@ -262,10 +262,9 @@
 
 
     {{-- Page break dupa ultimul nir de la telefoane --}}
-    @if($niruri_telefoane_noi->isNotEmpty())
+    @if($niruri_telefoane_noi->isNotEmpty() && $niruri_accesorii->isNotEmpty())
         <p style="page-break-after: always;"></p>
     @endif
-
     
     {{-- Accesorii --}}
     @forelse ($niruri_accesorii->groupBy('nir') as $nir)

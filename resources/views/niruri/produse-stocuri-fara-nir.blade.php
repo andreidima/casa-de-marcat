@@ -172,6 +172,24 @@
                             </tbody>
                     </table>
                 </div>
+                
+                <form class="needs-validation" novalidate method="GET" action="{{ route('nir.genereaza-nir-singular') }}">
+                    @csrf                    
+                    <div class="row input-group custom-search-form justify-content-center align-self-end">
+                        <div class="col-md-12 d-flex mb-1 justify-content-center">
+                            <label for="data_nir" class="mb-0 align-self-center mr-1">Setare data nir:</label>
+                            <vue2-datepicker
+                                data-veche="{{ $data_nir }}"
+                                nume-camp-db="data_nir"
+                                tip="date"
+                                latime="100"
+                            ></vue2-datepicker>
+                        </div>
+                        <button class="btn btn-sm btn-primary col-md-4 mr-1 border border-dark rounded-pill" type="submit">
+                            Generează Nir
+                        </button>
+                    </div>
+                </form>
             @empty
             @endforelse
             @empty
@@ -290,6 +308,33 @@
                                 </tr>
                             </tbody>
                     </table>
+                </div>
+                
+                <div id="cautare_produse_vandute">
+                    <form class="needs-validation" novalidate method="GET" 
+                        action="{{ route('nir.genereaza-nir-singular', 
+                            [
+                                'furnizor_id' => $produse_per_factura->first()->furnizor->id,
+                                'nr_factura' => $produse_per_factura->first()->nr_factura
+                            ]
+                        ) }}">
+                        
+                        @csrf                    
+                        <div class="row input-group custom-search-form justify-content-center align-self-end">
+                            <div class="col-md-12 d-flex mb-1 justify-content-center">
+                                <label for="data_nir" class="mb-0 align-self-center mr-1">Setare data nir:</label>
+                                <vue2-datepicker
+                                    data-veche="{{ $data_nir ?? \Carbon\Carbon::now() }}"
+                                    nume-camp-db="data_nir"
+                                    tip="date"
+                                    latime="100"
+                                ></vue2-datepicker>
+                            </div>
+                            <button class="btn btn-sm btn-primary col-md-4 mr-1 border border-dark rounded-pill" type="submit">
+                                Generează Nir
+                            </button>
+                        </div>
+                    </form>
                 </div>
             @empty
             @endforelse
