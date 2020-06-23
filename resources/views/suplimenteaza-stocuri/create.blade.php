@@ -109,6 +109,13 @@
                                             >
                                     </div>
                                 </div>
+                                <div class="form-group row justify-content-end">
+                                            <div class="form-check col-sm-3 text-center">
+                                                <input type="checkbox" class="form-check-input" name="fara_nir" value="1"
+                                                {{ old('fara_nir') == '1' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="fara_nir">Fără nir</label>
+                                            </div>
+                                </div>
 
                                 <div class="form-group row">
                                     <div class="col-sm-12 d-flex justify-content-around">

@@ -90,7 +90,7 @@ class NirController extends Controller
     public function destroy(Nir $niruri)
     {
         $niruri->delete();
-        return redirect('/niruri')->with('status', 'Nirul "' . $niruri->niruri . '" a fost șters cu succes!');
+        return redirect('/niruri')->with('status', 'Nirul "' . $niruri->nir . '" a fost șters cu succes!');
     }    
 
     public function produse()
@@ -155,7 +155,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 1);
                 });
             })
-            ->oldest()
+            ->latest()
             ->get();
 
         $produse_stocuri_accesorii = \App\ProdusStoc::
@@ -165,7 +165,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 3);
                 });
             })
-            ->oldest()
+            ->latest()
             ->get();
 
         return view('niruri.produse-stocuri-fara-nir', compact('produse_stocuri_accesorii', 'produse_stocuri_telefoane_noi'));
@@ -270,7 +270,7 @@ class NirController extends Controller
             ->where('nr_factura', $nr_factura)
             ->get();
 
-        $urmatorul_nir = Nir::where('categorie_id', 1)->max('nir') + 1 ?? 1;
+        $urmatorul_nir = Nir::where('categorie_id', 3)->max('nir') + 1 ?? 1;
         foreach ($produse_stocuri_accesorii as $produs_stoc) {
             $nir = Nir::make();
             $nir->nir = $urmatorul_nir;
