@@ -48,23 +48,24 @@
                     <i class="fas fa-file-pdf mr-1"></i>Export PDF
                 </a> --}}         
 
-                @if(count($produse_stocuri_telefoane_noi) || count($produse_stocuri_accesorii))
+                {{-- @if(count($produse_stocuri_telefoane_noi) || count($produse_stocuri_accesorii))
                     <a href="/niruri/genereaza-nir">
                         <h4 class="mb-0"><span class="badge badge-primary">Generează Nirurile</span></h4>
                     </a>
-                @endif
+                @endif --}}
             </div>
         </div>
 
-        <div class="card-body px-0 py-3">
+        <div class="card-body px-0 py-3" id="cautare_produse_vandute">
 
             @include ('errors')
 
             {{-- Telefoane noi --}}
-            @forelse ($produse_stocuri_telefoane_noi->groupBy(function ($data) {
+            {{-- @forelse ($produse_stocuri_telefoane_noi->groupBy(function ($data) {
                     return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
                 }) as $produse_per_data)
-            @forelse ($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor)
+            @forelse ($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor) --}}
+            @forelse ($produse_stocuri_telefoane_noi->groupBy('furnizor_id') as $produse_per_furnizor)
             @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
 
                 @php
@@ -81,8 +82,8 @@
                                     Furnizor: {{ $produse_per_factura->first()->furnizor->nume ?? 'nu este specificat' }}
                                     |
                                     Factură: {{ $produse_per_factura->first()->nr_factura ?? 'nu este specificată'}}
-                                    |
-                                    Data: {{ $produse_per_factura->first()->created_at }}
+                                    {{-- |
+                                    Data: {{ $produse_per_factura->first()->created_at }} --}}
                                 </th>
                             </tr>
                             <tr class="" style="padding:2rem">
@@ -194,14 +195,13 @@
             @endforelse
             @empty
             @endforelse
-            @empty
-            @endforelse
 
             {{-- Accesorii --}}
-            @forelse ($produse_stocuri_accesorii->groupBy(function ($data) {
+            {{-- @forelse ($produse_stocuri_accesorii->groupBy(function ($data) {
                     return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
                 }) as $produse_per_data)
-            @forelse ($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor)
+            @forelse ($produse_per_data->groupBy('furnizor_id') as $produse_per_furnizor) --}}
+            @forelse ($produse_stocuri_accesorii->groupBy('furnizor_id') as $produse_per_furnizor)
             @forelse ($produse_per_furnizor->groupBy('nr_factura') as $produse_per_factura)
 
                 @php
@@ -210,7 +210,7 @@
                     $total_suma_vanzare = 0;
                 @endphp
             
-                <div class="table-responsive rounded mb-5">
+                <div class="table-responsive rounded mb-0">
                     <table class="table table-striped table-hover table-sm rounded"> 
                         <thead class="text-white rounded" style="background-color:#e66800;">
                             <tr>
@@ -218,8 +218,8 @@
                                     Furnizor: {{ $produse_per_factura->first()->furnizor->nume ?? 'nu este specificat' }}
                                     |
                                     Factură: {{ $produse_per_factura->first()->nr_factura ?? 'nu este specificată'}}
-                                    |
-                                    Data: {{ \Carbon\Carbon::parse($produse_per_factura->first()->created_at)->isoFormat('D.MM.YYYY') }}
+                                    {{-- |
+                                    Data: {{ \Carbon\Carbon::parse($produse_per_factura->first()->created_at)->isoFormat('D.MM.YYYY') }} --}}
                                 </th>
                             </tr>
                             <tr class="" style="padding:2rem">
@@ -310,7 +310,7 @@
                     </table>
                 </div>
                 
-                <div id="cautare_produse_vandute">
+                <div>
                     <form class="needs-validation" novalidate method="GET" 
                         action="{{ route('nir.genereaza-nir-singular', 
                             [
@@ -320,7 +320,7 @@
                         ) }}">
                         
                         @csrf                    
-                        <div class="row input-group custom-search-form justify-content-center align-self-end">
+                        <div class="row mb-5 input-group custom-search-form justify-content-center align-self-end">
                             <div class="col-md-12 d-flex mb-1 justify-content-center">
                                 <label for="data_nir" class="mb-0 align-self-center mr-1">Setare data nir:</label>
                                 <vue2-datepicker
@@ -330,7 +330,7 @@
                                     latime="100"
                                 ></vue2-datepicker>
                             </div>
-                            <button class="btn btn-sm btn-primary col-md-4 mr-1 border border-dark rounded-pill" type="submit">
+                            <button class="btn btn-sm btn-primary col-md-3 mr-1 border border-dark rounded-pill" type="submit">
                                 Generează Nir
                             </button>
                         </div>
@@ -340,8 +340,8 @@
             @endforelse
             @empty
             @endforelse  
-            @empty
-            @endforelse          
+            {{-- @empty
+            @endforelse           --}}
 
             @if(!count($produse_stocuri_telefoane_noi) && !count($produse_stocuri_accesorii))
                 <div class="p-4">
