@@ -28,6 +28,7 @@ class GenereazaFacturaClientController extends Controller
                 'cif_cnp' => ['nullable', 'max:200'],
                 'adresa' => ['nullable', 'max:200'],
                 'delegat' => ['nullable', 'max:200'],
+                'seria_nr_buletin' => ['nullable', 'max:200'],
                 'telefon' => ['nullable', 'max:200']
             ]);
 
@@ -43,7 +44,7 @@ class GenereazaFacturaClientController extends Controller
                 $produs_factura->nume = $produs['nume'];
                 $produs_factura->um = 'BUC';
                 $produs_factura->cantitate = $produs['cantitate'];
-                $produs_factura->pret_unitar = number_format(round(($produs['pret'] / $produs['cantitate'] / 1.19), 2));
+                $produs_factura->pret_unitar = number_format(round_up(($produs['pret'] / $produs['cantitate'] / 1.19), 2), 2);
                 $produs_factura->valoare = $produs_factura->pret_unitar * $produs_factura->cantitate;
                 $produs_factura->valoare_tva = $produs['pret'] - $produs_factura->valoare;
                 $produs_factura->save();

@@ -33,7 +33,8 @@ class SuplimenteazaStocController extends Controller
             'nr_factura' => ['nullable', 'max:190'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'nr_de_bucati' => ['required', 'numeric', 'between:-999999,999999'],
-            'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
+            'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare'],
+            'fara_nir' => ['required']
             ],
         [            
             'cod_de_bare.exists' => 'Codul de bare „' . $request->cod_de_bare . '” nu exista in baza de date',
@@ -77,6 +78,7 @@ class SuplimenteazaStocController extends Controller
             $produs_stoc->nr_factura = $validatedData['nr_factura'];
             $produs_stoc->pret_de_achizitie = $validatedData['pret_de_achizitie'];
             $produs_stoc->cantitate = $validatedData['nr_de_bucati'];
+            $produs_stoc->fara_nir = $validatedData['fara_nir'];
             $produs_stoc->save();
 
             $request->session()->has('suplimentare_stocuri') ?? $request->session()->put('suplimentare_stocuri', []);

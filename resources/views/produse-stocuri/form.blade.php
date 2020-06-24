@@ -76,6 +76,22 @@
                     >
             </div> 
         </div>
+        <div class="form-group row px-2 py-2 mb-0">
+            <div class=" col-sm-4">
+            </div>
+            <div class="form-check col-sm-8 px-5">
+                <input type="hidden" name="fara_nir" value=0>
+                <input type="checkbox" class="form-check-input" name="fara_nir" value="1"
+                    {{ 
+                        old('fara_nir') <> '' ? 
+                            (old('fara_nir') == '1' ? 'checked' : '')
+                            :
+                            ($produse_stocuri->fara_nir === 1 ? 'checked' : '')
+                    }}
+                >
+                <label class="form-check-label" for="fara_nir">Fără nir</label>
+            </div>
+        </div>
         <div class="form-group row px-2 py-2 mb-0">          
             <label for="data" class="col-sm-4 col-form-label mb-0 pl-3">Data:</label>                                   
             <div class="col-lg-8">  

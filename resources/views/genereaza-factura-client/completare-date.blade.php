@@ -63,7 +63,7 @@
                                             {{-- value="{{ old('adresa') == '' ? $plati->adresa : old('adresa') }}" --}}
                                             required> 
                                     </div>                                                     
-                                    <div class="form-group col-lg-8 mb-2">  
+                                    <div class="form-group col-lg-12 mb-2">  
                                         <label for="delegat" class="mb-0 pl-3">Delegat:</label>                               
                                         <input 
                                             type="text" 
@@ -72,8 +72,18 @@
                                             placeholder="" 
                                             {{-- value="{{ old('delegat') == '' ? $plati->delegat : old('delegat') }}" --}}
                                             required> 
+                                    </div>                                                   
+                                    <div class="form-group col-lg-6 mb-2">  
+                                        <label for="seria_nr_buletin" class="mb-0 pl-3">Seria nr buletin:</label>                               
+                                        <input 
+                                            type="text" 
+                                            class="form-control form-control-sm rounded-pill {{ $errors->has('seria_nr_buletin') ? 'is-invalid' : '' }}" 
+                                            name="seria_nr_buletin" 
+                                            placeholder="" 
+                                            {{-- value="{{ old('seria_nr_buletin') == '' ? $plati->seria_nr_buletin : old('seria_nr_buletin') }}" --}}
+                                            required> 
                                     </div>
-                                    <div class="form-group col-lg-4 mb-4">  
+                                    <div class="form-group col-lg-6 mb-4">  
                                         <label for="telefon" class="mb-0 pl-3">Telefon:</label>                               
                                         <input 
                                             type="text" 

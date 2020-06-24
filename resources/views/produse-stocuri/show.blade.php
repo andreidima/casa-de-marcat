@@ -66,6 +66,14 @@
                             </tr>
                             <tr>
                                 <td>
+                                    Adăugare la nir
+                                </td>
+                                <td>
+                                    {{ ($produse_stocuri->fara_nir === 0) ? 'DA' : 'NU' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     Data adăugării
                                 </td>
                                 <td>

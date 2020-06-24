@@ -155,6 +155,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 1);
                 });
             })
+            ->where('fara_nir', 0)
             ->latest()
             ->get();
 
@@ -165,6 +166,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 3);
                 });
             })
+            ->where('fara_nir', 0)
             ->latest()
             ->get();
 
@@ -181,6 +183,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 1);
                 });
             })
+            ->where('fara_nir', 0)
             ->oldest()
             ->get();
 
@@ -211,6 +214,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 3);
                 });
             })
+            ->where('fara_nir', 0)
             ->oldest()
             ->get();            
 
@@ -245,6 +249,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 1);
                 });
             })
+            ->where('fara_nir', 0)
             ->where('furnizor_id', $furnizor_id)
             ->where('nr_factura', $nr_factura)
             ->get();
@@ -266,6 +271,7 @@ class NirController extends Controller
                     $query->where('categorie_produs_id', 3);
                 });
             })
+            ->where('fara_nir', 0)
             ->where('furnizor_id', $furnizor_id)
             ->where('nr_factura', $nr_factura)
             ->get();

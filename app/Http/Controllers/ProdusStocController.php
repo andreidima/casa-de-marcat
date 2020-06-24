@@ -98,7 +98,8 @@ class ProdusStocController extends Controller
             'nr_factura' => ['nullable', 'max:190'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'cantitate' => ['required', 'numeric', 'between:-999999,999999'],
-            'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare']
+            'cod_de_bare' => ['required', 'max:20', 'exists:produse,cod_de_bare'],
+            'fara_nir' => ['required']
             ],
         [            
             'cod_de_bare.exists' => 'Codul de bare „' . $request->cod_de_bare . '” nu exista in baza de date',
@@ -147,6 +148,7 @@ class ProdusStocController extends Controller
                     $produse_stocuri->nr_factura = $request->nr_factura;
                     $produse_stocuri->pret_de_achizitie = $request->pret_de_achizitie;
                     $produse_stocuri->cantitate = $request->cantitate;
+                    $produse_stocuri->fara_nir = $request->fara_nir;
                     $produse_stocuri->update();
                 
             } else { // produsul este altul
@@ -223,6 +225,7 @@ class ProdusStocController extends Controller
                     $produse_stocuri->nr_factura = $request->nr_factura;
                     $produse_stocuri->pret_de_achizitie = $request->pret_de_achizitie;
                     $produse_stocuri->cantitate = $request->cantitate;
+                    $produse_stocuri->fara_nir = $request->fara_nir;
                     $produse_stocuri->created_at = $created_at;
                     $produse_stocuri->save(); 
             }

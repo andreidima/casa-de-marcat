@@ -111,6 +111,7 @@
                                 </div>
                                 <div class="form-group row justify-content-end">
                                             <div class="form-check col-sm-3 text-center">
+                                                <input type="hidden" name="fara_nir" value=0>
                                                 <input type="checkbox" class="form-check-input" name="fara_nir" value="1"
                                                 {{ old('fara_nir') == '1' ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="fara_nir">Fără nir</label>
