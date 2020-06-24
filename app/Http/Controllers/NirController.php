@@ -280,7 +280,7 @@ class NirController extends Controller
         foreach ($produse_stocuri_accesorii as $produs_stoc) {
             $nir = Nir::make();
             $nir->nir = $urmatorul_nir;
-            $nir->categorie_id = 1;
+            $nir->categorie_id = 3;
             $nir->produs_stoc_id = $produs_stoc->id;
             $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
             $nir->save();

@@ -268,7 +268,7 @@
     
     {{-- Accesorii --}}
     @forelse ($niruri_accesorii->groupBy('nir') as $nir)
-
+        aaaaaaaaaaaa
         @php
             $total_suma_achizitie = 0;
             $total_suma_tva = 0;
