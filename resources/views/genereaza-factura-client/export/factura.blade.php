@@ -58,9 +58,8 @@
 <body>
         <div style="
             border:dashed #999;
-            width:680px; 
-            min-height:600px;            
-            padding: 0px 10px 15px 10px;
+            width:680px;         
+            padding: 10px 15px 10px 15px;
             margin:0px 0px;
                 -moz-border-radius: 10px;
                 -webkit-border-radius: 10px;
@@ -69,7 +68,7 @@
                       
             <table style="">
                 <tr style="">
-                    <td style="border-width:0px; padding:0rem; width:50%">
+                    <td style="border-width:0px; padding:0rem; width:45%">
                             {{-- <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" width="150px"> --}}
                             <b>Furnizor</b> <br>
                             <b>G.S.MOBILE 2001 SRL</b> <br>
@@ -79,9 +78,12 @@
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
                             Telefon: 0722873217	<br>
                             Banca: BRD FOCSANI <br>
-                            Cont: RO60BRDE400SV19069964000 <br>
+                            Cont: RO60BRDE400SV19069964000
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:50%">
+                    <td style="border-width:0px; padding:0rem; width:10%">
+
+                    </td>
+                    <td style="border-width:0px; padding:0rem; width:45%">
                             <b></b> <br>
                             <b>{{ $factura->firma }}</b> <br>
                             Nr. Reg. com.: {{ $factura->nr_reg_com }} <br>
@@ -153,18 +155,17 @@
                             <td style="border-width:0px; text-align:center;">
                                 TOTAL DE PLATĂ
                                 <br>
-                                {{ $produs->valoare + $produs->valoare_tva }}
+                                {{ $factura->produse->sum('valoare') + $factura->produse->sum('valoare_tva') }}
                             </td>
                         </tr>
                     </table>
 
-                    <p style="margin-bottom:5rem">&nbsp;</p>
-                    
+                    <p style="margin-top:40px; margin-bottom:{{ 260 - $factura->produse->count() * 20 }}px">&nbsp;</p>
+        
         <div style="
             border:dashed #999;
-            width:680px; 
-            min-height:600px;            
-            padding: 0px 10px 15px 10px;
+            width:680px;         
+            padding: 10px 15px 10px 15px;
             margin:0px 0px;
                 -moz-border-radius: 10px;
                 -webkit-border-radius: 10px;
@@ -173,7 +174,7 @@
                       
             <table style="">
                 <tr style="">
-                    <td style="border-width:0px; padding:0rem; width:50%">
+                    <td style="border-width:0px; padding:0rem; width:45%">
                             {{-- <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" width="150px"> --}}
                             <b>Furnizor</b> <br>
                             <b>G.S.MOBILE 2001 SRL</b> <br>
@@ -183,9 +184,12 @@
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
                             Telefon: 0722873217	<br>
                             Banca: BRD FOCSANI <br>
-                            Cont: RO60BRDE400SV19069964000 <br>
+                            Cont: RO60BRDE400SV19069964000
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:50%">
+                    <td style="border-width:0px; padding:0rem; width:10%">
+
+                    </td>
+                    <td style="border-width:0px; padding:0rem; width:45%">
                             <b></b> <br>
                             <b>{{ $factura->firma }}</b> <br>
                             Nr. Reg. com.: {{ $factura->nr_reg_com }} <br>

@@ -44,9 +44,17 @@ class GenereazaFacturaClientController extends Controller
                 $produs_factura->nume = $produs['nume'];
                 $produs_factura->um = 'BUC';
                 $produs_factura->cantitate = $produs['cantitate'];
+                
+                // Calcul TVA la total
+                // $produs_factura->valoare_tva = number_format(round_up($produs['pret'] / 1.19), 2);
+                // $produs_factura->valoare = $produs['pret'] $produs_factura->valoare_tva;
+                // $produs_factura->pret_unitar = number_format(($produs_factura->valoare / $produs['cantitate']) , 2);
+
+                // Calcul pret per bucata
                 $produs_factura->pret_unitar = number_format(round_up(($produs['pret'] / $produs['cantitate'] / 1.19), 2), 2);
                 $produs_factura->valoare = $produs_factura->pret_unitar * $produs_factura->cantitate;
                 $produs_factura->valoare_tva = $produs['pret'] - $produs_factura->valoare;
+
                 $produs_factura->save();
             }
             
@@ -66,9 +74,15 @@ class GenereazaFacturaClientController extends Controller
 
     public function exportPDF(Request $request, $factura_id)
     {
-        $factura = \App\Factura::where('id', $factura_id)->first();
-            $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
-                ->setPaper('a4', 'portrait');
-            return $pdf->stream('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+        
+        if ($request->view_type === 'export-html') {
+            $factura = \App\Factura::where('id', $factura_id)->first();
+            return view('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'));
+        } elseif ($request->view_type === 'export-pdf') {
+            $factura = \App\Factura::where('id', $factura_id)->first();
+                $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
+                    ->setPaper('a4', 'portrait');
+                return $pdf->stream('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+        }
     }
 }
