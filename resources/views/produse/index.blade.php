@@ -6,16 +6,16 @@
             <div class="col-lg-3 my-1">
                 <h4 class="mt-2 mb-0"><a href="/produse"><i class="fas fa-list-ul mr-1"></i>Produse</a></h4>
             </div> 
-            <div class="col-lg-6 my-1" id="">
+            <div class="col-lg-6 my-1" id="app2">
                 <form class="needs-validation" novalidate method="GET" action="/produse">
                     @csrf                    
                     <div class="input-group custom-search-form justify-content-center">
                         <div class="row">
-                            <div class="col-7 px-0">
+                            <div class="col-sm-7 px-0">
                                 <input type="text" class="form-control" id="search_nume" value="{{ $search_nume }}"
                                     name="search_nume" placeholder="Caută nume" autofocus>
                             </div>
-                            <div class="col-5 px-0">                                   
+                            <div class="col-sm-5 px-0">                                   
                                 <select name="search_subcategorie_produs_id" 
                                     class="custom-select {{ $errors->has('search_subcategorie_produs_id') ? 'is-invalid' : '' }}" 
                                 >
@@ -36,11 +36,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-4 px-0">
+                            <div class="col-sm-4 px-0">
                             <input type="text" class="form-control" id="search_cod_de_bare" value="{{ $search_cod_de_bare }}"
                                 name="search_cod_de_bare" placeholder="Caută cod bare">
                             </div>
-                            <div class="col-3 px-0">
+                            <div class="col-sm-3 px-0">
                             <input type="text" class="form-control" id="search_pret" value="{{ $search_pret }}"
                                 name="search_pret" placeholder="Caută preț">
                             </div>
@@ -48,7 +48,7 @@
                         {{-- </div>
                         <div class=""> --}}
                             {{-- <span class="input-group-btn"> --}}
-                            <div class="col-5 text-right px-0">
+                            <div class="col-sm-5 text-right px-0">
                                 <button class="btn btn-primary" type="submit" title="Caută">
                                     <i class="fas fa-search text-white mr-1"></i>Caută
                                 </button>
@@ -56,6 +56,21 @@
                                     role="button" title="Resetează căutarea">
                                     <i class="fas fa-redo text-white mr-1"></i>Resetează
                                 </a>
+                            </div>
+                            <div class="col-sm-12 d-flex mb-0">
+                                <label for="search_date" class="mb-0 align-self-center mr-1">Interval dată adăugare:</label>
+                                <vue2-datepicker
+                                    data-veche="{{ $search_data_inceput }}"
+                                    nume-camp-db="search_data_inceput"
+                                    tip="date"
+                                    latime="100"
+                                ></vue2-datepicker>
+                                <vue2-datepicker
+                                    data-veche="{{ $search_data_sfarsit }}"
+                                    nume-camp-db="search_data_sfarsit"
+                                    tip="date"
+                                    latime="150"
+                                ></vue2-datepicker>
                             </div>
                             {{-- </span> --}}
                         </div>

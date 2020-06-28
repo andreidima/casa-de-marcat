@@ -27,6 +27,8 @@ class ProdusController extends Controller
         $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI   
         $search_subcategorie_produs_id = \Request::get('search_subcategorie_produs_id'); //<-- we use global request to get the param of URI  
         $search_pret = \Request::get('search_pret'); //<-- we use global request to get the param of URI       
+        $search_data_inceput = \Request::get('search_data_inceput');
+        $search_data_sfarsit = \Request::get('search_data_sfarsit');
         $produse = Produs::
                 when($search_cod_de_bare, function ($query, $search_cod_de_bare) {
                     return $query->where('cod_de_bare', 'like', $search_cod_de_bare);
@@ -40,6 +42,13 @@ class ProdusController extends Controller
             ->when($search_pret, function ($query, $search_pret) {
                     return $query->where('pret', 'like', $search_pret . '%');
                 })
+            ->when($search_data_inceput, function ($query, $search_data_inceput) {
+                return $query->whereDate('created_at', '>=', $search_data_inceput);
+            })
+            ->when($search_data_sfarsit, function ($query, $search_data_sfarsit) {
+                // return $query->whereDate('created_at', '<=', \Carbon\Carbon::parse($search_data_sfarsit)->addDay());
+                return $query->whereDate('created_at', '<=', $search_data_sfarsit);
+            })
             ->latest()
             ->Paginate(25);
 
@@ -47,7 +56,10 @@ class ProdusController extends Controller
                 
         // dd($subcategorii);
 
-        return view('produse.index', compact('produse', 'search_cod_de_bare', 'search_nume', 'search_subcategorie_produs_id', 'search_pret', 'subcategorii'));
+        return view('produse.index', compact(
+                'produse', 'search_cod_de_bare', 'search_nume', 'search_subcategorie_produs_id', 'search_pret', 'subcategorii',
+                'search_data_inceput', 'search_data_sfarsit'
+            ));
     }
 
     /**
@@ -77,6 +89,9 @@ class ProdusController extends Controller
         $produse = Produs::make($this->validateRequest($request));
         $produse_istoric = ProdusIstoric::make($this->validateRequest($request));
         // $this->authorize('update', $proiecte);
+        $produse->cantitate = 0;
+        $produse_istoric->cantitate = 0;
+        // dd($produse, $produse_istoric);
         $produse->save();
         
         $produse_istoric->produs_id = $produse->id;
@@ -243,7 +258,7 @@ class ProdusController extends Controller
             // 'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
-            'cantitate' => [ 'required', 'required', 'numeric', 'between:0,999999999'],
+            // 'cantitate' => [ 'required', 'required', 'numeric', 'between:0,999999999'],
             'cod_de_bare' => ['nullable', 'max:20', 'unique:produse,cod_de_bare,' . ($produse->id ?? '')],
             'imei' => ['nullable', 'max:50'],
             'localizare' => ['nullable', 'max:250'],

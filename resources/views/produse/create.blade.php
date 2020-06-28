@@ -103,7 +103,7 @@
                                         >
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                     <label for="cantitate" class="col-sm-5 col-form-label">Cantitate:</label>
                                 <div class="col-sm-7">
                                     <input type="number" min="1" max="9999999" 
@@ -113,7 +113,7 @@
                                         value="{{ old('cantitate') }}"                                        
                                         >
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row">
                                     <label for="cod_de_bare" class="col-sm-5 col-form-label">
                                         Cod de bare:
