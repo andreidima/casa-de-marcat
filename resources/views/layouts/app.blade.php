@@ -127,20 +127,38 @@
                                 <i class="fas fa-shopping-cart mr-1"></i>Vânzări
                             </a>
                         </li>
-                        <li class="nav-item active mr-4">
-                            <a class="nav-link" href="/avansuri">
-                                <i class="fas fa-hand-holding-usd mr-1"></i>Avansuri
-                            </a>
+                        <li class="nav-item dropdown active mr-4">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-dollar-sign mr-1"></i>Tranzacții
+                            </a>                            
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">                                
+                                <a class="nav-link" href="/avansuri">
+                                    <i class="fas fa-hand-holding-usd mr-1"></i>Avansuri
+                                </a>                                
+                                <div class="dropdown-divider"></div>
+                                <a class="nav-link" href="/plati">
+                                    <i class="fas fa-money-bill-wave mr-1"></i></i>Plăți
+                                </a>
+                                <div class="dropdown-divider"></div>                                
+                                <a class="nav-link" href="/casa">
+                                    <i class="fas fa-wallet mr-1"></i></i>Casa
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            </div>
                         </li>
-                        <li class="nav-item active mr-4">
-                            <a class="nav-link" href="/plati">
-                                <i class="fas fa-money-bill-wave mr-1"></i></i>Plăți
-                            </a>
-                        </li>
-                        <li class="nav-item active mr-4">
-                            <a class="nav-link" href="/casa">
-                                <i class="fas fa-wallet mr-1"></i></i>Casa
-                            </a>
+                        <li class="nav-item dropdown active mr-4">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-users mr-1"></i>Clienți
+                            </a>                            
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">                                
+                                <a class="nav-link" href="/facturi">
+                                    <i class="fas fa-users mr-1"></i>Clienți
+                                </a>                                
+                                <div class="dropdown-divider"></div>
+                                <a class="nav-link" href="/facturi">
+                                    <i class="fas fa-file-invoice mr-1"></i></i>Facturi
+                                </a>
+                            </div>
                         </li>
                         {{-- <li class="nav-item active mr-4">
                             <a class="nav-link" href="/produse-vandute">

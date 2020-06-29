@@ -174,7 +174,7 @@
                       
             <table style="">
                 <tr style="">
-                    <td style="border-width:0px; padding:0rem; width:45%">
+                    <td style="border-width:0px; padding:0rem; width:45%;">
                             {{-- <img src="{{ asset('images/cropped-gsmobile-logo-red.jpg') }}" width="150px"> --}}
                             <b>Furnizor</b> <br>
                             <b>G.S.MOBILE 2001 SRL</b> <br>

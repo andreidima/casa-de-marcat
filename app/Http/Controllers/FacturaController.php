@@ -14,7 +14,15 @@ class FacturaController extends Controller
      */
     public function index()
     {
-        //
+        $search_firma = \Request::get('search_firma'); //<-- we use global request to get the param of URI  
+        $facturi = Factura::
+            when($search_firma, function ($query, $search_firma) {
+                return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_firma) . '%');
+            })
+            ->latest()
+            ->simplePaginate(25);
+
+        return view('facturi.index', compact('facturi', 'search_firma'));
     }
 
     /**
