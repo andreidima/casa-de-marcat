@@ -44,6 +44,7 @@
                     <thead class="text-white rounded" style="background-color:#e66800;">
                         <tr class="" style="padding:2rem">
                             <th>Nr. Crt.</th>
+                            <th>Factura</th>
                             <th>Firma</th>
                             <th>Produse</th>
                             <th class="text-center">Cantitate</th>
@@ -57,6 +58,9 @@
                             <tr>                  
                                 <td align="">
                                     {{ ($facturi ->currentpage()-1) * $facturi ->perpage() + $loop->index + 1 }}
+                                </td>
+                                <td>
+                                    {{ $factura->seria }} {{ $factura->numar }}
                                 </td>
                                 <td>
                                     <a href="{{ $factura->path() }}">
@@ -84,56 +88,65 @@
                                 <td class="text-right">
                                     {{ \Carbon\Carbon::parse($factura->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                 </td>
-                                {{-- <td class="d-flex justify-content-end"> 
-                                    <a href="{{ $plata->path() }}/modifica"
+                                <td class="text-right"> 
+                                    {{-- <a href="{{ $plata->path() }}/modifica"
                                         class="flex"    
                                     >
                                         <span class="badge badge-primary">Modifică</span>
-                                    </a>                                   
-                                    <div style="flex" class="">
-                                        <a 
-                                            href="#" 
-                                            data-toggle="modal" 
-                                            data-target="#stergePlata{{ $plata->id }}"
-                                            title="Șterge Plata"
-                                            >
-                                            <span class="badge badge-danger">Șterge</span>
-                                        </a>
-                                            <div class="modal fade text-dark" id="stergePlata{{ $plata->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                    <div class="modal-header bg-danger">
-                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Plata: <b>{{ $plata->nume }}</b></h5>
-                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body" style="text-align:left;">
-                                                        Ești sigur ca vrei să ștergi Plata?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
+                                    </a>                                    --}}
+                                    <a href="/produse/generare-factura-client/{{ $factura->id }}/export-pdf"
+                                        {{-- class="btn btn-sm btn-success mx-1 border border-dark rounded-pill" --}}
+                                    >
+                                        <span class="badge badge-success">
+                                            <i class="fas fa-file-pdf mr-1"></i>PDF
+                                        </span>
+                                    </a>                                    
+                                    @if($factura->numar === \App\Factura::select('numar')->max('numar'))
+                                        <div style="" class="">
+                                            <a 
+                                                href="#" 
+                                                data-toggle="modal" 
+                                                data-target="#stergeFactura{{ $factura->id }}"
+                                                title="Șterge Factura"
+                                                >
+                                                <span class="badge badge-danger">Șterge</span>
+                                            </a>
+                                                <div class="modal fade text-dark" id="stergeFactura{{ $factura->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title text-white" id="exampleModalLabel">Factura: <b>{{ $factura->seria }} {{ $factura->numar }}</b></h5>
+                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body" style="text-align:left;">
+                                                            Ești sigur ca vrei să ștergi Factura?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
+                                                            
+                                                            <form method="POST" action="{{ $factura->path() }}">
+                                                                @method('DELETE')  
+                                                                @csrf   
+                                                                <button 
+                                                                    type="submit" 
+                                                                    class="btn btn-danger"  
+                                                                    >
+                                                                    Șterge Factura
+                                                                </button>                    
+                                                            </form>
                                                         
-                                                        <form method="POST" action="{{ $plata->path() }}">
-                                                            @method('DELETE')  
-                                                            @csrf   
-                                                            <button 
-                                                                type="submit" 
-                                                                class="btn btn-danger"  
-                                                                >
-                                                                Șterge Plata
-                                                            </button>                    
-                                                        </form>
-                                                    
-                                                    </div>
+                                                        </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                    </div> 
-                                </td> --}}
+                                        </div> 
+                                    @endif
+                                </td>
                             </tr>  
                         @empty
-                            <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
+                            <div>Nu s-au gasit facturi în baza de date. Încearcă alte date de căutare</div>
                         @endforelse
                         </tbody>
                 </table>

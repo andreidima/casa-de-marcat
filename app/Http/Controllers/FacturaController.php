@@ -17,7 +17,7 @@ class FacturaController extends Controller
         $search_firma = \Request::get('search_firma'); //<-- we use global request to get the param of URI  
         $facturi = Factura::
             when($search_firma, function ($query, $search_firma) {
-                return $query->where('nume', 'like', '%' . str_replace(' ', '%', $search_firma) . '%');
+                return $query->where('firma', 'like', '%' . str_replace(' ', '%', $search_firma) . '%');
             })
             ->latest()
             ->simplePaginate(25);
@@ -86,8 +86,12 @@ class FacturaController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Factura $factura)
+    public function destroy(Factura $facturi)
     {
-        //
+        if ($facturi->numar === Factura::select('numar')->max('numar'))
+        {
+            $facturi->delete();
+        }
+        return redirect('/facturi')->with('status', 'Factura "' . $facturi->seria . ' ' . $facturi->numar . '" a fost ștearsă cu succes!');
     }
 }

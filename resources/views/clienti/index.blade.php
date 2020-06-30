@@ -5,23 +5,23 @@
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
             <div class="col-lg-3 align-self-center">
                 <h4 class=" mb-0">
-                    <a href="{{ route('plati.index') }}"><i class="fas fa-money-bill-wave mr-1"></i></i>Plăți</a>
+                    <a href="{{ route('clienti.index') }}"><i class="fas fa-money-bill-wave mr-1"></i></i>Clienți</a>
                 </h4>
             </div> 
             <div class="col-lg-6" id="">
-                <form class="needs-validation" novalidate method="GET" action="{{ route('plati.index') }}">
+                <form class="needs-validation" novalidate method="GET" action="{{ route('clienti.index') }}">
                     @csrf                    
                     <div class="row input-group custom-search-form justify-content-center">
                         <input type="text" class="form-control form-control-sm col-md-4 mr-1 border rounded-pill mb-1 py-0" 
-                        id="search_nume" name="search_nume" placeholder="Nume" autofocus
-                                value="{{ $search_nume }}">
+                        id="search_firma" name="search_firma" placeholder="Nume" autofocus
+                                value="{{ $search_firma }}">
                         <div class="col-md-4 px-1">
                             <button class="btn btn-sm btn-primary col-md-12 border border-dark rounded-pill" type="submit">
                                 <i class="fas fa-search text-white mr-1"></i>Caută
                             </button>
                         </div>
                         <div class="col-md-4 px-1">
-                            <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('plati.index') }}" role="button">
+                            <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('clienti.index') }}" role="button">
                                 <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
                             </a>
                         </div>
@@ -29,55 +29,49 @@
                 </form>
             </div>
             <div class="col-lg-3 text-right">
-                <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('plati.create') }}" role="button">
-                    <i class="fas fa-plus-square text-white mr-1"></i>Adaugă plată
+                <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('clienti.create') }}" role="button">
+                    <i class="fas fa-plus-square text-white mr-1"></i>Adaugă client
                 </a>
             </div> 
         </div>
 
         <div class="card-body px-0 py-3">
 
-            @if (session()->has('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-            @endif
+            @include ('errors')
 
             <div class="table-responsive rounded">
                 <table class="table table-striped table-hover table-sm rounded"> 
                     <thead class="text-white rounded" style="background-color:#e66800;">
                         <tr class="" style="padding:2rem">
-                            <th>Nr.</th>
-                            <th>Plata</th>
-                            {{-- <th class="text-center" style="width:300px">Descriere</th> --}}
-                            <th class="text-center">Suma</th>
-                            <th class="text-right">Data plații</th>
+                            <th>Nr. Crt.</th>
+                            <th>Firma</th>
+                            <th>Cif / Cnp</th>
+                            <th>Telefon</th>
                             <th class="text-center">Acțiuni</th>
                         </tr>
                     </thead>
                     <tbody>               
-                        @forelse ($plati as $plata) 
+                        @forelse ($clienti as $client) 
                             <tr>                  
                                 <td align="">
-                                    {{ ($plati ->currentpage()-1) * $plati ->perpage() + $loop->index + 1 }}
+                                    {{ ($clienti ->currentpage()-1) * $clienti ->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td>
-                                    <a href="{{ $plata->path() }}">
-                                        {{ $plata->nume ?? '' }}
+                                    <a href="{{ $client->path() }}">
+                                        {{ $client->firma }}
                                     </a>
-                                     {{ $plata->descriere ? '- ' . $plata->descriere : '' }}
                                 </td>
-                                {{-- <td class="">
-                                    {{ $plata->descriere }}
+                                <td>
+                                    {{ $client->cif_cnp }}
+                                </td>
+                                <td>
+                                    {{ $client->telefon }}
+                                </td>
+                                {{-- <td class="text-right">
+                                    {{ \Carbon\Carbon::parse($client->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                 </td> --}}
-                                <td class="text-right">
-                                    {{ $plata->suma }} lei
-                                </td>
-                                <td class="text-right">
-                                    {{ \Carbon\Carbon::parse($plata->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
-                                </td>
                                 <td class="d-flex justify-content-end"> 
-                                    <a href="{{ $plata->path() }}/modifica"
+                                    <a href="{{ $client->path() }}/modifica"
                                         class="flex"    
                                     >
                                         <span class="badge badge-primary">Modifică</span>
@@ -88,35 +82,35 @@
                                             href="#" 
                                             {{-- role="button" --}}
                                             data-toggle="modal" 
-                                            data-target="#stergePlata{{ $plata->id }}"
-                                            title="Șterge Plata"
+                                            data-target="#stergeClient{{ $client->id }}"
+                                            title="Șterge Client"
                                             >
                                             {{-- <i class="far fa-trash-alt"></i> --}}
                                             <span class="badge badge-danger">Șterge</span>
                                         </a>
-                                            <div class="modal fade text-dark" id="stergePlata{{ $plata->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade text-dark" id="stergeClient{{ $client->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                     <div class="modal-header bg-danger">
-                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Plata: <b>{{ $plata->nume }}</b></h5>
+                                                        <h5 class="modal-title text-white" id="exampleModalLabel">Client: <b>{{ $client->firma }}</b></h5>
                                                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
-                                                        Ești sigur ca vrei să ștergi Plata?
+                                                        Ești sigur ca vrei să ștergi Clientul?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
                                                         
-                                                        <form method="POST" action="{{ $plata->path() }}">
+                                                        <form method="POST" action="{{ $client->path() }}">
                                                             @method('DELETE')  
                                                             @csrf   
                                                             <button 
                                                                 type="submit" 
                                                                 class="btn btn-danger"  
                                                                 >
-                                                                Șterge Plata
+                                                                Șterge Client
                                                             </button>                    
                                                         </form>
                                                     
@@ -128,7 +122,7 @@
                                 </td>
                             </tr>  
                         @empty
-                            <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div>
+                            <div>Nu s-au gasit clienti în baza de date. Încearcă alte date de căutare</div>
                         @endforelse
                         </tbody>
                 </table>
@@ -137,7 +131,7 @@
                 <nav>
                     <ul class="pagination pagination-sm justify-content-center">
                         {{-- {{$produse_vandute->links()}} --}}
-                        {{$plati->appends(Request::except('page'))->links()}}
+                        {{$clienti->appends(Request::except('page'))->links()}}
                     </ul>
                 </nav>
 

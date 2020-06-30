@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('furnizori', 'FurnizorController');
     Route::resource('produse-stocuri', 'ProdusStocController');
     Route::resource('niruri', 'NirController');
+    Route::resource('clienti', 'ClientController');
     Route::resource('facturi', 'FacturaController');
 
     Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');

@@ -151,7 +151,7 @@
                                 <i class="fas fa-users mr-1"></i>Clienți
                             </a>                            
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">                                
-                                <a class="nav-link" href="/facturi">
+                                <a class="nav-link" href="/clienti">
                                     <i class="fas fa-users mr-1"></i>Clienți
                                 </a>                                
                                 <div class="dropdown-divider"></div>

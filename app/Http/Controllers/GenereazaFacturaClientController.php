@@ -32,7 +32,11 @@ class GenereazaFacturaClientController extends Controller
                 'telefon' => ['nullable', 'max:200']
             ]);
 
+            $client = \App\Client::make($validatedData);
+            $client->save();
+
             $factura = \App\Factura::make($validatedData);
+            $factura->client_id = $client->id;
             $factura->seria = 'VNGSM';
             $factura->numar = \App\Factura::select('numar')->max('numar') + 1;
             $factura->save();
