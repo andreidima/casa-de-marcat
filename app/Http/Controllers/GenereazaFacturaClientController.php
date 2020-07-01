@@ -10,8 +10,10 @@ class GenereazaFacturaClientController extends Controller
     {
         $produse_vandute = $request->session()->get('produse_vandute');
 
+        $clienti = \App\Client::all();
+
         if (isset($produse_vandute)){
-            return view('genereaza-factura-client.completare-date', compact('produse_vandute'));
+            return view('genereaza-factura-client.completare-date', compact('produse_vandute', 'clienti'));
         } else {
             return redirect('/produse/vanzari');
         }
@@ -32,8 +34,17 @@ class GenereazaFacturaClientController extends Controller
                 'telefon' => ['nullable', 'max:200']
             ]);
 
-            $client = \App\Client::make($validatedData);
-            $client->save();
+            $client = \App\Client::where('id', $request->client_deja_inregistrat)->first();
+            if (isset($client)){
+                $client->update($validatedData);
+            } else {
+                $client = \App\Client::make($validatedData);
+                $client->save();
+            }
+            // $produse->update($request->except(['pret', 'cantitate', 'categorie_produs_id']));
+
+            // $client = \App\Client::make($validatedData);
+            // $client->save();
 
             $factura = \App\Factura::make($validatedData);
             $factura->client_id = $client->id;
@@ -60,18 +71,10 @@ class GenereazaFacturaClientController extends Controller
                 $produs_factura->valoare_tva = $produs['pret'] - $produs_factura->valoare;
 
                 $produs_factura->save();
-            }
-            
-            // $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
-            //     ->setPaper('a4', 'portrait');
-            // return $pdf->stream('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            }        
 
-            // dd($factura);
-        
-
-            return redirect('/produse/generare-factura-client/' . $factura->id . '/export-pdf');
-        // } else {
-        //     return redirect('/produse/vanzari');
+            // return redirect('/produse/generare-factura-client/' . $factura->id . '/export-pdf');
+            return redirect('facturi');
         }
         
     }
@@ -86,7 +89,7 @@ class GenereazaFacturaClientController extends Controller
             $factura = \App\Factura::where('id', $factura_id)->first();
                 $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
                     ->setPaper('a4', 'portrait');
-                return $pdf->stream('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+                return $pdf->download('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
         }
     }
 }

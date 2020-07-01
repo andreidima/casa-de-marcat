@@ -47,7 +47,7 @@
                             <th>Firma</th>
                             <th>Cif / Cnp</th>
                             <th>Telefon</th>
-                            <th class="text-center">Acțiuni</th>
+                            <th class="text-right">Acțiuni</th>
                         </tr>
                     </thead>
                     <tbody>               
@@ -71,6 +71,11 @@
                                     {{ \Carbon\Carbon::parse($client->created_at)->isoFormat('HH:mm - DD.MM.YYYY') ?? '' }}
                                 </td> --}}
                                 <td class="d-flex justify-content-end"> 
+                                    <a href="{{ $client->path() }}"
+                                        class="flex"    
+                                    >
+                                        <span class="badge badge-success">Vizualizează</span>
+                                    </a>  
                                     <a href="{{ $client->path() }}/modifica"
                                         class="flex"    
                                     >

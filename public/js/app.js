@@ -88989,6 +88989,55 @@ if (document.querySelector('#vanzari')) {
   });
 }
 
+if (document.querySelector('#generare-factura')) {
+  var _app5 = new Vue({
+    el: '#generare-factura',
+    data: {
+      client_deja_inregistrat: clientVechi,
+      clienti: clientiExistenti,
+      client_firma: '',
+      client_nr_reg_com: '',
+      client_cif_cnp: '',
+      client_adresa: '',
+      client_delegat: '',
+      client_seria_nr_buletin: '',
+      client_telefon: ''
+    },
+    // created: function () {
+    //     this.getPret()
+    // },
+    methods: {
+      getDateClient: function getDateClient() {
+        for (var i = 0; i < this.clienti.length; i++) {
+          if (this.clienti[i].id == this.client_deja_inregistrat) {
+            this.client_firma = this.clienti[i].firma;
+            this.client_nr_reg_com = this.clienti[i].nr_reg_com;
+            this.client_cif_cnp = this.clienti[i].cif_cnp;
+            this.client_adresa = this.clienti[i].adresa;
+            this.client_delegat = this.clienti[i].delegat;
+            this.client_seria_nr_buletin = this.clienti[i].seria_nr_buletin;
+            this.client_telefon = this.clienti[i].telefon;
+            return true;
+          }
+        }
+
+        this.client_firma = '';
+        this.client_nr_reg_com = '';
+        this.client_cif_cnp = '';
+        this.client_adresa = '';
+        this.client_delegat = '';
+        this.client_seria_nr_buletin = '';
+        this.client_telefon = '';
+      } // formfocus() {
+      //     document.getElementById("cod_de_bare").focus();
+      // }
+
+    },
+    mounted: function mounted() {// this.formfocus()
+    }
+  });
+}
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -89261,8 +89310,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

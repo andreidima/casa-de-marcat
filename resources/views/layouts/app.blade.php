@@ -143,7 +143,6 @@
                                 <a class="nav-link" href="/casa">
                                     <i class="fas fa-wallet mr-1"></i></i>Casa
                                 </a>
-                                <div class="dropdown-divider"></div>
                             </div>
                         </li>
                         <li class="nav-item dropdown active mr-4">

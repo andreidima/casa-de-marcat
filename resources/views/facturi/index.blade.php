@@ -63,9 +63,9 @@
                                     {{ $factura->seria }} {{ $factura->numar }}
                                 </td>
                                 <td>
-                                    <a href="{{ $factura->path() }}">
+                                    {{-- <a href="{{ $factura->path() }}"> --}}
                                         {{ $factura->firma ?? '' }}
-                                    </a>
+                                    {{-- </a> --}}
                                 </td>
                                 <td class="">
                                     @foreach ($factura->produse as $produs)

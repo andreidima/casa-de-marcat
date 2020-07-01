@@ -13,7 +13,7 @@
 
                 <div class="card-body py-2 border border-secondary" 
                     style="border-radius: 0px 0px 40px 40px;"
-                    id="app1"
+                    id="generare-factura"
                 >
                     <form  class="needs-validation" novalidate method="POST" 
                                 action="{{ action('GenereazaFacturaClientController@salvareDate') }}"
@@ -23,13 +23,42 @@
                         <div class="form-row mb-0 d-flex border-radius: 0px 0px 40px 40px">
                             <div class="form-group col-lg-12 px-2 mb-0">
                                 <div class="form-row px-2 py-2 mb-0">    
-                                    <div class="form-group col-lg-12 mb-2">  
+                                    <div class="form-group col-lg-12 mb-2"> 
+                                        {{-- <div class="form-group row"> --}}
+                                            <label for="client_deja_inregistrat" class="mb-0 pl-3">Selectează clientul dacă este deja înregistrat:</label>
+                                            <div class="">    
+                                                <script type="application/javascript"> 
+                                                    clientVechi={!! json_encode(old('client_deja_inregistrat', ($client ?? ""))) !!}
+                                                    clientiExistenti={!! json_encode($clienti) !!}
+                                                </script>                                     
+                                                <select name="client_deja_inregistrat" 
+                                                    class="custom-select custom-select-sm rounded-pill {{ $errors->has('client_deja_inregistrat') ? 'is-invalid' : '' }}" 
+                                                    v-model="client_deja_inregistrat"  
+                                                    @change="getDateClient()"
+                                                >
+                                                        <option value='' selected>Selectează client</option>
+                                                    @foreach ($clienti as $client)                           
+                                                        <option 
+                                                            value='{{ $client->id }}'
+                                                                {{-- @if(old('client_deja_inregistrat') !== null)
+                                                                    @if ($client->id == old('client_deja_inregistrat'))
+                                                                        selected
+                                                                    @endif
+                                                                @endif --}}
+                                                        >{{ $client->firma }} </option>                                                
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        {{-- </div>  --}}
+                                    </div>
+                                    <div class="form-group col-lg-12 mb-2"> 
                                         <label for="firma" class="mb-0 pl-3">Firma:</label>                                      
                                         <input 
                                             type="text" 
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('firma') ? 'is-invalid' : '' }}" 
                                             name="firma" 
                                             placeholder="" 
+                                            v-model="client_firma"
                                             {{-- value="{{ old('firma') == '' ? $plati->firma : old('firma') }}" --}}
                                             required> 
                                     </div>                           
@@ -40,6 +69,7 @@
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('nr_reg_com') ? 'is-invalid' : '' }}" 
                                             name="nr_reg_com" 
                                             placeholder="" 
+                                            v-model="client_nr_reg_com"
                                             {{-- value="{{ old('nr_reg_com') == '' ? $plati->nr_reg_com : old('nr_reg_com') }}" --}}
                                             required> 
                                     </div>                             
@@ -49,7 +79,8 @@
                                             type="text" 
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('cif_cnp') ? 'is-invalid' : '' }}" 
                                             name="cif_cnp" 
-                                            placeholder="" 
+                                            placeholder=""
+                                            v-model="client_cif_cnp" 
                                             {{-- value="{{ old('cif_cnp') == '' ? $plati->cif_cnp : old('cif_cnp') }}" --}}
                                             required> 
                                     </div>                           
@@ -59,7 +90,8 @@
                                             type="text" 
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('adresa') ? 'is-invalid' : '' }}" 
                                             name="adresa" 
-                                            placeholder="" 
+                                            placeholder=""
+                                            v-model="client_adresa" 
                                             {{-- value="{{ old('adresa') == '' ? $plati->adresa : old('adresa') }}" --}}
                                             required> 
                                     </div>                                                     
@@ -69,7 +101,8 @@
                                             type="text" 
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('delegat') ? 'is-invalid' : '' }}" 
                                             name="delegat" 
-                                            placeholder="" 
+                                            placeholder=""
+                                            v-model="client_delegat" 
                                             {{-- value="{{ old('delegat') == '' ? $plati->delegat : old('delegat') }}" --}}
                                             required> 
                                     </div>                                                   
@@ -79,7 +112,8 @@
                                             type="text" 
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('seria_nr_buletin') ? 'is-invalid' : '' }}" 
                                             name="seria_nr_buletin" 
-                                            placeholder="" 
+                                            placeholder=""
+                                            v-model="client_seria_nr_buletin" 
                                             {{-- value="{{ old('seria_nr_buletin') == '' ? $plati->seria_nr_buletin : old('seria_nr_buletin') }}" --}}
                                             required> 
                                     </div>
@@ -89,7 +123,8 @@
                                             type="text" 
                                             class="form-control form-control-sm rounded-pill {{ $errors->has('telefon') ? 'is-invalid' : '' }}" 
                                             name="telefon" 
-                                            placeholder="" 
+                                            placeholder=""
+                                            v-model="client_telefon" 
                                             {{-- value="{{ old('telefon') == '' ? $plati->telefon : old('telefon') }}" --}}
                                             required> 
                                     </div>
