@@ -10,7 +10,8 @@ class GenereazaFacturaClientController extends Controller
     {
         $produse_vandute = $request->session()->get('produse_vandute');
 
-        $clienti = \App\Client::all()->sortBy('firma');
+        $clienti = \App\Client::all();
+        $clienti = $clienti->sortBy('firma')->values();
 
         if (isset($produse_vandute)){
             return view('genereaza-factura-client.completare-date', compact('produse_vandute', 'clienti'));
