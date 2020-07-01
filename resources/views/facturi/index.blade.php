@@ -81,7 +81,7 @@
                                 </td>
                                 <td class="text-right">
                                     @foreach ($factura->produse as $produs)
-                                        {{ $produs->valoare }}
+                                        {{ $produs->valoare + $produs->valoare_tva }} lei
                                         <br>                                    
                                     @endforeach
                                 </td>
