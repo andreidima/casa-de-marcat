@@ -32,7 +32,7 @@ class FacturaController extends Controller
      */
     public function create()
     {
-        //
+        // return view('facturi.create');
     }
 
     /**
@@ -43,7 +43,11 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $facturi = Factura::make($this->validateRequest());
+        // $this->authorize('update', $proiecte);
+        $facturi->save();
+
+        return redirect('/facturi')->with('status', 'Factura "'.$facturi->seria.$facturi->numar.'" a fost înregistrată cu succes!');
     }
 
     /**
@@ -52,9 +56,9 @@ class FacturaController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function show(Factura $factura)
+    public function show(Factura $facturi)
     {
-        //
+        return view('facturi.show', compact('facturi'));
     }
 
     /**
@@ -63,9 +67,9 @@ class FacturaController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function edit(Factura $factura)
+    public function edit(Factura $facturi)
     {
-        //
+        return view('facturi.edit', compact('facturi'));
     }
 
     /**
@@ -75,9 +79,11 @@ class FacturaController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Factura $factura)
+    public function update(Request $request, Factura $facturi)
     {
-        //
+        $facturi->update($this->validateRequest($facturi));
+
+        return redirect('/facturi')->with('status', 'Factura "'.$facturi->seria.$facturi->numar.'" a fost modificată cu succes!');
     }
 
     /**
@@ -93,5 +99,27 @@ class FacturaController extends Controller
             $facturi->delete();
         }
         return redirect('/facturi')->with('status', 'Factura "' . $facturi->seria . ' ' . $facturi->numar . '" a fost ștearsă cu succes!');
+    }
+
+    /**
+     * Validate the request attributes.
+     *
+     * @return array
+     */
+    protected function validateRequest()
+    {
+        return request()->validate([
+            'client_id' =>['nullable'],
+            'firma' =>['nullable', 'max:250'],
+            'nr_reg_com' =>['nullable', 'max:250'],
+            'cif_cnp' =>['nullable', 'max:250'],
+            'adresa' =>['nullable', 'max:250'],
+            'delegat' =>['nullable', 'max:250'],
+            'seria_nr_buletin' =>['nullable', 'max:250'],
+            'telefon' =>['nullable', 'max:250'],
+            'seria' =>['nullable', 'max:20'],
+            'numar' =>['nullable', 'numeric', 'between:0.00,99999.99'],
+        ]
+        );
     }
 }
