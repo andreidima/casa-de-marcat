@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Factura;
+use App\Client;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -16,13 +17,15 @@ class FacturaController extends Controller
     {
         $search_firma = \Request::get('search_firma'); //<-- we use global request to get the param of URI  
         $facturi = Factura::
-            when($search_firma, function ($query, $search_firma) {
+            with('produse')
+            ->when($search_firma, function ($query, $search_firma) {
                 return $query->where('firma', 'like', '%' . str_replace(' ', '%', $search_firma) . '%');
             })
             ->latest()
             ->simplePaginate(25);
+        $ultima_factura = Factura::select('numar')->max('numar');
 
-        return view('facturi.index', compact('facturi', 'search_firma'));
+        return view('facturi.index', compact('facturi', 'ultima_factura', 'search_firma'));
     }
 
     /**
@@ -69,7 +72,10 @@ class FacturaController extends Controller
      */
     public function edit(Factura $facturi)
     {
-        return view('facturi.edit', compact('facturi'));
+        $clienti = \App\Client::all();
+        $clienti = $clienti->sortBy('firma')->values();
+
+        return view('facturi.edit', compact('facturi', 'clienti'));
     }
 
     /**
@@ -81,7 +87,17 @@ class FacturaController extends Controller
      */
     public function update(Request $request, Factura $facturi)
     {
+        // dd($request, $request->client_deja_inregistrat);
         $facturi->update($this->validateRequest($facturi));
+
+        $client = Client::where('id', $request->client_deja_inregistrat)->first();
+        if (isset($client)) {
+            $client->update($this->validateRequest());
+            // dd($request->client_deja_inregistrat, $client);
+        } else {
+            $client = Client::make($this->validateRequest());
+            $client->save();
+        }
 
         return redirect('/facturi')->with('status', 'Factura "'.$facturi->seria.$facturi->numar.'" a fost modificată cu succes!');
     }

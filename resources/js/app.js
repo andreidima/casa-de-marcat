@@ -140,13 +140,13 @@ if (document.querySelector('#generare-factura')) {
         data: {
             client_deja_inregistrat: clientVechi,
             clienti: clientiExistenti,
-            client_firma: '',
-            client_nr_reg_com: '',
-            client_cif_cnp: '',
-            client_adresa: '',
-            client_delegat: '',
-            client_seria_nr_buletin: '',
-            client_telefon: '',
+            client_firma: clientVechiFirma,
+            client_nr_reg_com: clientVechiNr_reg_com,
+            client_cif_cnp: clientVechiCif_cnp,
+            client_adresa: clientVechiAdresa,
+            client_delegat: clientVechiDelegat,
+            client_seria_nr_buletin: clientVechiSeria_nr_buletin,
+            client_telefon: clientVechiTelefon,
         },
         // created: function () {
         //     this.getPret()

@@ -101,7 +101,7 @@
                                             <i class="fas fa-file-pdf mr-1"></i>PDF
                                         </span>
                                     </a>                                    
-                                    @if($factura->numar === \App\Factura::select('numar')->max('numar'))
+                                    @if($factura->numar === $ultima_factura)
                                         <div style="" class="">
                                             <a 
                                                 href="#" 
