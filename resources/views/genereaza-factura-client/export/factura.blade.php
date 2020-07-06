@@ -138,7 +138,7 @@
                             </tr>
                             @if (!is_null($produs->observatii))
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="6" style="padding-left: 30px;">
                                         Observații: {{ $produs->observatii }}
                                     </td>
                                 </tr>
