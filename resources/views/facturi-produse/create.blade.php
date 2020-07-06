@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="shadow-lg" style="border-radius: 40px 40px 40px 40px;">
                 <div class="border border-secondary p-2" style="border-radius: 40px 40px 0px 0px; background-color:#e66800">                     
-                    <h6 class="ml-4 my-0" style="color:white">Adaugă un produs nou la factură</h6>
+                    <h6 class="ml-4 my-0" style="color:white">Factura: {{ $facturi->seria }}{{ $facturi->numar }} / Adaugă un produs nou la factură</h6>
                 </div>
                 
                 @include ('errors')                
@@ -15,8 +15,8 @@
                     style="border-radius: 0px 0px 40px 40px;"
                     id="app1"
                 >
-                    <form  class="needs-validation" novalidate method="POST" action="/facturi-produse">                     
-                
+                    {{-- <form  class="needs-validation" novalidate method="POST" action="/facturi/{{ $facturi->id }}/facturi-produse/"> --}}
+                    <form  class="needs-validation" novalidate method="POST" action="{{route('facturi.facturi-produse.store', $facturi->id)}}">
                                 
                                 @include ('facturi-produse.form', [
                                     'facturi_produse' => new App\FacturaProdus,

@@ -11,7 +11,7 @@ class FacturaProdus extends Model
 
     public function path()
     {
-        return "/facturi-produse/{$this->id}";
+        return "facturi/{factura}//facturi-produse/{$this->id}";
     }
 
     public function factura()

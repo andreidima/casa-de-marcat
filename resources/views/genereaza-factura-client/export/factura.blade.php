@@ -155,7 +155,7 @@
                             <td style="border-width:0px; text-align:center;">
                                 TOTAL DE PLATĂ
                                 <br>
-                                {{ $factura->produse->sum('valoare') + $factura->produse->sum('valoare_tva') }}
+                                {{ $factura->produse->sum('valoare') + $factura->produse->sum('valoare_tva') }} lei
                             </td>
                         </tr>
                     </table>
@@ -261,7 +261,7 @@
                             <td style="border-width:0px; text-align:center;">
                                 TOTAL DE PLATĂ
                                 <br>
-                                {{ $produs->valoare + $produs->valoare_tva }}
+                                {{ $factura->produse->sum('valoare') + $factura->produse->sum('valoare_tva') }} lei
                             </td>
                         </tr>
                     </table>

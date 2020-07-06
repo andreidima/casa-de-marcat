@@ -23,9 +23,9 @@ class FacturaProdusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Factura $factura)
+    public function create(Factura $facturi)
     {
-        return view('facturi-produse.create', compact('factura'));
+        return view('facturi-produse.create', compact('facturi'));
     }
 
     /**
@@ -34,13 +34,13 @@ class FacturaProdusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Factura $facturi)
     {
-        $facturi_produse = Plata::make($this->validateRequest());
-        // $this->authorize('update', $proiecte);
+        $facturi_produse = FacturaProdus::make($this->validateRequest());
+        $facturi_produse->factura_id = $facturi->id;
         $facturi_produse->save();
 
-        return redirect('/facturi_produse')->with('status', 'Produsul din factură a fost înregistrat cu succes!');
+        return redirect('/facturi')->with('status', 'Produsul ' . $facturi_produse->nume . ' a fost adăugat la factura ' . $facturi->seria . $facturi->numar);
     }
 
     /**
@@ -60,9 +60,9 @@ class FacturaProdusController extends Controller
      * @param  \App\FacturaProdus  $facturaProdus
      * @return \Illuminate\Http\Response
      */
-    public function edit(FacturaProdus $facturi_produse)
+    public function edit(Factura $facturi, FacturaProdus $facturi_produse)
     {
-        return view('facturi_produse.edit', compact('facturi_produse'));
+        return view('facturi-produse.edit', compact('facturi', 'facturi_produse'));
     }
 
     /**
@@ -72,7 +72,7 @@ class FacturaProdusController extends Controller
      * @param  \App\FacturaProdus  $facturaProdus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FacturaProdus $facturi_produse)
+    public function update(Request $request, Factura $facturi, FacturaProdus $facturi_produse)
     {
         $facturi_produse->update($this->validateRequest($facturi_produse));
 
@@ -85,7 +85,7 @@ class FacturaProdusController extends Controller
      * @param  \App\FacturaProdus  $facturaProdus
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FacturaProdus $facturi_produse)
+    public function destroy(Factura $facturi, FacturaProdus $facturi_produse)
     {
         $facturi_produse->delete();
         return redirect('/facturi')->with('status', 'Produsul din factură a fost șters cu succes!');
@@ -99,13 +99,13 @@ class FacturaProdusController extends Controller
     protected function validateRequest()
     {
         return request()->validate([
-            'factura_id' => ['required'],
-            'nume' => ['required', 'max:250'],
-            'um' => ['required', 'max:250'],
-            'cantitate' => ['required', 'numeric', 'between:0,999999999'],
-            'pret_unitar' => ['required', 'numeric', 'between:0.01,99999.99'],
-            'valoare' => ['required', 'numeric', 'between:0.01,99999.99'],
-            'valoare_tva' => ['required', 'numeric', 'between:0.01,99999.99'],
+            // 'factura_id' => ['required'],
+            'nume' => ['nullable', 'max:250'],
+            'um' => ['nullable', 'max:250'],
+            'cantitate' => ['nullable', 'numeric', 'between:0,999999999'],
+            'pret_unitar' => ['nullable', 'numeric', 'between:0.01,99999.99'],
+            'valoare' => ['nullable', 'numeric', 'between:0.01,99999.99'],
+            'valoare_tva' => ['nullable', 'numeric', 'between:0.01,99999.99'],
         ]);
     }
 }

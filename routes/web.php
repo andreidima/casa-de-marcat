@@ -77,10 +77,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('niruri', 'NirController');
     Route::resource('clienti', 'ClientController');
 
-    Route::get('facturi/{factura}/facturi-produse', 'FacturaProdusController@create');
+    // Route::get('facturi/{factura}/facturi-produse', 'FacturaProdusController@create');
 
     Route::resource('facturi', 'FacturaController');
-    Route::resource('facturi-produse', 'FacturaProdusController');
+    // Route::resource('facturi/{factura}/facturi-produse', 'FacturaProdusController');
+    Route::resource('facturi.facturi-produse', 'FacturaProdusController');
 
 
     Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');

@@ -15,8 +15,7 @@
                     style="border-radius: 0px 0px 40px 40px;"
                     id="generare-factura"
                 >
-                    <form  class="needs-validation" novalidate method="POST" action="/facturi">                     
-                
+                    <form  class="needs-validation" novalidate method="POST" action="/facturi">
                                 
                                 @include ('facturi.form', [
                                     'facturi' => new App\Factura,

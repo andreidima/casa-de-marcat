@@ -476,8 +476,10 @@
             @endforelse           --}}
 
             @if(!count($produse_stocuri_telefoane_noi) && !count($produse_stocuri_accesorii))
-                <div class="p-4">
-                    <h5>Lista este goala. Toate produsele sunt atasate la niruri.</h5>
+                <div class="container card mb-4 shadow shadow-sm border-dark border-4" style="border-radius: 40px 40px 40px 40px;">
+                    <div class="card-body px-0 py-3">
+                        <h5>Lista este goala. Toate produsele sunt atasate la niruri.</h5>
+                    </div>
                 </div>
             @endif
         </div>

@@ -29,6 +29,13 @@
                                             <div class="">    
                                                 <script type="application/javascript"> 
                                                     clientVechi={!! json_encode(old('client_deja_inregistrat', ($client ?? ""))) !!}
+                                                    clientVechiFirma={!! json_encode(old('firma', '')) !!}
+                                                    clientVechiNr_reg_com={!! json_encode(old('nr_reg_com', '')) !!}
+                                                    clientVechiCif_cnp={!! json_encode(old('cif_cnp', '')) !!}
+                                                    clientVechiAdresa={!! json_encode(old('adresa', '')) !!}
+                                                    clientVechiDelegat={!! json_encode(old('delegat', '')) !!}
+                                                    clientVechiSeria_nr_buletin={!! json_encode(old('seria_nr_buletin', '')) !!}
+                                                    clientVechiTelefon={!! json_encode(old('telefon', '')) !!}
                                                     clientiExistenti={!! json_encode($clienti) !!}
                                                 </script>                                     
                                                 <select name="client_deja_inregistrat" 
