@@ -76,11 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('produse-stocuri', 'ProdusStocController');
     Route::resource('niruri', 'NirController');
     Route::resource('clienti', 'ClientController');
-
-    // Route::get('facturi/{factura}/facturi-produse', 'FacturaProdusController@create');
-
     Route::resource('facturi', 'FacturaController');
-    // Route::resource('facturi/{factura}/facturi-produse', 'FacturaProdusController');
     Route::resource('facturi.facturi-produse', 'FacturaProdusController');
 
 
