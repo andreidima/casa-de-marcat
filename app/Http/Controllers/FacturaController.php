@@ -64,7 +64,7 @@ class FacturaController extends Controller
         $facturi = Factura::make($this->validateRequest());
         $facturi->client_id = $client->id;
         $facturi->seria = 'VNGSM';
-        $facturi->numar = Factura::select('numar')->max('numar') + 1;
+        $facturi->numar = Factura::select('numar')->max('numar') + 1 ?? 1;
         $facturi->save();
 
         return redirect('/facturi')->with('status', 'Factura "'.$facturi->seria.$facturi->numar.'" a fost înregistrată cu succes!');
