@@ -63,6 +63,16 @@
                     value="{{ old('valoare_tva') == '' ? $facturi_produse->valoare_tva : old('valoare_tva') }}"
                     required> 
             </div>
+            <div class="form-group col-lg-12 mb-2"> 
+                <label for="observatii" class="mb-0 pl-3">Observații:</label>                                      
+                <input 
+                    type="text" 
+                    class="form-control form-control-sm rounded-pill {{ $errors->has('observatii') ? 'is-invalid' : '' }}" 
+                    name="observatii" 
+                    placeholder="" 
+                    value="{{ old('observatii') == '' ? $facturi_produse->observatii : old('observatii') }}"
+                    required> 
+            </div> 
         </div>
         
                                 

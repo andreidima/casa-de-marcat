@@ -103,9 +103,10 @@ class FacturaProdusController extends Controller
             'nume' => ['nullable', 'max:250'],
             'um' => ['nullable', 'max:250'],
             'cantitate' => ['nullable', 'numeric', 'between:0,999999999'],
-            'pret_unitar' => ['nullable', 'numeric', 'between:0.01,99999.99'],
-            'valoare' => ['nullable', 'numeric', 'between:0.01,99999.99'],
-            'valoare_tva' => ['nullable', 'numeric', 'between:0.01,99999.99'],
+            'pret_unitar' => ['nullable', 'numeric', 'between:0,99999.99'],
+            'valoare' => ['nullable', 'numeric', 'between:0,99999.99'],
+            'valoare_tva' => ['nullable', 'numeric', 'between:0,99999.99'],
+            'observatii' => ['nullable', 'max:250'],
         ]);
     }
 }

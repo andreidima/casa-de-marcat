@@ -136,6 +136,13 @@
                                     {{ $produs->valoare_tva }}
                                 </td>
                             </tr>
+                            @if (!is_null($produs->observatii))
+                                <tr>
+                                    <td colspan="6">
+                                        Observații: {{ $produs->observatii }}
+                                    </td>
+                                </tr>
+                            @endif
                         @empty
                         @endforelse
                     </table>
@@ -242,6 +249,13 @@
                                     {{ $produs->valoare_tva }}
                                 </td>
                             </tr>
+                            @if (!is_null($produs->observatii))
+                                <tr>
+                                    <td colspan="6" style="padding-left: 30px;">
+                                        Observații: {{ $produs->observatii }}
+                                    </td>
+                                </tr>
+                            @endif
                         @empty
                         @endforelse
                     </table>
