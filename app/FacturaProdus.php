@@ -9,10 +9,10 @@ class FacturaProdus extends Model
     protected $table = 'facturi_produse';
     protected $guarded = [];
 
-    public function path()
-    {
-        return "facturi/{factura}//facturi-produse/{$this->id}";
-    }
+    // public function path()
+    // {
+    //     return "facturi/{factura}//facturi-produse/{$this->id}";
+    // }
 
     public function factura()
     {
