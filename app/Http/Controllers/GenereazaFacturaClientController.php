@@ -50,7 +50,7 @@ class GenereazaFacturaClientController extends Controller
             $factura = \App\Factura::make($validatedData);
             $factura->client_id = $client->id;
             $factura->seria = 'VNGSM';
-            $factura->numar = \App\Factura::select('numar')->max('numar') + 1 ?? 1;
+            $factura->numar = is_null(\App\Factura::select('numar')->max('numar')) ? 681 : (\App\Factura::select('numar')->max('numar') + 1);
             $factura->save();
 
             foreach ($produse_vandute as $produs){
