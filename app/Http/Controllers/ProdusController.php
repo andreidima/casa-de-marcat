@@ -293,7 +293,7 @@ class ProdusController extends Controller
                     }),        
                 ],
             'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')],
-            'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
+            'pret' => ['required', 'numeric', 'between:-999999,999999'],
             'card' => ['nullable'],
             'emag' => ['nullable'],
             'detalii' => ['nullable', 'max:250'],
