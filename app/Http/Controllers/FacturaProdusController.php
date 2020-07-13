@@ -102,7 +102,7 @@ class FacturaProdusController extends Controller
             // 'factura_id' => ['required'],
             'nume' => ['nullable', 'max:250'],
             'um' => ['nullable', 'max:250'],
-            'cantitate' => ['nullable', 'numeric', 'between:0,999999999'],
+            'cantitate' => ['nullable', 'numeric', 'between:-999999,99999.99'],
             'pret_unitar' => ['nullable', 'numeric', 'between:-999999,99999.99'],
             'valoare' => ['nullable', 'numeric', 'between:-999999,99999.99'],
             'valoare_tva' => ['nullable', 'numeric', 'between:-999999,99999.99'],
