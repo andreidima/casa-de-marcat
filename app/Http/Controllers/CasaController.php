@@ -36,7 +36,9 @@ class CasaController extends Controller
                 ->whereNull('card')
                 ->whereNull('emag')
                 ->sum(DB::raw('cantitate * pret'));
-            $suma['avansuri'] = Avans::where('created_at', '>', $casa->first()->created_at)->sum('suma');
+            $suma['avansuri'] = Avans::where('created_at', '>', $casa->first()->created_at)
+                                    ->where('card', 0)
+                                    ->sum('suma');
             $suma['plati'] = Plata::where('created_at', '>', $casa->first()->created_at)->sum('suma');
             $suma['suma_totala'] = $casa->first()->suma + $suma['produse_vandute'] + $suma['avansuri'] - $suma['plati'];
         } else{

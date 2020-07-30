@@ -50,6 +50,14 @@
                             </tr>
                             <tr>
                                 <td>
+                                    Card
+                                </td>
+                                <td>
+                                    {{ $avansuri->card ? 'DA' : 'NU' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     Stare
                                 </td>
                                 <td>

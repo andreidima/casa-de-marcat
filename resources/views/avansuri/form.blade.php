@@ -3,7 +3,7 @@
 <div class="form-row mb-0 d-flex border-radius: 0px 0px 40px 40px">
     <div class="form-group col-lg-12 px-2 mb-0">
         <div class="form-row px-2 py-2 mb-0">    
-            <div class="form-group col-lg-8 mb-2">  
+            <div class="form-group col-lg-7 mb-2">  
                 <label for="nume" class="mb-0 pl-3">Nume:</label>                                      
                 <input 
                     type="text" 
@@ -13,7 +13,7 @@
                     value="{{ old('nume') == '' ? $avansuri->nume : old('nume') }}"
                     required> 
             </div>                           
-            <div class="form-group col-lg-4 mb-2">  
+            <div class="form-group col-lg-3 mb-2">  
                 <label for="suma" class="mb-0 pl-1">Suma:</label>                               
                 <input 
                     type="text" 
@@ -22,7 +22,19 @@
                     placeholder="" 
                     value="{{ old('suma') == '' ? $avansuri->suma : old('suma') }}"
                     required> 
-            </div>   
+            </div>  
+            <div class="form-group col-lg-2 mb-2 pl-4 align-self-end text-center">
+                <input type="hidden" name="card" value="0">
+                <input type="checkbox" class="form-check-input" name="card" value="1"
+                    {{ 
+                        old('card') <> '' ? 
+                            (old('card') == '1' ? 'checked' : '')
+                            :
+                            ($avansuri->card === 1 ? 'checked' : '')
+                    }}
+                >
+                <label class="form-check-label" for="card">Card</label>
+            </div> 
             <div class="form-group col-lg-12 mb-2">  
                 <label for="descriere" class="mb-0 pl-3">Descriere:</label>                                      
                 <input 

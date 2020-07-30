@@ -83,6 +83,7 @@ class AvansController extends Controller
     public function update(Request $request, Avans $avansuri)
     {
         // $this->authorize('update', $proiecte);
+        // dd($avansuri);
 
         $avansuri->update($this->validateRequest($avansuri));
 
@@ -111,6 +112,7 @@ class AvansController extends Controller
         return request()->validate([
             'nume' =>['required', 'max:250'],
             'suma' => ['required', 'numeric', 'between:0.00,99999.99'],
+            'card' => ['nullable'],
             'descriere' => ['nullable', 'max:250'],
         ]
         );

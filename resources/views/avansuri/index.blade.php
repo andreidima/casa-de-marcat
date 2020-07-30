@@ -72,6 +72,9 @@
                                     {{ $avans->descriere }}
                                 </td> --}}
                                 <td class="text-right">
+                                    @if ($avans->card === 1) 
+                                        <i class="fas fa-credit-card bg-white"></i>
+                                    @endif
                                     {{ $avans->suma }} lei
                                 </td>
                                 <td class="text-right">
