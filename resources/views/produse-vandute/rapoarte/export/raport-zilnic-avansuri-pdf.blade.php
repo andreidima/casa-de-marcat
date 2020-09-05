@@ -4,6 +4,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <!-- Font Awesome links -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
     <title>Raport</title>
     <style>
         body { 
@@ -94,9 +98,14 @@
                             {{ $loop->iteration }}
                         </td>
                         <td>
-                            {{ $avans->nume}} {{ $avans->descriere ? '- ' . $avans->descriere : '' }}
+                            {{ $avans->nume}} 
+                            {{ $avans->descriere ? '- ' . $avans->descriere : '' }}
+                            {{-- {{ $avans->card == 1 ? <i class="fas fa-credit-card bg-white"></i> : '' }} --}}
                         </td>
                         <td style="text-align: right">
+                            @if ($avans->card === 1)
+                                <i class="fas fa-credit-card bg-white"></i>
+                            @endif
                             {{ $avans->suma }} lei
                         </td>
                     </tr>
@@ -107,7 +116,7 @@
                             <b>Total</b>
                         </td>
                         <td style="text-align: right">
-                            <b>{{ $avansuri->sum('suma') }} lei</b>
+                            <b>{{ $avansuri->where('card', 0)->sum('suma') }} lei</b>
                         </td>
                     </tr>
             </table>
