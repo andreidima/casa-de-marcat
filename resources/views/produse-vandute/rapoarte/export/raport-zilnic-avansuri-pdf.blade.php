@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <!-- Font Awesome links -->
-    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> --}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <title>Raport</title>
     <style>
@@ -104,7 +104,7 @@
                         </td>
                         <td style="text-align: right">
                             @if ($avans->card === 1)
-                                {{-- <i class="fas fa-credit-card bg-white"></i> --}}
+                                <i class="fas fa-credit-card bg-white"></i>
                             @endif
                             {{ $avans->suma }} lei
                         </td>
