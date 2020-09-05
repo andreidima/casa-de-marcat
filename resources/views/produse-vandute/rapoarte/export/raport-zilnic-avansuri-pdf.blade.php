@@ -104,7 +104,7 @@
                         </td>
                         <td style="text-align: right">
                             @if ($avans->card === 1)
-                                <i class="fas fa-credit-card bg-white"></i>
+                                {{-- <i class="fas fa-credit-card bg-white"></i> --}}
                             @endif
                             {{ $avans->suma }} lei
                         </td>
