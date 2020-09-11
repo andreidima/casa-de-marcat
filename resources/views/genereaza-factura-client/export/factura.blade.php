@@ -78,8 +78,8 @@
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
                             Telefon: 0722873217	<br>
                             {{-- Banca: BRD FOCSANI <br> --}}
-                            Cont BRD: RO60BRDE400SV19069964000 <br>
-                            Cont TREZ: RO40TREZ6915069XXX001749
+                            Cont BRD Focșani: RO60BRDE400SV19069964000 <br>
+                            Cont Trezorerie Focșani: RO40TREZ6915069XXX001749
                     </td>
                     <td style="border-width:0px; padding:0rem; width:10%">
 
@@ -192,8 +192,8 @@
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
                             Telefon: 0722873217	<br>
                             {{-- Banca: BRD FOCSANI <br> --}}
-                            Cont BRD: RO60BRDE400SV19069964000 <br>
-                            Cont TREZ: RO40TREZ6915069XXX001749
+                            Cont BRD Focșani: RO60BRDE400SV19069964000 <br>
+                            Cont Trezorerie Focșani: RO40TREZ6915069XXX001749
                     </td>
                     <td style="border-width:0px; padding:0rem; width:10%">
 
