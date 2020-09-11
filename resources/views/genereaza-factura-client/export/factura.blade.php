@@ -190,7 +190,7 @@
                             Adresa: Golesti, Str. Pasunii, Nr. 30A, Vrancea <br>
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
                             Telefon: 0722873217	<br>
-                            Banca: BRD FOCSANI <br>
+                            {{-- Banca: BRD FOCSANI <br> --}}
                             Cont BRD: RO60BRDE400SV19069964000 <br>
                             Cont TREZ: RO40TREZ6915069XXX001749
                     </td>
