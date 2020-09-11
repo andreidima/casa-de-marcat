@@ -16,14 +16,19 @@ class NirController extends Controller
     public function index()
     {
         $search_nir = \Request::get('search_nir'); //<-- we use global request to get the param of URI
+        $search_data = \Request::get('search_data');
+
         $niruri = Nir::latest()
             ->when($search_nir, function ($query, $search_nir) {
                     return $query->where('nir', $search_nir);
                 })
+            ->when($search_data, function ($query, $search_data) {
+                return $query->whereDate('created_at', '=', $search_data);
+            })
             ->orderBy('nir', 'desc')
             ->simplePaginate(25);
 
-        return view('niruri.index', compact('niruri', 'search_nir'));
+        return view('niruri.index', compact('niruri', 'search_nir', 'search_data'));
     }
 
     /**

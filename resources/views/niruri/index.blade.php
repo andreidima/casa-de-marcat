@@ -8,19 +8,28 @@
                     <a href="{{ route('niruri.index') }}"><i class="fas fa-money-bill-wave mr-1"></i></i>Niruri</a>
                 </h4>
             </div> 
-            <div class="col-lg-6" id="">
+            <div class="col-lg-7" id="">
                 <form class="needs-validation" novalidate method="GET" action="{{ route('niruri.index') }}">
                     @csrf                    
                     <div class="row input-group custom-search-form justify-content-center">
-                        <input type="text" class="form-control form-control-sm col-md-4 mr-1 border rounded-pill mb-1 py-0" 
+                        <div class="col-md-4 d-flex px-1" id="cautare_produse_vandute">
+                            <label for="search_data" class="mb-0 align-self-center mr-1">Data:</label>
+                            <vue2-datepicker
+                                data-veche="{{ $search_data }}"
+                                nume-camp-db="search_data"
+                                tip="date"
+                                latime="100"
+                            ></vue2-datepicker>
+                        </div> 
+                        <input type="text" class="form-control form-control-sm col-md-2 mr-1 border rounded-pill mb-1 py-0" 
                         id="search_nir" name="search_nir" placeholder="Nir" autofocus
                                 value="{{ $search_nir }}">
-                        <div class="col-md-4 px-1">
+                        <div class="col-md-3 px-1">
                             <button class="btn btn-sm btn-primary col-md-12 border border-dark rounded-pill" type="submit">
                                 <i class="fas fa-search text-white mr-1"></i>Caută
                             </button>
                         </div>
-                        <div class="col-md-4 px-1">
+                        <div class="col-md-3 px-1">
                             <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('niruri.index') }}" role="button">
                                 <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
                             </a>
