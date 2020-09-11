@@ -87,10 +87,10 @@ class GenereazaFacturaClientController extends Controller
         
         if ($request->view_type === 'export-html') {
             $factura = \App\Factura::where('id', $factura_id)->first();
-            return view('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'));
+            return view('genereaza-factura-client.export.factura', compact('factura'));
         } elseif ($request->view_type === 'export-pdf') {
             $factura = \App\Factura::where('id', $factura_id)->first();
-                $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura', 'produse_vandute'))
+                $pdf = \PDF::loadView('genereaza-factura-client.export.factura', compact('factura'))
                     ->setPaper('a4', 'portrait');
                 return $pdf->download('Factura ' . $factura->firma . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
         }
