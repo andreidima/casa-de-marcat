@@ -27,6 +27,7 @@ class RaportController extends Controller
                         produse_cantitati_istoric.id as istoric_id,
                         produse.id as produs_id,
                         produse.nume,
+                        produse.pret,
                         produse_cantitati_istoric.cantitate,
                         produse_cantitati_istoric.operatiune,
                         subcategorii_produse.id as subcategorie_id,

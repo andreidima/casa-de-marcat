@@ -68,6 +68,10 @@
                         </span>
                 </div>
 
+            @php
+                $suma = 0;    
+            @endphp
+
             @foreach ($miscari_stocuri->groupby('categorie_id') as $categorie)
             {{-- @php
                 dd($categorii_produse_vandute);
@@ -112,33 +116,45 @@
                                                     {{ $cantitate->cantitate }}
                                                 </span>
                                                 @php
-                                                    $cantitate_veche = $cantitate->cantitate
+                                                    $cantitate_veche = $cantitate->cantitate 
                                                 @endphp
                                             @endisset
                                         @endif
                                         @if($cantitate->operatiune == "modificare")
                                             <span class="badge badge-success" style="font-size: 1em">
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
+                                                <br>                                                
+                                                {{ $suma += $produs->first()->pret * ($cantitate->cantitate - $cantitate_veche) }}
                                             </span>
                                         @elseif($cantitate->operatiune == "suplimentare stoc")
                                             <span class="badge badge-success" style="font-size: 1em">
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
+                                                <br>                                                
+                                                {{ $suma += $produs->first()->pret * ($cantitate->cantitate - $cantitate_veche) }}
                                             </span>
                                         @elseif($cantitate->operatiune == "modificare stoc")
                                             <span class="badge badge-success" style="font-size: 1em">
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
+                                                <br>                                                
+                                                {{ $suma += $produs->first()->pret * ($cantitate->cantitate - $cantitate_veche) }}
                                             </span>
                                         @elseif($cantitate->operatiune == "stergere stoc")
                                             <span class="badge badge-success" style="font-size: 1em">
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
+                                                <br>                                                
+                                                {{ $suma += $produs->first()->pret * ($cantitate->cantitate - $cantitate_veche) }}
                                             </span>
                                         @elseif($cantitate->operatiune == "vanzare")
                                             <span class="badge badge-danger" style="font-size: 1em">
                                                 - {{ $cantitate_veche - $cantitate->cantitate }}
+                                                <br>                                                
+                                                {{ $suma += $produs->first()->pret * ($cantitate->cantitate - $cantitate_veche) }}
                                             </span>
                                         @elseif($cantitate->operatiune == "vanzare stearsa")
                                             <span class="badge badge-warning" style="font-size: 1em">
                                                 + {{ $cantitate->cantitate - $cantitate_veche }}
+                                                <br>                                                
+                                                {{ $suma += $produs->first()->pret * ($cantitate->cantitate - $cantitate_veche) }}
                                             </span>
                                         @endif                                        
                                         @php
