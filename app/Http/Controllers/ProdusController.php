@@ -292,7 +292,15 @@ class ProdusController extends Controller
                         return $query->where('cod_de_bare', $request->cod_de_bare);
                     }),        
                 ],
-            'nr_de_bucati' => [ 'required', 'numeric', 'min:1', (isset($produs->cantitate) ? 'max:' . ($produs->cantitate) : '')],
+            'nr_de_bucati' => [ 
+                'required', 
+                'numeric', 
+                'min:1', 
+                (isset($produs) ? 
+                    // se sare peste produsul „INCARCARE 1 EURO”, caruia i se permite stoc negativ
+                    ($produs->cod_de_bare !== "G11005") ? ('max:' . ($produs->cantitate)) : ''
+                : '')
+            ],
             'pret' => ['required', 'numeric', 'between:-999999,999999'],
             'card' => ['nullable'],
             'emag' => ['nullable'],
