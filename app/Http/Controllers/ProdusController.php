@@ -175,7 +175,7 @@ class ProdusController extends Controller
         $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->cantitate_initiala = $produse->cantitate;
         
-        if (auth()->user()->role === ('admin')){
+        if (auth()->user()->role === ('admin')) {
             $produse->update($this->validateRequest($request, $produse));
         } else{
             $this->validateRequest($request, $produse);
@@ -258,7 +258,7 @@ class ProdusController extends Controller
             // 'pret' => [ 'nullable', 'regex:/^(\d+(.\d{1,2})?)?$/', 'max:9999999'],
             'pret_de_achizitie' => ['nullable', 'numeric', 'between:0.01,99999.99'],
             'pret' => ['required', 'numeric', 'between:0.00,99999.99'],
-            // 'cantitate' => [ 'required', 'required', 'numeric', 'between:0,999999999'],
+            'cantitate' => [ 'nullable', 'numeric', 'between:0,999999999'],
             'cod_de_bare' => ['nullable', 'max:20', 'unique:produse,cod_de_bare,' . ($produse->id ?? '')],
             'imei' => ['nullable', 'max:50'],
             'localizare' => ['nullable', 'max:250'],
