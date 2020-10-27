@@ -73,7 +73,7 @@ class RaportGestiuneAccesoriiController extends Controller
                 compact('niruri_accesorii', 'produse_vandute_suma', 'suma_gestiune_accesorii', 'search_data')
             )
                 ->setPaper('a4', 'portrait');
-            return $pdf->stream('Raport gestiune accesorii ' .
+            return $pdf->download('Raport gestiune accesorii ' .
                 \Carbon\Carbon::parse($search_data)->isoFormat('YYYY-MM-DD') . '.pdf');
         }
     }
