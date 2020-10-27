@@ -95,9 +95,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Export pentru Vali de pus produsele la vanzare pe site
     Route::get('produse/rapoarte/lista-inventar-produse-vali/{view_type}', 'ProdusController@pdfExportListaProduseVali');
-    // Route::get('/makethemigration', function() {
-    //     Artisan::call('php artisan migrate:refresh --seed');
-    // return "Cleared!";
-    // });
+
+    Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
+    Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
 });

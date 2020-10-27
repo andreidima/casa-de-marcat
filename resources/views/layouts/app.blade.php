@@ -173,6 +173,10 @@
                                     <i class="fas fa-file-pdf mr-1"></i>Raport zilnic
                                 </a>
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/raport-gestiune-accesorii">
+                                    <i class="fas fa-file-pdf mr-1"></i>Raport gestiune accesorii
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/rapoarte/miscari-stocuri">
                                     <i class="fas fa-people-carry mr-1"></i>Mișcări stocuri
                                 </a>
