@@ -115,8 +115,10 @@ class ProdusStocController extends Controller
             // Verificare daca a fost schimbat produsul
             if ($produse_stocuri->produs->id === $produs->id){ // produsul este acelasi
 
-                    if (($produs->cantitate - $produse_stocuri->cantitate + $request->cantitate) < 0){
-                        return back()->with('error', 'Această modificare va scade cantitatea totala a produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+                    if ($produs->cod_de_bare !== "G11005") { // se sare peste produsul „INCARCARE 1 EURO”, caruia i se permite stoc negativ
+                        if (($produs->cantitate - $produse_stocuri->cantitate + $request->cantitate) < 0){
+                            return back()->with('error', 'Această modificare va scade cantitatea totala a produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+                        }
                     }
 
                     // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
@@ -161,8 +163,10 @@ class ProdusStocController extends Controller
                     $created_at = $produs->created_at;
 
                     // Verificare initiala pentru a nu scadea cantitatea sub 0
-                    if (($produs->cantitate - $produse_stocuri->cantitate) < 0){
-                        return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+                    if ($produs->cod_de_bare !== "G11005") { // se sare peste produsul „INCARCARE 1 EURO”, caruia i se permite stoc negativ
+                        if (($produs->cantitate - $produse_stocuri->cantitate) < 0){
+                            return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+                        }
                     }
 
                     // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
@@ -249,8 +253,10 @@ class ProdusStocController extends Controller
         $produs = \App\Produs::where('id', $produse_stocuri->produs_id)->first();
 
         // Verificare initiala pentru a nu scadea cantitatea sub 0
-        if (($produs->cantitate - $produse_stocuri->cantitate) < 0) {
-            return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+        if ($produs->cod_de_bare !== "G11005") { // se sare peste produsul „INCARCARE 1 EURO”, caruia i se permite stoc negativ
+            if (($produs->cantitate - $produse_stocuri->cantitate) < 0) {
+                return back()->with('error', 'Această modificare va scade cantitatea produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+            }
         }
 
         // Crearea "ProdusCantitateIstoric" si salvarea cantitatii initiale
