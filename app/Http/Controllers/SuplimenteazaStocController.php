@@ -48,8 +48,10 @@ class SuplimenteazaStocController extends Controller
         // dd($produs);
 
         if (isset($produs->id)) {
-            if (($produs->cantitate + $request->nr_de_bucati) < 0) {
-                return back()->with('error', 'Această modificare va scade cantitatea totala a produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+            if ($produs->cod_de_bare !== "G11005"){ // se sare peste produsul „INCARCARE 1 EURO”, caruia i se permite stoc negativ
+                if (($produs->cantitate + $request->nr_de_bucati) < 0) {
+                    return back()->with('error', 'Această modificare va scade cantitatea totala a produsului „' . $produs->nume . '” sub 0, ceea ce este incorect!');
+                }
             }
 
             $produse_cantitati_istoric = ProdusCantitateIstoric::make();
