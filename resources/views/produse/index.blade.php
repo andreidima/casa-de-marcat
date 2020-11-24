@@ -216,7 +216,8 @@
 
                 <nav>
                     <ul class="pagination justify-content-center">
-                        {{$produse->links()}}
+                        {{$produse->appends(Request::except('page'))->links()}}
+                        {{-- {{$produse->links()}} --}}
                     </ul>
                 </nav>
 
