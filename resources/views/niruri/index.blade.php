@@ -8,11 +8,11 @@
                     <a href="{{ route('niruri.index') }}"><i class="fas fa-money-bill-wave mr-1"></i></i>Niruri</a>
                 </h4>
             </div> 
-            <div class="col-lg-7" id="">
+            <div class="col-lg-9" id="">
                 <form class="needs-validation" novalidate method="GET" action="{{ route('niruri.index') }}">
                     @csrf                    
                     <div class="row input-group custom-search-form justify-content-center">
-                        <div class="col-md-4 d-flex px-1" id="cautare_produse_vandute">
+                        <div class="col-md-3 d-flex px-1" id="cautare_produse_vandute">
                             <label for="search_data" class="mb-0 align-self-center mr-1">Data:</label>
                             <vue2-datepicker
                                 data-veche="{{ $search_data }}"
@@ -21,10 +21,21 @@
                                 latime="100"
                             ></vue2-datepicker>
                         </div> 
-                        <input type="text" class="form-control form-control-sm col-md-2 mr-1 border rounded-pill mb-1 py-0" 
-                        id="search_nir" name="search_nir" placeholder="Nir" autofocus
-                                value="{{ $search_nir }}">
-                        <div class="col-md-3 px-1">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-4 px-0">
+                                    <input type="text" class="form-control form-control-sm border rounded-pill mb-1 py-0" 
+                                    id="search_nir" name="search_nir" placeholder="Nir" autofocus
+                                            value="{{ $search_nir }}">
+                                </div>
+                                <div class="col-md-8 px-0">
+                                    <input type="text" class="form-control form-control-sm border rounded-pill mb-1 py-0" 
+                                    id="search_furnizor" name="search_furnizor" placeholder="Furnizor" autofocus
+                                            value="{{ $search_furnizor }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 px-1">
                             <button class="btn btn-sm btn-primary col-md-12 border border-dark rounded-pill" type="submit">
                                 <i class="fas fa-search text-white mr-1"></i>Caută
                             </button>
