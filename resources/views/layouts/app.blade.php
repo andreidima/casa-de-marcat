@@ -81,6 +81,23 @@
                                 <a class="dropdown-item dropdown-toggle" href="#" id="nir" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-truck-loading mr-1"></i>Nir
                                 </a>
+                                    {{-- <ul class="dropdown-menu" aria-labelledby="nir">
+                                        <li>
+                                            <a class="dropdown-item" href="/niruri/produse-stocuri-fara-nir">
+                                                <i class="fas fa-truck-loading mr-1"></i>Produse fără nir
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/niruri">
+                                                <i class="fas fa-truck-loading mr-1"></i>Listă niruri
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="/niruri/export">
+                                                <i class="fas fa-truck-loading mr-1"></i>Export PDF
+                                            </a>
+                                        </li>
+                                    </ul> --}}
                                     <div class="dropdown-menu" aria-labelledby="nir"
                                         style="
                                             top: 74%;
@@ -106,6 +123,18 @@
                                 <a class="dropdown-item dropdown-toggle" href="#" id="inventar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-boxes mr-1"></i>Inventar
                                 </a>
+                                {{-- <ul class="dropdown-menu" aria-labelledby="inventar">
+                                    <li>
+                                        <a class="dropdown-item" href="/produse-inventar-verificare">
+                                            <i class="fas fa-boxes mr-1"></i>Produse inventar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/produse-inventar-verificare/produse-lipsa">
+                                            <i class="fas fa-boxes mr-1"></i>Produse lipsă
+                                        </a>
+                                    </li>
+                                </ul> --}}
                                     <div class="dropdown-menu" aria-labelledby="inventar"
                                         style="
                                             top: 74%;
