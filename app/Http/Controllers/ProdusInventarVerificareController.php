@@ -147,6 +147,7 @@ class ProdusInventarVerificareController extends Controller
     {
         $search_nume = \Request::get('search_nume');
         $search_cod_de_bare = \Request::get('search_cod_de_bare');
+        $search_subcategorie_produs_id = \Request::get('search_subcategorie_produs_id');
 
         // $produse_lipsa = Produs::with('produs_inventar_verificare')
         //     ->doesntHave('produs_inventar_verificare')
@@ -159,6 +160,7 @@ class ProdusInventarVerificareController extends Controller
             ->select(DB::raw('
                             produse_inventar_verificare.id as produs_inventar_verificare_id,
                             produse.id as produs_id,
+                            produse.subcategorie_produs_id,
                             produse.nume,
                             produse.cod_de_bare,
                             produse.cantitate as produs_cantitate,
@@ -170,14 +172,17 @@ class ProdusInventarVerificareController extends Controller
             ->when($search_cod_de_bare, function ($query, $search_cod_de_bare) {
                     return $query->where('cod_de_bare', $search_cod_de_bare);
                 })
+            ->when($search_subcategorie_produs_id, function ($query, $search_subcategorie_produs_id) {
+                    return $query->where('produse.subcategorie_produs_id', $search_subcategorie_produs_id);
+                })
             ->orderBy('produse.nume')
             ->simplePaginate(25);
 
-            // dd($produse_lipsa);
+        $subcategorii = \App\SubcategoriiProduse::select('id', 'nume')->get()->sortBy('nume');
 
         return view(
             'produse-inventar-verificare.produse-lipsa',
-            compact('produse_lipsa', 'search_nume', 'search_cod_de_bare')
+            compact('produse_lipsa', 'search_nume', 'search_cod_de_bare', 'subcategorii', 'search_subcategorie_produs_id')
         );
     }
 }
