@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,4 +101,126 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
+    Route::any('setare-niruri-la-produse-stocuri', function () {
+        
+        // $produse_stocuri_telefoane_noi = \App\ProdusStoc::
+        //     whereDoesntHave('nir')
+        //     ->whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 1);
+        //         });
+        //     })
+        //     ->where('fara_nir', 0)
+        //     ->latest()
+        //     ->get();
+
+        // $produse_stocuri_accesorii = \App\ProdusStoc::
+        //     whereDoesntHave('nir')
+        //     ->whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 3);
+        //         });
+        //     })
+        //     ->where('fara_nir', 0)
+        //     ->latest()
+        //     ->get();
+        
+        // $produse_stocuri_telefoane_noi_fara_nir = \App\ProdusStoc::
+        //     // whereDoesntHave('nir')
+        //     whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 1);
+        //         });
+        //     })
+        //     ->where('fara_nir', 1)
+        //     ->latest()
+        //     ->get();
+
+        // $produse_stocuri_accesorii_fara_nir = \App\ProdusStoc::
+        //     // whereDoesntHave('nir')
+        //     whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 3);
+        //         });
+        //     })
+        //     ->where('fara_nir', 1)
+        //     ->latest()
+        //     ->get();
+        
+        // $produse_stocuri_telefoane_noi_cu_nir_generat = \App\ProdusStoc::
+        //     whereHas('nir')
+        //     ->whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 1);
+        //         });
+        //     })
+        //     ->where('fara_nir', 0)
+        //     ->latest()
+        //     ->get();
+
+        // $produse_stocuri_accesorii_cu_nir_generat = \App\ProdusStoc::
+        //     whereHas('nir')
+        //     ->whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 3);
+        //         });
+        //     })
+        //     ->where('fara_nir', 0)
+        //     ->latest()
+        //     ->get();
+
+        // $produse_stocuri_alte_categorii = \App\ProdusStoc::
+        //     // whereHas('nir')
+        //     whereHas('produs', function (Builder $query) {
+        //         $query->whereHas('subcategorie', function (Builder $query){
+        //             $query->where('categorie_produs_id', 2)
+        //                 ->orwhere('categorie_produs_id', 4);
+        //         });
+        //     })
+        //     ->latest()
+        //     ->get();
+
+        // $produse_stocuri = \App\ProdusStoc::
+        //     // whereHas('nir')
+        //     latest()
+        //     ->get();
+
+        // $produse_stocuri_fara_produs = \App\ProdusStoc::
+        //     // whereHas('nir')
+        //     whereDoesntHave('produs')
+        //     ->latest()
+        //     ->get();
+        
+        // echo 
+        //     '' . $produse_stocuri_telefoane_noi->count() . '<br>' .
+        //     '' . $produse_stocuri_accesorii->count() . '<br>' .
+        //     '' . $produse_stocuri_telefoane_noi_fara_nir->count() . '<br>' .
+        //     '' . $produse_stocuri_accesorii_fara_nir->count() . '<br>' .
+        //     '' . $produse_stocuri_telefoane_noi_cu_nir_generat->count()  . '<br>' .
+        //     '' . $produse_stocuri_accesorii_cu_nir_generat->count() . '<br>' .
+        //     '' . $produse_stocuri_alte_categorii->count() . '<br>' .
+        //     '' . $produse_stocuri->count() . '<br>' .
+        //     '' . $produse_stocuri_fara_produs->count() . '<br>' .
+        //     'Total = ' . 
+        //         (
+        //             $produse_stocuri_telefoane_noi->count() +
+        //             $produse_stocuri_accesorii->count() + 
+        //             $produse_stocuri_telefoane_noi_fara_nir->count() + 
+        //             $produse_stocuri_accesorii_fara_nir->count() + 
+        //             $produse_stocuri_telefoane_noi_cu_nir_generat->count() + 
+        //             $produse_stocuri_accesorii_cu_nir_generat->count() + 
+        //             $produse_stocuri_alte_categorii->count()
+        //         )
+        //     ;
+
+            
+
+        $produse_stocuri = \App\ProdusStoc::
+            with('nir:id, nir, produs_stoc_id')
+            ->select ('id')
+            ->take(1)
+            ->get();
+        // return ;
+        dd($produse_stocuri);
+    });
 });
