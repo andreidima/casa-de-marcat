@@ -69,9 +69,10 @@ class GenereazaFacturaClientController extends Controller
                 // Calcul pret per bucata
                 // $produs_factura->pret_unitar = number_format(round_up(($produs['pret'] / $produs['cantitate'] / 1.19), 2), 2);
                 // $produs_factura->pret_unitar = number_format(round(($produs['pret'] / $produs['cantitate'] / 1.19), 2), 2);
-                $produs_factura->pret_unitar = bcdiv(bcdiv((($produs['pret'] / 1.19) / $produs['cantitate']), 1, 2), 1, 2);
+                // $produs_factura->pret_unitar = bcdiv(bcdiv((($produs['pret'] / 1.19) / $produs['cantitate']), 1, 2), 1, 2);
+                $produs_factura->pret_unitar = bcdiv(($produs['pret'] / 1.19), 1, 2);
                 $produs_factura->valoare = $produs_factura->pret_unitar * $produs_factura->cantitate;
-                $produs_factura->valoare_tva = $produs['pret'] - $produs_factura->valoare;
+                $produs_factura->valoare_tva = $produs['pret'] * $produs_factura->cantitate - $produs_factura->valoare;
 
                 $produs_factura->save();
             }        
