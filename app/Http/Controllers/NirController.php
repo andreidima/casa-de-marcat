@@ -105,6 +105,7 @@ class NirController extends Controller
     public function destroy(Nir $niruri)
     {
         $niruri->delete();
+        \App\ProdusStoc::where('nir_id', $niruri->id)->update(['nir_id' => NULL]);
         return redirect('/niruri')->with('status', 'Nirul "' . $niruri->nir . '" a fost șters cu succes!');
     }    
 
@@ -164,7 +165,8 @@ class NirController extends Controller
         //     ->get();
 
         $produse_stocuri_telefoane_noi = \App\ProdusStoc::
-            whereDoesntHave('nir')
+            // whereDoesntHave('nir')
+            where('nir_id', null)
             ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query){
                     $query->where('categorie_produs_id', 1);
@@ -175,7 +177,8 @@ class NirController extends Controller
             ->get();
 
         $produse_stocuri_accesorii = \App\ProdusStoc::
-            whereDoesntHave('nir')
+            // whereDoesntHave('nir')
+            where('nir_id', null)
             ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query){
                     $query->where('categorie_produs_id', 3);
@@ -192,7 +195,8 @@ class NirController extends Controller
     {
         // Telefoane noi
         $produse_stocuri_telefoane_noi = \App\ProdusStoc::
-            whereDoesntHave('nir')
+            // whereDoesntHave('nir')
+            where('nir_id', null)
             ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query){
                     $query->where('categorie_produs_id', 1);
@@ -223,7 +227,8 @@ class NirController extends Controller
 
         // Accesorii
         $produse_stocuri_accesorii = \App\ProdusStoc::
-            whereDoesntHave('nir')
+            // whereDoesntHave('nir')
+            where('nir_id', null)
             ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query){
                     $query->where('categorie_produs_id', 3);
@@ -258,7 +263,9 @@ class NirController extends Controller
         $data_nir = \Request::get('data_nir');
 
         // Telefoane noi
-        $produse_stocuri_telefoane_noi = \App\ProdusStoc::whereDoesntHave('nir')
+        $produse_stocuri_telefoane_noi = \App\ProdusStoc::
+            // whereDoesntHave('nir')
+            where('nir_id', null)
             ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query) {
                     $query->where('categorie_produs_id', 1);
@@ -277,10 +284,15 @@ class NirController extends Controller
             $nir->produs_stoc_id = $produs_stoc->id;
             $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
             $nir->save();
+
+            $produs_stoc->nir_id = $nir->id;
+            $produs_stoc->save();
         }
 
         // Accesorii
-        $produse_stocuri_accesorii = \App\ProdusStoc::whereDoesntHave('nir')
+        $produse_stocuri_accesorii = \App\ProdusStoc::
+            // whereDoesntHave('nir')
+            where('nir_id', null)
             ->whereHas('produs', function (Builder $query) {
                 $query->whereHas('subcategorie', function (Builder $query) {
                     $query->where('categorie_produs_id', 3);
@@ -299,6 +311,9 @@ class NirController extends Controller
             $nir->produs_stoc_id = $produs_stoc->id;
             $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
             $nir->save();
+
+            $produs_stoc->nir_id = $nir->id;
+            $produs_stoc->save();
         }
 
         // dd($data_nir, $furnizor_id, $nr_factura, $produse_stocuri_telefoane_noi, $produse_stocuri_accesorii);

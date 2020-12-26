@@ -28,4 +28,9 @@ class ProdusStoc extends Model
     {
         return $this->hasOne('App\Nir', 'produs_stoc_id');
     }
+
+    public function nir_relatie()
+    {
+        return $this->hasOne('App\Nir', 'produs_stoc_id');
+    }
 }
