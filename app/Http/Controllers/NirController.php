@@ -276,17 +276,19 @@ class NirController extends Controller
             ->where('nr_factura', $nr_factura)
             ->get();
 
-        $urmatorul_nir = Nir::where('categorie_id', 1)->max('nir') + 1 ?? 1;
-        foreach ($produse_stocuri_telefoane_noi as $produs_stoc) {
-            $nir = Nir::make();
-            $nir->nir = $urmatorul_nir;
-            $nir->categorie_id = 1;
-            $nir->produs_stoc_id = $produs_stoc->id;
-            $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
-            $nir->save();
+        if ($produse_stocuri_telefoane_noi->count() > 0){
+            $urmatorul_nir = Nir::where('categorie_id', 1)->max('nir') + 1 ?? 1;
+            foreach ($produse_stocuri_telefoane_noi as $produs_stoc) {
+                $nir = Nir::make();
+                $nir->nir = $urmatorul_nir;
+                $nir->categorie_id = 1;
+                $nir->produs_stoc_id = $produs_stoc->id;
+                $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+                $nir->save();
 
-            $produs_stoc->nir_id = $nir->id;
-            $produs_stoc->save();
+                $produs_stoc->nir_id = $nir->id;
+                $produs_stoc->save();
+            }
         }
 
         // Accesorii
@@ -303,17 +305,19 @@ class NirController extends Controller
             ->where('nr_factura', $nr_factura)
             ->get();
 
-        $urmatorul_nir = Nir::where('categorie_id', 3)->max('nir') + 1 ?? 1;
-        foreach ($produse_stocuri_accesorii as $produs_stoc) {
-            $nir = Nir::make();
-            $nir->nir = $urmatorul_nir;
-            $nir->categorie_id = 3;
-            $nir->produs_stoc_id = $produs_stoc->id;
-            $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
-            $nir->save();
+        if ($produse_stocuri_accesorii->count() > 0){
+            $urmatorul_nir = Nir::where('categorie_id', 3)->max('nir') + 1 ?? 1;
+            foreach ($produse_stocuri_accesorii as $produs_stoc) {
+                $nir = Nir::make();
+                $nir->nir = $urmatorul_nir;
+                $nir->categorie_id = 3;
+                $nir->produs_stoc_id = $produs_stoc->id;
+                $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+                $nir->save();
 
-            $produs_stoc->nir_id = $nir->id;
-            $produs_stoc->save();
+                $produs_stoc->nir_id = $nir->id;
+                $produs_stoc->save();
+            }
         }
 
         // dd($data_nir, $furnizor_id, $nr_factura, $produse_stocuri_telefoane_noi, $produse_stocuri_accesorii);
