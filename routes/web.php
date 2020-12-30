@@ -215,12 +215,12 @@ Route::group(['middleware' => 'auth'], function () {
 
             
 
-        $produse_stocuri_cu_nir = \App\ProdusStoc::whereHas('nir')
-            ->with('nir')
-            ->select ('id', 'nir_id')
-            ->where('fara_nir', 0)
-            ->orderBy('id')
-            ->get();
+        // $produse_stocuri_cu_nir = \App\ProdusStoc::whereHas('nir')
+        //     ->with('nir')
+        //     ->select ('id', 'nir_id')
+        //     ->where('fara_nir', 0)
+        //     ->orderBy('id')
+        //     ->get();
 
         // $produse_stocuri_cu_nir_lipsa = \App\ProdusStoc::whereDoesntHave('nir')
         //     ->select('id', 'nir_id')
@@ -236,12 +236,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         // dd($produse_stocuri_cu_nir->count(), $produse_stocuri_cu_nir_lipsa, $produse_stocuri_fara_nir->count(), $produse_stocuri_cu_nir->count() + $produse_stocuri_fara_nir->count());
 
-        foreach ($produse_stocuri_cu_nir as $produs_stoc){
-            $produs_stoc->nir_id = $produs_stoc->nir->id;
-            $produs_stoc->save();
+        // foreach ($produse_stocuri_cu_nir as $produs_stoc){
+        //     $produs_stoc->nir_id = $produs_stoc->nir->id;
+        //     $produs_stoc->save();
 
-            echo $produs_stoc->id . ' . ';
-        }
+        //     echo $produs_stoc->id . ' . ';
+        // }
         // return ;
         // dd($produse_stocuri);
         // echo 'Gata';

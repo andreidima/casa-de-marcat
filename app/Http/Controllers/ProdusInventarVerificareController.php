@@ -27,10 +27,57 @@ class ProdusInventarVerificareController extends Controller
             })
             ->latest()
             ->simplePaginate(25);
+            
+        $suma['telefoane_noi'] = ProdusInventarVerificare::
+            join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+            ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
+            ->whereHas('produs', function ($query) {
+                $query->whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', 1);
+                });
+            })
+            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));            
+        $suma['telefoane_consignatie'] = ProdusInventarVerificare::
+            join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+            ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
+            ->whereHas('produs', function ($query) {
+                $query->whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', 2);
+                });
+            })
+            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));       
+        $suma['accesorii_telefoane'] = ProdusInventarVerificare::
+            join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+            ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
+            ->whereHas('produs', function ($query) {
+                $query->whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', 3);
+                });
+            })
+            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
+        $suma['suma_totala'] = ProdusInventarVerificare::
+            join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+            ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
+            ->whereHas('produs', function ($query) {
+                $query->whereHas('subcategorie', function ($query) {
+                    $query->where('categorie_produs_id', '<>', '38');
+                });
+            })
+            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
+        // $suma['telefoane_consignatie'] = ProdusInventarVerificare::whereHas('subcategorie', function ($query) {
+        //             $query->where('categorie_produs_id', 2);
+        //         })
+        //     ->sum(DB::raw('cantitate * pret'));
+        // $suma['accesorii_telefoane'] = ProdusInventarVerificare::whereHas('subcategorie', function ($query) {
+        //             $query->where('categorie_produs_id', 3);
+        //         })
+        //     ->sum(DB::raw('cantitate * pret'));
+        // $suma['suma_totala'] = ProdusInventarVerificare::where('subcategorie_produs_id', '<>', '38')
+        //     ->sum(DB::raw('cantitate * pret'));
 
         return view(
             'produse-inventar-verificare.index',
-            compact('produse_inventar', 'search_nume', 'search_cod_de_bare')
+            compact('produse_inventar', 'search_nume', 'search_cod_de_bare', 'suma')
         );
     }
 

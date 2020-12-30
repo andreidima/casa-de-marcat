@@ -3,6 +3,50 @@
 @section('content')   
 <div class="container card" style="border-radius: 40px 40px 40px 40px;">
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
+                <div class="col-lg-12 mt-2 mb-0">
+                    <h5 class="">
+                        {{-- <i class="fas fa-warehouse mr-1"></i> --}}
+                        Sume inventar:                         
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:;" --}}
+                        >
+                            Telefoane noi = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['telefoane_noi'] }}
+                            </span>
+                            lei
+                        </span>
+                        +
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:#e80000;" --}}
+                        >
+                            Telefoane consignație = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['telefoane_consignatie'] }}
+                            </span>
+                            lei
+                        </span>
+                        +
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:darkcyan;" --}}
+                        >
+                            Accesorii telefoane și piese = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['accesorii_telefoane'] }}
+                            </span>
+                            lei
+                        </span>
+                        =    
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:darkcyan;" --}}
+                        >         
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['suma_totala'] }}
+                            </span>        
+                            lei   
+                        </span>
+                    </h5>
+                </div> 
             <div class="col-lg-3 align-self-center">
                 <h4 class=" mb-0">
                     <a href="{{ route('produse-inventar-verificare.index') }}"><i class="fas fa-boxes mr-1"></i>Produse inventar</a>
