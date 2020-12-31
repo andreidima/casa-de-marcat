@@ -118,6 +118,9 @@
                                 <a class="dropdown-item" href="/produse-inventar-verificare/produse-lipsa">
                                     <i class="fas fa-boxes mr-1"></i>Produse lipsă
                                 </a>
+                                <a class="dropdown-item" href="/produse-inventar-verificare/lista-inventar/lista-inventar-html">
+                                    <i class="fas fa-boxes mr-1"></i>Export PDF
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item active mr-4">

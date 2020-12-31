@@ -232,4 +232,30 @@ class ProdusInventarVerificareController extends Controller
             compact('produse_lipsa', 'search_nume', 'search_cod_de_bare', 'subcategorii', 'search_subcategorie_produs_id')
         );
     }
+
+    /**
+     * Lista inventar
+     *
+     * @param  \App\Produs  $produs
+     * @return \Illuminate\Http\Response
+     */
+    public function pdfExportListaInventar(Request $request)
+    {
+        $categorii = \App\CategoriiProduse::with('subcategorii', 'subcategorii.produse', 'subcategorii.produse.produs_inventar_verificare')
+            ->select('id', 'nume')
+            ->where('id', '<>' ,'4')
+            // ->groupBy('subcategorii.nume')
+            // ->orderBy('subcategorii.nume')
+            ->orderBy('nume')
+            ->get();
+
+        if ($request->view_type === 'lista-inventar-html') {
+            return view('produse-inventar-verificare.export.lista-inventar-pdf', compact('categorii'));
+        } elseif ($request->view_type === 'lista-inventar-pdf') {
+            $pdf = \PDF::loadView('produse-inventar-verificare.export.lista-inventar-pdf', compact('categorii'))
+                ->setPaper('a4', 'portrait');
+            return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            // return $pdf->stream();
+        }
+    }
 }
