@@ -102,49 +102,49 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
-    Route::any('sincronizare-cantitati-live-cu-inventar', function () {
-        $produse_lipsa = DB::table('produse')
-            ->leftJoin('produse_inventar_verificare', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
-            ->select(DB::raw('
-                            produse_inventar_verificare.id as produs_inventar_verificare_id,
-                            produse.id as produs_id,
-                            produse.subcategorie_produs_id,
-                            produse.nume,
-                            produse.cod_de_bare,
-                            produse.cantitate as produs_cantitate,
-                            produse_inventar_verificare.cantitate as produs_inventar_verificare_cantitate
-                        '))
-            ->whereRaw('((produse.cantitate !=0 and produse_inventar_verificare.cantitate is null) or produse.cantitate != produse_inventar_verificare.cantitate)')
-            ->get();
+    // Route::any('sincronizare-cantitati-live-cu-inventar', function () {
+    //     $produse_lipsa = DB::table('produse')
+    //         ->leftJoin('produse_inventar_verificare', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+    //         ->select(DB::raw('
+    //                         produse_inventar_verificare.id as produs_inventar_verificare_id,
+    //                         produse.id as produs_id,
+    //                         produse.subcategorie_produs_id,
+    //                         produse.nume,
+    //                         produse.cod_de_bare,
+    //                         produse.cantitate as produs_cantitate,
+    //                         produse_inventar_verificare.cantitate as produs_inventar_verificare_cantitate
+    //                     '))
+    //         ->whereRaw('((produse.cantitate !=0 and produse_inventar_verificare.cantitate is null) or produse.cantitate != produse_inventar_verificare.cantitate)')
+    //         ->get();
 
-        foreach ($produse_lipsa as $produs_lipsa){
-            $produs = \App\Produs::where('id', $produs_lipsa->produs_id)->first();
-            $produs->cantitate = $produs_lipsa->produs_inventar_verificare_cantitate ?? 0;
-            $produs->update();
-        }
-        dd($produse_lipsa->count());
-    });
+    //     foreach ($produse_lipsa as $produs_lipsa){
+    //         $produs = \App\Produs::where('id', $produs_lipsa->produs_id)->first();
+    //         $produs->cantitate = $produs_lipsa->produs_inventar_verificare_cantitate ?? 0;
+    //         $produs->update();
+    //     }
+    //     dd($produse_lipsa->count());
+    // });
 
-    Route::any('verificare-sume-gestiune-cu-inventar', function () {
-        for ($i = 1; $i <= 50; $i++) {
-            echo $i . '. ';
+    // Route::any('verificare-sume-gestiune-cu-inventar', function () {
+    //     for ($i = 1; $i <= 50; $i++) {
+    //         echo $i . '. ';
             
-            $suma_gestiune = \App\Produs::where('subcategorie_produs_id', $i)->sum(DB::raw('cantitate * pret'));
-            echo $suma_gestiune;
+    //         $suma_gestiune = \App\Produs::where('subcategorie_produs_id', $i)->sum(DB::raw('cantitate * pret'));
+    //         echo $suma_gestiune;
 
-            echo ' - ';
+    //         echo ' - ';
 
-            $suma_inventar = \App\ProdusInventarVerificare::join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
-                ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
-                ->whereHas('produs', function ($query) use ($i) {
-                    $query->where('subcategorie_produs_id', $i);
-                })
-                ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
-            echo $suma_inventar;            
+    //         $suma_inventar = \App\ProdusInventarVerificare::join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+    //             ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
+    //             ->whereHas('produs', function ($query) use ($i) {
+    //                 $query->where('subcategorie_produs_id', $i);
+    //             })
+    //             ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
+    //         echo $suma_inventar;            
             
-            echo '<br>';
-        }
-    });
+    //         echo '<br>';
+    //     }
+    // });
 
     // De sters intreaga ruta la 01.02.2021
     // Route::any('setare-niruri-la-produse-stocuri', function () {
