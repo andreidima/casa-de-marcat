@@ -213,8 +213,7 @@ class ProdusInventarVerificareController extends Controller
                             produse.cantitate as produs_cantitate,
                             produse_inventar_verificare.cantitate as produs_inventar_verificare_cantitate
                         '))
-            ->where('produse.cantitate', '!=', 0)
-            ->whereRaw('(produse_inventar_verificare.cantitate is null or produse.cantitate != produse_inventar_verificare.cantitate)')
+            ->whereRaw('((produse.cantitate != 0 and produse_inventar_verificare.cantitate is null) or produse.cantitate != produse_inventar_verificare.cantitate)')
             ->where('produse.nume', 'like', '%' . $search_nume . '%')
             ->when($search_cod_de_bare, function ($query, $search_cod_de_bare) {
                     return $query->where('cod_de_bare', $search_cod_de_bare);
