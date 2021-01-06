@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
-    Route::any('setare-niruri-la-produse-stocuri', function () {
+    // Route::any('setare-niruri-la-produse-stocuri', function () {
         
         // $produse_stocuri_telefoane_noi = \App\ProdusStoc::
         //     whereDoesntHave('nir')
@@ -246,5 +246,5 @@ Route::group(['middleware' => 'auth'], function () {
         // return ;
         // dd($produse_stocuri);
         // echo 'Gata';
-    });
+    // });
 });
