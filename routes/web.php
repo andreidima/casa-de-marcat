@@ -102,8 +102,94 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
-<<<<<<< HEAD
-=======
+    Route::any('produse-fara-nir', function () {
+        // $produse = \App\Produs::where('cantitate', '>', 0)->get();
+        // $produse_cu_stocuri = \App\Produs::where('cantitate', '>', 0)->whereHas('produse_stocuri')->get();
+        // $produse_fara_stocuri = \App\Produs::where('cantitate', '>', 0)->whereDoesntHave('produse_stocuri')->get();
+
+        // echo 
+        //     'Produse = ' . $produse->count() . '<br>' .
+        //     'Produse cu stocuri = ' . $produse_cu_stocuri->count() . '<br>' .
+        //     'Produse fara stocuri= ' . $produse_fara_stocuri->count() . '<br>' 
+        //     ;
+
+        // foreach ($produse_fara_stocuri as $produs){
+        //     echo $produs->nume . '<br>';
+        // }
+        
+        // $stocuri = \App\ProdusStoc::get();
+        // echo 
+        //     'Stocuri = ' . $stocuri->count() . '<br>' .
+        //     'Stocuri cu nir = ' . $stocuri->where('fara_nir', 0)->count() . '<br>' .
+        //     'Stocuri fara nir = ' . $stocuri->where('fara_nir', 1)->count() . '<br>'            
+        //     ;
+        
+        // foreach($stocuri->where('fara_nir', 0) as $stoc_cu_nir){
+        //     foreach($stocuri->where('fara_nir', 1) as $stoc_fara_nir){
+        //         if ($stoc_cu_nir->produs_id == $stoc_fara_nir->produs_id){
+        //             echo 'Produs id = ' . $stoc_cu_nir->produs_id . ' | ' . 'Stocuri id = ' . $stoc_cu_nir->id . ' , ' . $stoc_fara_nir->id . '<br>';
+        //         }
+        //     }
+        // }
+
+        $produse = \App\Produs::where('produse.cantitate', '>', 0)
+            ->leftJoin('produse_stocuri', 'produse.id', '=', 'produse_stocuri.produs_id')
+            ->select(
+                'produse.id as produs_id', 
+                'produse_stocuri.id as stoc_id', 
+                'produse.cantitate as cantitate_totala', 
+                'produse_stocuri.cantitate as cantitate',
+                'produse_stocuri.created_at as created_at'
+                )
+            ->orderBy('produs_id', 'asc')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        // echo
+        //     $produse->count() . 
+        //     '<br><br>'
+        //     ;
+
+        foreach($produse->groupBy('produs_id') as $produs){
+            echo 
+                'Id produs = ' . $produs->first()->produs_id . '<br>' . 
+                'Cantitate produs = ' . $produs->first()->cantitate_totala . '<br>'
+                ;
+            foreach($produs as $stoc){
+                echo 
+                    'Cantitate stoc = ' . $stoc->cantitate . '<br>'
+                    ;
+            }
+            echo 
+                '<br><br>'
+                ;
+            // echo $produs->produs_id . ' ';
+        }
+
+        // echo 
+        //     'Produse = ' . $produse->count() . '<br>'
+            // 'Stocuri cu nir = ' . $stocuri->where('fara_nir', 0)->count() . '<br>' .
+            // 'Stocuri fara nir = ' . $stocuri->where('fara_nir', 1)->count() . '<br>'            
+            ;
+
+        // $stocuri = \App\ProdusStoc::join('produse', 'produs_id', '=', 'produse.id')
+        //     ->select('produse_stocuri.id as id', 'produs_id', 'produse.cantitate as cantitate_totala', 'produse_stocuri.cantitate as cantitate')
+        //     ->get();
+        // echo 
+        //     'Stocuri = ' . $stocuri->count() . '<br>' .
+        //     'Stocuri cu nir = ' . $stocuri->where('fara_nir', 0)->count() . '<br>' .
+        //     'Stocuri fara nir = ' . $stocuri->where('fara_nir', 1)->count() . '<br>'            
+        //     ;
+        
+        // foreach($stocuri as $stoc){
+        //     echo 'Produs id = ' . $stoc->produs_id . ' | ' . 'Cantitate totala = ' . $stoc->cantitate_totala . ' , ' . $stoc->cantitate . '<br>';
+        // }
+
+    });
+
+
+    
+    // 2 rute pentru inventar
     // Route::any('sincronizare-cantitati-live-cu-inventar', function () {
     //     $produse_lipsa = DB::table('produse')
     //         ->leftJoin('produse_inventar_verificare', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
@@ -130,7 +216,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::any('verificare-sume-gestiune-cu-inventar', function () {
     //     for ($i = 1; $i <= 50; $i++) {
     //         echo $i . '. ';
-            
+
     //         $suma_gestiune = \App\Produs::where('subcategorie_produs_id', $i)->sum(DB::raw('cantitate * pret'));
     //         echo $suma_gestiune;
 
@@ -142,14 +228,14 @@ Route::group(['middleware' => 'auth'], function () {
     //                 $query->where('subcategorie_produs_id', $i);
     //             })
     //             ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
-    //         echo $suma_inventar;            
-            
+    //         echo $suma_inventar;                 
+
     //         echo '<br>';
     //     }
     // });
 
+
     // De sters intreaga ruta la 01.02.2021
->>>>>>> 49cc7390e5b82b24d751a5f9504bc6420b67544a
     // Route::any('setare-niruri-la-produse-stocuri', function () {
         
         // $produse_stocuri_telefoane_noi = \App\ProdusStoc::
