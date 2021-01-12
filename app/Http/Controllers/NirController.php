@@ -218,6 +218,7 @@ class NirController extends Controller
                         $nir->categorie_id = 1;
                         $nir->produs_stoc_id = $produs_stoc->id;
                         $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');
+                        // $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
                         // $nir->updated_at = $produs_stoc->updated_at;
                         $nir->save();
                     }                
@@ -249,7 +250,8 @@ class NirController extends Controller
                         $nir->nir = $urmatorul_nir;
                         $nir->categorie_id = 3;
                         $nir->produs_stoc_id = $produs_stoc->id;
-                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');
+                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');                        
+                        // $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
                         $nir->save();
                     }                
                 }
@@ -283,7 +285,8 @@ class NirController extends Controller
                 $nir->nir = $urmatorul_nir;
                 $nir->categorie_id = 1;
                 $nir->produs_stoc_id = $produs_stoc->id;
-                $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+                // $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');                  
+                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
                 $nir->save();
 
                 $produs_stoc->nir_id = $nir->id;
@@ -312,7 +315,8 @@ class NirController extends Controller
                 $nir->nir = $urmatorul_nir;
                 $nir->categorie_id = 3;
                 $nir->produs_stoc_id = $produs_stoc->id;
-                $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+                // $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');                  
+                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
                 $nir->save();
 
                 $produs_stoc->nir_id = $nir->id;
@@ -322,7 +326,7 @@ class NirController extends Controller
 
         // dd($data_nir, $furnizor_id, $nr_factura, $produse_stocuri_telefoane_noi, $produse_stocuri_accesorii);
 
-        return back()->with('status', 'A fost generat Nirul ' . $urmatorul_nir . '!');
+        return back()->with('status', 'A fost generat Nirul ' . ($urmatorul_nir ?? '') . '!');
     }
 
     public function export()
