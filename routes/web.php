@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,93 +103,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
-    Route::any('produse-fara-nir', function () {
-        // $produse = \App\Produs::where('cantitate', '>', 0)->get();
-        // $produse_cu_stocuri = \App\Produs::where('cantitate', '>', 0)->whereHas('produse_stocuri')->get();
-        // $produse_fara_stocuri = \App\Produs::where('cantitate', '>', 0)->whereDoesntHave('produse_stocuri')->get();
-
-        // echo 
-        //     'Produse = ' . $produse->count() . '<br>' .
-        //     'Produse cu stocuri = ' . $produse_cu_stocuri->count() . '<br>' .
-        //     'Produse fara stocuri= ' . $produse_fara_stocuri->count() . '<br>' 
-        //     ;
-
-        // foreach ($produse_fara_stocuri as $produs){
-        //     echo $produs->nume . '<br>';
-        // }
-        
-        // $stocuri = \App\ProdusStoc::get();
-        // echo 
-        //     'Stocuri = ' . $stocuri->count() . '<br>' .
-        //     'Stocuri cu nir = ' . $stocuri->where('fara_nir', 0)->count() . '<br>' .
-        //     'Stocuri fara nir = ' . $stocuri->where('fara_nir', 1)->count() . '<br>'            
-        //     ;
-        
-        // foreach($stocuri->where('fara_nir', 0) as $stoc_cu_nir){
-        //     foreach($stocuri->where('fara_nir', 1) as $stoc_fara_nir){
-        //         if ($stoc_cu_nir->produs_id == $stoc_fara_nir->produs_id){
-        //             echo 'Produs id = ' . $stoc_cu_nir->produs_id . ' | ' . 'Stocuri id = ' . $stoc_cu_nir->id . ' , ' . $stoc_fara_nir->id . '<br>';
-        //         }
-        //     }
-        // }
-
-        $produse = \App\Produs::where('produse.cantitate', '>', 0)
-            ->leftJoin('produse_stocuri', 'produse.id', '=', 'produse_stocuri.produs_id')
-            ->select(
-                'produse.id as produs_id', 
-                'produse_stocuri.id as stoc_id', 
-                'produse.cantitate as cantitate_totala', 
-                'produse_stocuri.cantitate as cantitate',
-                'produse_stocuri.created_at as created_at'
-                )
-            ->orderBy('produs_id', 'asc')
-            ->orderBy('created_at', 'asc')
-            ->get();
-
-        // echo
-        //     $produse->count() . 
-        //     '<br><br>'
-        //     ;
-
-        foreach($produse->groupBy('produs_id') as $produs){
-            echo 
-                'Id produs = ' . $produs->first()->produs_id . '<br>' . 
-                'Cantitate produs = ' . $produs->first()->cantitate_totala . '<br>'
-                ;
-            foreach($produs as $stoc){
-                echo 
-                    'Cantitate stoc = ' . $stoc->cantitate . '<br>'
-                    ;
-            }
-            echo 
-                '<br><br>'
-                ;
-            // echo $produs->produs_id . ' ';
-        }
-
-        // echo 
-        //     'Produse = ' . $produse->count() . '<br>'
-            // 'Stocuri cu nir = ' . $stocuri->where('fara_nir', 0)->count() . '<br>' .
-            // 'Stocuri fara nir = ' . $stocuri->where('fara_nir', 1)->count() . '<br>'            
-            ;
-
-        // $stocuri = \App\ProdusStoc::join('produse', 'produs_id', '=', 'produse.id')
-        //     ->select('produse_stocuri.id as id', 'produs_id', 'produse.cantitate as cantitate_totala', 'produse_stocuri.cantitate as cantitate')
-        //     ->get();
-        // echo 
-        //     'Stocuri = ' . $stocuri->count() . '<br>' .
-        //     'Stocuri cu nir = ' . $stocuri->where('fara_nir', 0)->count() . '<br>' .
-        //     'Stocuri fara nir = ' . $stocuri->where('fara_nir', 1)->count() . '<br>'            
-        //     ;
-        
-        // foreach($stocuri as $stoc){
-        //     echo 'Produs id = ' . $stoc->produs_id . ' | ' . 'Cantitate totala = ' . $stoc->cantitate_totala . ' , ' . $stoc->cantitate . '<br>';
-        // }
-
-    });
-
-
-    
     // 2 rute pentru inventar
     // Route::any('sincronizare-cantitati-live-cu-inventar', function () {
     //     $produse_lipsa = DB::table('produse')
@@ -234,151 +148,21 @@ Route::group(['middleware' => 'auth'], function () {
     //     }
     // });
 
-
-    // De sters intreaga ruta la 01.02.2021
-    // Route::any('setare-niruri-la-produse-stocuri', function () {
+    Route::any('verificare', function () {
+        $gestiune_veche = DB::table('produse_backup_03_01_2021')
+                                ->join('subcategorii_produse', 'produse_backup_03_01_2021.subcategorie_produs_id', '=', 'subcategorii_produse.id')
+                                ->select('produse_backup_03_01_2021.id as id', 
+                                    'produse_backup_03_01_2021.cantitate as cantitate', 
+                                    'produse_backup_03_01_2021.pret as pret',
+                                    'produse_backup_03_01_2021.subcategorie_produs_id as subcategorie',
+                                    'subcategorii_produse.categorie_produs_id as categorie'
+                                )
+                                ->where('subcategorii_produse.categorie_produs_id', '=', 3)
+                                ->sum(DB::raw('cantitate * pret'));
+                                // ->first();
+        // echo $gestiune_veche;
+        dd($gestiune_veche);
         
-        // $produse_stocuri_telefoane_noi = \App\ProdusStoc::
-        //     whereDoesntHave('nir')
-        //     ->whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 1);
-        //         });
-        //     })
-        //     ->where('fara_nir', 0)
-        //     ->latest()
-        //     ->get();
+    });
 
-        // $produse_stocuri_accesorii = \App\ProdusStoc::
-        //     whereDoesntHave('nir')
-        //     ->whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 3);
-        //         });
-        //     })
-        //     ->where('fara_nir', 0)
-        //     ->latest()
-        //     ->get();
-        
-        // $produse_stocuri_telefoane_noi_fara_nir = \App\ProdusStoc::
-        //     // whereDoesntHave('nir')
-        //     whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 1);
-        //         });
-        //     })
-        //     ->where('fara_nir', 1)
-        //     ->latest()
-        //     ->get();
-
-        // $produse_stocuri_accesorii_fara_nir = \App\ProdusStoc::
-        //     // whereDoesntHave('nir')
-        //     whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 3);
-        //         });
-        //     })
-        //     ->where('fara_nir', 1)
-        //     ->latest()
-        //     ->get();
-        
-        // $produse_stocuri_telefoane_noi_cu_nir_generat = \App\ProdusStoc::
-        //     whereHas('nir')
-        //     ->whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 1);
-        //         });
-        //     })
-        //     ->where('fara_nir', 0)
-        //     ->latest()
-        //     ->get();
-
-        // $produse_stocuri_accesorii_cu_nir_generat = \App\ProdusStoc::
-        //     whereHas('nir')
-        //     ->whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 3);
-        //         });
-        //     })
-        //     ->where('fara_nir', 0)
-        //     ->latest()
-        //     ->get();
-
-        // $produse_stocuri_alte_categorii = \App\ProdusStoc::
-        //     // whereHas('nir')
-        //     whereHas('produs', function (Builder $query) {
-        //         $query->whereHas('subcategorie', function (Builder $query){
-        //             $query->where('categorie_produs_id', 2)
-        //                 ->orwhere('categorie_produs_id', 4);
-        //         });
-        //     })
-        //     ->latest()
-        //     ->get();
-
-        // $produse_stocuri = \App\ProdusStoc::
-        //     // whereHas('nir')
-        //     latest()
-        //     ->get();
-
-        // $produse_stocuri_fara_produs = \App\ProdusStoc::
-        //     // whereHas('nir')
-        //     whereDoesntHave('produs')
-        //     ->latest()
-        //     ->get();
-        
-        // echo 
-        //     '' . $produse_stocuri_telefoane_noi->count() . '<br>' .
-        //     '' . $produse_stocuri_accesorii->count() . '<br>' .
-        //     '' . $produse_stocuri_telefoane_noi_fara_nir->count() . '<br>' .
-        //     '' . $produse_stocuri_accesorii_fara_nir->count() . '<br>' .
-        //     '' . $produse_stocuri_telefoane_noi_cu_nir_generat->count()  . '<br>' .
-        //     '' . $produse_stocuri_accesorii_cu_nir_generat->count() . '<br>' .
-        //     '' . $produse_stocuri_alte_categorii->count() . '<br>' .
-        //     '' . $produse_stocuri->count() . '<br>' .
-        //     '' . $produse_stocuri_fara_produs->count() . '<br>' .
-        //     'Total = ' . 
-        //         (
-        //             $produse_stocuri_telefoane_noi->count() +
-        //             $produse_stocuri_accesorii->count() + 
-        //             $produse_stocuri_telefoane_noi_fara_nir->count() + 
-        //             $produse_stocuri_accesorii_fara_nir->count() + 
-        //             $produse_stocuri_telefoane_noi_cu_nir_generat->count() + 
-        //             $produse_stocuri_accesorii_cu_nir_generat->count() + 
-        //             $produse_stocuri_alte_categorii->count()
-        //         )
-        //     ;
-
-            
-
-        // $produse_stocuri_cu_nir = \App\ProdusStoc::whereHas('nir')
-        //     ->with('nir')
-        //     ->select ('id', 'nir_id')
-        //     ->where('fara_nir', 0)
-        //     ->orderBy('id')
-        //     ->get();
-
-        // $produse_stocuri_cu_nir_lipsa = \App\ProdusStoc::whereDoesntHave('nir')
-        //     ->select('id', 'nir_id')
-        //     ->where('fara_nir', 0)
-        //     ->orderBy('id')
-        //     ->get();
-
-        // $produse_stocuri_fara_nir = \App\ProdusStoc::with('nir')
-        //     ->select('id', 'nir_id')
-        //     ->where('fara_nir', 1)
-        //     ->orderBy('id')
-        //     ->get();
-
-        // dd($produse_stocuri_cu_nir->count(), $produse_stocuri_cu_nir_lipsa, $produse_stocuri_fara_nir->count(), $produse_stocuri_cu_nir->count() + $produse_stocuri_fara_nir->count());
-
-        // foreach ($produse_stocuri_cu_nir as $produs_stoc){
-        //     $produs_stoc->nir_id = $produs_stoc->nir->id;
-        //     $produs_stoc->save();
-
-        //     echo $produs_stoc->id . ' . ';
-        // }
-        // return ;
-        // dd($produse_stocuri);
-        // echo 'Gata';
-    // });
 });
