@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 
@@ -27,10 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::resourceVerbs([
-            'create' => 'adauga',
-            'edit' => 'modifica'
-        ]);
         Route::resourceVerbs([
             'create' => 'adauga',
             'edit' => 'modifica'

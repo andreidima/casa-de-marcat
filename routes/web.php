@@ -103,6 +103,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
+    Route::get('schimbare-automata-de-preturi', 'FunctiiAparteController@schimbareAutomataDePreturi');
+
     // 2 rute pentru inventar
     // Route::any('sincronizare-cantitati-live-cu-inventar', function () {
     //     $produse_lipsa = DB::table('produse')
@@ -148,21 +150,21 @@ Route::group(['middleware' => 'auth'], function () {
     //     }
     // });
 
-    Route::any('verificare', function () {
-        $gestiune_veche = DB::table('produse_backup_03_01_2021')
-                                ->join('subcategorii_produse', 'produse_backup_03_01_2021.subcategorie_produs_id', '=', 'subcategorii_produse.id')
-                                ->select('produse_backup_03_01_2021.id as id', 
-                                    'produse_backup_03_01_2021.cantitate as cantitate', 
-                                    'produse_backup_03_01_2021.pret as pret',
-                                    'produse_backup_03_01_2021.subcategorie_produs_id as subcategorie',
-                                    'subcategorii_produse.categorie_produs_id as categorie'
-                                )
-                                ->where('subcategorii_produse.categorie_produs_id', '=', 3)
-                                ->sum(DB::raw('cantitate * pret'));
-                                // ->first();
-        // echo $gestiune_veche;
-        dd($gestiune_veche);
+    // Route::any('verificare', function () {
+    //     $gestiune_veche = DB::table('produse_backup_03_01_2021')
+    //                             ->join('subcategorii_produse', 'produse_backup_03_01_2021.subcategorie_produs_id', '=', 'subcategorii_produse.id')
+    //                             ->select('produse_backup_03_01_2021.id as id', 
+    //                                 'produse_backup_03_01_2021.cantitate as cantitate', 
+    //                                 'produse_backup_03_01_2021.pret as pret',
+    //                                 'produse_backup_03_01_2021.subcategorie_produs_id as subcategorie',
+    //                                 'subcategorii_produse.categorie_produs_id as categorie'
+    //                             )
+    //                             ->where('subcategorii_produse.categorie_produs_id', '=', 3)
+    //                             ->sum(DB::raw('cantitate * pret'));
+    //                             // ->first();
+    //     // echo $gestiune_veche;
+    //     dd($gestiune_veche);
         
-    });
+    // });
 
 });
