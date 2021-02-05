@@ -103,7 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
-    // Route::get('schimbare-automata-de-preturi', 'FunctiiAparteController@schimbareAutomataDePreturi');
+    Route::get('schimbare-automata-de-preturi', 'FunctiiAparteController@schimbareAutomataDePreturi');
 
     // 2 rute pentru inventar
     // Route::any('sincronizare-cantitati-live-cu-inventar', function () {
