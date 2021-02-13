@@ -13,7 +13,7 @@
                         >
                             Telefoane noi = 
                             <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                    {{ $suma['telefoane_noi'] }}
+                                    {{ $suma['telefoane_noi_pret_de_vanzare'] }}
                             </span>
                             lei
                         </span>
@@ -23,7 +23,7 @@
                         >
                             Telefoane consignație = 
                             <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                    {{ $suma['telefoane_consignatie'] }}
+                                    {{ $suma['telefoane_consignatie_pret_de_vanzare'] }}
                             </span>
                             lei
                         </span>
@@ -45,6 +45,29 @@
                                     {{ $suma['suma_totala'] }}
                             </span>        
                             lei   
+                        </span>
+                    </h5>
+                    <h5 class="">
+                        {{-- <i class="fas fa-warehouse mr-1"></i>
+                        Gestiune:                          --}}
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:;" --}}
+                        >
+                            Telefoane noi preț de achiziție fără TVA = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['telefoane_noi_pret_de_achizitie_fara_tva'] }}
+                            </span>
+                            lei
+                        </span>
+                        |
+                        <span class="badge badge-dark"
+                                {{-- style="background-color:#e80000;" --}}
+                        >
+                            Telefoane consignație preț de achiziție cu TVA = 
+                            <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
+                                    {{ $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] }}
+                            </span>
+                            lei
                         </span>
                     </h5>
                 </div> 

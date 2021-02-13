@@ -38,4 +38,9 @@ class Produs extends Model
     {
         return $this->hasMany('App\ProdusStoc', 'produs_id');
     }
+
+    public function produse_stocuri_ultimele()
+    {
+        return $this->hasMany('App\ProdusStoc', 'produs_id')->orderBy('created_at', 'DESC');
+    }
 }

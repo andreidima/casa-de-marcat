@@ -9,6 +9,7 @@ use App\ProdusCantitateIstoric;
 use App\ProdusVandut;
 use App\CategoriiProduse;
 use App\SubcategoriiProduse;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -439,23 +440,104 @@ class ProdusController extends Controller
      */
     public function gestiune(Request $request)
     {
-        // $gestiune = Produs::join('subcategorii_produse', 'produse.subcategorie_produs_id', '=', 'subcategorii_produse.id')
-        //     ->select(
-        //         'pret', DB::raw('SUM(cantitate) as cantitate'), 
-        //         'subcategorii_produse.nume')
-        //     ->groupBy('subcategorii_produse.nume', 'pret')
-        //     ->orderBy('subcategorii_produse.nume')
-        //     ->orderBy('pret')
-        //     ->get();
+        // Calcul suma telefoane noi - pret de achizitie fara tva
+        $telefoane_noi = Produs::whereHas('subcategorie', function ($query) {
+            $query->where('categorie_produs_id', 1);
+        })
+        ->where('cantitate', '>', 0)
+        ->get();
 
-        $suma['telefoane_noi'] = Produs::whereHas('subcategorie', function ($query) {
+        $suma['telefoane_noi_pret_de_achizitie_fara_tva'] = 0;
+
+        // echo '<table>';
+        foreach ($telefoane_noi as $telefon) {
+            // echo '<tr>';
+            // echo '<td>' . $telefon->nume . '</td>';
+
+            foreach ($telefon->produse_stocuri_ultimele as $stoc){
+
+                if ($telefon->cantitate >= $stoc->cantitate) {
+                    $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $stoc->cantitate * $stoc->pret_de_achizitie;
+                    // echo '<td>Stoc</td><td>' . $stoc->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                } else {
+                    $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $telefon->cantitate * $stoc->pret_de_achizitie;
+                    // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                }
+                // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
+                
+                $telefon->cantitate -= $stoc->cantitate;
+                if ($telefon->cantitate <= 0){
+                    break;
+                }
+            }
+            
+            if ($telefon->cantitate > 0) {
+                // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
+                // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
+                $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $telefon->cantitate * $telefon->pret_de_achizitie;
+            }
+
+            // echo '<td>' . $suma['telefoane_noi_pret_de_achizitie_fara_tva'] . '<td></tr>';
+        }
+        // echo '<tr><td colspan="3" style="text-align:right">Total<td>' . $suma['telefoane_noi_pret_de_achizitie_fara_tva'] . '</td></tr>';
+        // echo '</table>';
+
+
+        // Calcul suma telefoane consignatie - pret de achizitie cu tva
+        $telefoane_consignatie = Produs::whereHas('subcategorie', function ($query) {
+            $query->where('categorie_produs_id', 2);
+        })
+            ->where('cantitate', '>', 0)
+            ->get();
+
+        $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] = 0;
+
+        // echo '<table>';
+        foreach ($telefoane_consignatie as $telefon) {
+            // echo '<tr>';
+            // echo '<td>' . $telefon->nume . '</td>';
+
+            foreach ($telefon->produse_stocuri_ultimele as $stoc) {
+
+                if ($telefon->cantitate >= $stoc->cantitate) {
+                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] +=
+                        number_format(round_up((($stoc->pret_de_achizitie * 1.19) * $stoc->cantitate), 2), 2, ".", "");
+                    // echo '<td>Stoc</td><td>' . $stoc->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                } else {
+                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] +=
+                        number_format(round_up((($stoc->pret_de_achizitie * 1.19) * $telefon->cantitate), 2), 2, ".", "");
+                    // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                }
+                // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
+
+                $telefon->cantitate -= $stoc->cantitate;
+                if ($telefon->cantitate <= 0) {
+                    break;
+                }
+            }
+
+            if ($telefon->cantitate > 0) {
+                // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
+                // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
+                $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] +=
+                    number_format(round_up((($telefon->pret_de_achizitie * 1.19) * $telefon->cantitate), 2), 2, ".", "");
+            }
+
+            // echo '<td>' . $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] . '<td></tr>';
+        }
+        // echo '<tr><td colspan="3" style="text-align:right">Total<td>' . $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] . '</td></tr>';
+        // echo '</table>';
+
+
+        $suma['telefoane_noi_pret_de_vanzare'] = Produs::whereHas('subcategorie', function ($query) {
                     $query->where('categorie_produs_id', 1);
                 })
             ->sum(DB::raw('cantitate * pret'));
-        $suma['telefoane_consignatie'] = Produs::whereHas('subcategorie', function ($query) {
+        $suma['telefoane_consignatie_pret_de_vanzare'] = Produs::whereHas('subcategorie', function ($query) {
                     $query->where('categorie_produs_id', 2);
                 })
             ->sum(DB::raw('cantitate * pret'));
+
         $suma['accesorii_telefoane'] = Produs::whereHas('subcategorie', function ($query) {
                     $query->where('categorie_produs_id', 3);
                 })
