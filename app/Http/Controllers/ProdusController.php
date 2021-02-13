@@ -441,47 +441,48 @@ class ProdusController extends Controller
     public function gestiune(Request $request)
     {
         // Calcul suma telefoane noi - pret de achizitie fara tva
-        $telefoane_noi = Produs::whereHas('subcategorie', function ($query) {
-            $query->where('categorie_produs_id', 1);
-        })
-        ->where('cantitate', '>', 0)
-        ->get();
+            $telefoane_noi = Produs::whereHas('subcategorie', function ($query) {
+                $query->where('categorie_produs_id', 1);
+            })
+            ->where('cantitate', '>', 0)
+            ->get();
 
-        $suma['telefoane_noi_pret_de_achizitie_fara_tva'] = 0;
+            $suma['telefoane_noi_pret_de_achizitie_fara_tva'] = 0;
 
-        // echo '<table>';
-        foreach ($telefoane_noi as $telefon) {
-            // echo '<tr>';
-            // echo '<td>' . $telefon->nume . '</td>';
+            // echo '<table>';
+            foreach ($telefoane_noi as $telefon) {
+                // echo '<tr>';
+                // echo '<td>' . $telefon->nume . '</td>';
 
-            foreach ($telefon->produse_stocuri_ultimele as $stoc){
+                foreach ($telefon->produse_stocuri_ultimele as $stoc){
 
-                if ($telefon->cantitate >= $stoc->cantitate) {
-                    $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $stoc->cantitate * $stoc->pret_de_achizitie;
-                    // echo '<td>Stoc</td><td>' . $stoc->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
-                } else {
-                    $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $telefon->cantitate * $stoc->pret_de_achizitie;
-                    // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                    if ($telefon->cantitate >= $stoc->cantitate) {
+                        $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $stoc->cantitate * $stoc->pret_de_achizitie;
+                        // echo '<td>Stoc</td><td>' . $stoc->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                    } else {
+                        $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $telefon->cantitate * $stoc->pret_de_achizitie;
+                        // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
+                    }
+                    // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
+                    
+                    $telefon->cantitate -= $stoc->cantitate;
+                    if ($telefon->cantitate <= 0){
+                        break;
+                    }
                 }
-                // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
                 
-                $telefon->cantitate -= $stoc->cantitate;
-                if ($telefon->cantitate <= 0){
-                    break;
+                if ($telefon->cantitate > 0) {
+                    // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
+                    // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
+                    $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $telefon->cantitate * $telefon->pret_de_achizitie;
                 }
-            }
-            
-            if ($telefon->cantitate > 0) {
-                // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
-                // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
-                $suma['telefoane_noi_pret_de_achizitie_fara_tva'] += $telefon->cantitate * $telefon->pret_de_achizitie;
-            }
 
-            // echo '<td>' . $suma['telefoane_noi_pret_de_achizitie_fara_tva'] . '<td></tr>';
-        }
-        // echo '<tr><td colspan="3" style="text-align:right">Total<td>' . $suma['telefoane_noi_pret_de_achizitie_fara_tva'] . '</td></tr>';
-        // echo '</table>';
-
+                // echo '<td>' . $suma['telefoane_noi_pret_de_achizitie_fara_tva'] . '<td>';
+                // echo '<td>' . $telefon->pret . '<td>';
+                // echo '</tr>';
+            }
+            // echo '<tr><td colspan="3" style="text-align:right">Total<td>' . $suma['telefoane_noi_pret_de_achizitie_fara_tva'] . '</td></tr>';
+            // echo '</table>';
 
         // Calcul suma telefoane consignatie - pret de achizitie cu tva
         $telefoane_consignatie = Produs::whereHas('subcategorie', function ($query) {
@@ -520,9 +521,9 @@ class ProdusController extends Controller
                 $suma['telefoane_consignatie_pret_de_achizitie'] += $telefon->pret_de_achizitie * $telefon->cantitate;
             }
 
-            // echo '<td>' . $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] . '<td></tr>';
+            // echo '<td>' . $suma['telefoane_consignatie_pret_de_achizitie'] . '<td></tr>';
         }
-        // echo '<tr><td colspan="3" style="text-align:right">Total<td>' . $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] . '</td></tr>';
+        // echo '<tr><td colspan="3" style="text-align:right">Total<td>' . $suma['telefoane_consignatie_pret_de_achizitie'] . '</td></tr>';
         // echo '</table>';
 
 
@@ -556,7 +557,7 @@ class ProdusController extends Controller
             ->get();
 
         // return view('produse.gestiune', compact('gestiune', 'suma', 'subcategorii'));
-        return view('produse.gestiune', compact('categorii', 'suma'));
+        return view('produse.gestiune', compact('categorii', 'suma', 'telefoane_noi'));
     }
 
     /**
