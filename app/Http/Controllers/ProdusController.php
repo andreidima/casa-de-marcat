@@ -500,12 +500,10 @@ class ProdusController extends Controller
             foreach ($telefon->produse_stocuri_ultimele as $stoc) {
 
                 if ($telefon->cantitate >= $stoc->cantitate) {
-                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] +=
-                        number_format(round_up((($stoc->pret_de_achizitie * 1.19) * $stoc->cantitate), 2), 2, ".", "");
+                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] += $stoc->pret_de_achizitie * $stoc->cantitate;
                     // echo '<td>Stoc</td><td>' . $stoc->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
                 } else {
-                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] +=
-                        number_format(round_up((($stoc->pret_de_achizitie * 1.19) * $telefon->cantitate), 2), 2, ".", "");
+                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] += $stoc->pret_de_achizitie * $telefon->cantitate;
                     // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
                 }
                 // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
@@ -519,8 +517,7 @@ class ProdusController extends Controller
             if ($telefon->cantitate > 0) {
                 // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
                 // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
-                $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] +=
-                    number_format(round_up((($telefon->pret_de_achizitie * 1.19) * $telefon->cantitate), 2), 2, ".", "");
+                $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] += $telefon->pret_de_achizitie * $telefon->cantitate;
             }
 
             // echo '<td>' . $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] . '<td></tr>';
