@@ -65,7 +65,7 @@
                         >
                             Telefoane consignație preț de achiziție = 
                             <span class="badge text-white m-0" style="background-color:#e66800; font-size: 1em;">
-                                    {{ $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] }}
+                                    {{ $suma['telefoane_consignatie_pret_de_achizitie'] }}
                             </span>
                             lei
                         </span>

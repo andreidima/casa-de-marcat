@@ -490,7 +490,7 @@ class ProdusController extends Controller
             ->where('cantitate', '>', 0)
             ->get();
 
-        $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] = 0;
+        $suma['telefoane_consignatie_pret_de_achizitie'] = 0;
 
         // echo '<table>';
         foreach ($telefoane_consignatie as $telefon) {
@@ -500,10 +500,10 @@ class ProdusController extends Controller
             foreach ($telefon->produse_stocuri_ultimele as $stoc) {
 
                 if ($telefon->cantitate >= $stoc->cantitate) {
-                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] += $stoc->pret_de_achizitie * $stoc->cantitate;
+                    $suma['telefoane_consignatie_pret_de_achizitie'] += $stoc->pret_de_achizitie * $stoc->cantitate;
                     // echo '<td>Stoc</td><td>' . $stoc->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
                 } else {
-                    $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] += $stoc->pret_de_achizitie * $telefon->cantitate;
+                    $suma['telefoane_consignatie_pret_de_achizitie'] += $stoc->pret_de_achizitie * $telefon->cantitate;
                     // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
                 }
                 // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
@@ -517,7 +517,7 @@ class ProdusController extends Controller
             if ($telefon->cantitate > 0) {
                 // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
                 // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
-                $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] += $telefon->pret_de_achizitie * $telefon->cantitate;
+                $suma['telefoane_consignatie_pret_de_achizitie'] += $telefon->pret_de_achizitie * $telefon->cantitate;
             }
 
             // echo '<td>' . $suma['telefoane_consignatie_pret_de_achizitie_cu_tva'] . '<td></tr>';
