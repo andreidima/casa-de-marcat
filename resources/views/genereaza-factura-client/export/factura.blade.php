@@ -146,6 +146,19 @@
                             @endif
                         @empty
                         @endforelse
+                        @if ($factura->produse->count() > 1)
+                            <tr>
+                                <td colspan="4" style="text-align: right;">
+                                    <b>Total</b>
+                                </td>
+                                <td style="text-align: right">
+                                    {{ $factura->produse->sum('valoare') }}
+                                </td>
+                                <td style="text-align: right">
+                                    {{ $factura->produse->sum('valoare_tva') }}
+                                </td>
+                            </tr>
+                        @endif
                     </table>
 
                     <p></p>
@@ -260,6 +273,19 @@
                             @endif
                         @empty
                         @endforelse
+                        @if ($factura->produse->count() > 1)
+                            <tr>
+                                <td colspan="4" style="text-align: right;">
+                                    <b>Total</b>
+                                </td>
+                                <td style="text-align: right">
+                                    {{ $factura->produse->sum('valoare') }}
+                                </td>
+                                <td style="text-align: right">
+                                    {{ $factura->produse->sum('valoare_tva') }}
+                                </td>
+                            </tr>
+                        @endif
                     </table>
 
                     <p></p>
