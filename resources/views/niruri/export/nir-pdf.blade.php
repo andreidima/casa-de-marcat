@@ -365,7 +365,7 @@
                                     </td>
                                     <td style="text-align:right;">
                                         {{-- {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ? number_format(round(($nir_produs_stoc->produs_stoc->pret_de_achizitie / 1.19), 2) , 2) : '' }} --}}
-                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie }}
+                                        {{ $nir_produs_stoc->produs_stoc->pret_de_achizitie ?? '' }}
                                     </td>
                                     <td style="text-align:right;">
                                         @isset($nir_produs_stoc->produs_stoc->pret_de_achizitie)
