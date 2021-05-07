@@ -1,38 +1,39 @@
 @extends ('layouts.app')
 
-@section('content')   
+@section('content')
     <div class="container card">
         <div class="row card-header">
             <div class="col-lg-3 my-1">
                 <h4 class="mt-2 mb-0"><a href="/produse"><i class="fas fa-list-ul mr-1"></i>Produse</a></h4>
-            </div> 
+            </div>
             <div class="col-lg-6 my-1" id="app2">
                 <form class="needs-validation" novalidate method="GET" action="/produse">
-                    @csrf                    
+                    @csrf
                     <div class="input-group custom-search-form justify-content-center">
                         <div class="row">
                             <div class="col-sm-7 px-0">
                                 <input type="text" class="form-control" id="search_nume" value="{{ $search_nume }}"
                                     name="search_nume" placeholder="Caută nume" autofocus>
                             </div>
-                            <div class="col-sm-5 px-0">                                   
-                                <select name="search_subcategorie_produs_id" 
-                                    class="custom-select {{ $errors->has('search_subcategorie_produs_id') ? 'is-invalid' : '' }}" 
+                            <div class="col-sm-5 px-0">
+                                <select name="search_subcategorie_produs_id"
+                                    class="custom-select {{ $errors->has('search_subcategorie_produs_id') ? 'is-invalid' : '' }}"
                                 >
                                         <option value='' selected>Selectează categorie</option>
-                                    @foreach ($subcategorii as $subcategorie)                           
-                                        <option 
+                                    @foreach ($subcategorii as $subcategorie)
+                                        <option
                                             value='{{ $subcategorie->id }}'
                                                 {{-- @if($search_subcategorie_produs_id !== null) --}}
                                                     @if ($subcategorie->id == $search_subcategorie_produs_id)
                                                         selected
                                                     @endif
+
                                                 {{-- @else
                                                     @if ($categorie->id == $produse->categorie_produs_id)
                                                         selected
                                                     @endif --}}
                                                 {{-- @endif --}}
-                                        >{{ $subcategorie->nume }} </option>                                                
+                                        >{{ $subcategorie->nume }} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -52,7 +53,7 @@
                                 <button class="btn btn-primary" type="submit" title="Caută">
                                     <i class="fas fa-search text-white mr-1"></i>Caută
                                 </button>
-                                <a class="btn btn-secondary" href="{{ route('produse.index') }}" 
+                                <a class="btn btn-secondary" href="{{ route('produse.index') }}"
                                     role="button" title="Resetează căutarea">
                                     <i class="fas fa-redo text-white mr-1"></i>Resetează
                                 </a>
@@ -87,7 +88,7 @@
             @include ('errors')
 
             <div class="table-responsive">
-                <table class="table table-striped"> 
+                <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr class="text-center">
                             <th>Nr. crt.</th>
@@ -100,14 +101,14 @@
                             <th class="px-0" style="width:115px">Acțiuni</th>
                         </tr>
                     </thead>
-                    <tbody>               
-                        @forelse ($produse as $produs) 
-                            <tr>                    
+                    <tbody>
+                        @forelse ($produse as $produs)
+                            <tr>
                                 <td align="center">
                                     {{ ($produse ->currentpage()-1) * $produse ->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td>
-                                    <a href="{{ $produs->path() }}">  
+                                    <a href="{{ $produs->path() }}">
                                         <b>{{ $produs->nume }}</b>
                                     </a>
                                 </td>
@@ -124,23 +125,23 @@
                                     {{ $produs->localizare }}
                                 </td> --}}
                                 {{-- <td class="my-0 py-1 text-center">
-                                    <img src="{{ asset('images/tourist-information-symbol-iso-sign-is-1293.png') }}" 
+                                    <img src="{{ asset('images/tourist-information-symbol-iso-sign-is-1293.png') }}"
                                         title="{{ $produs->descriere }}"
                                         height="30" class="my-1">
                                     <button type="button" class="btn btn-info btn-sm text-white" title="{{ $produs->descriere }}">
-                                        <i class="fas fa-info-circle"></i>  
-                                    </button>                              
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
                                 </td> --}}
-                                 <td class="d-flex justify-content-end">   
-                                        <a 
-                                            href="{{ $produs->path() }}/export/barcode-pdf" 
+                                 <td class="d-flex justify-content-end">
+                                        <a
+                                            href="{{ $produs->path() }}/export/barcode-pdf"
                                             class="flex mr-4"
                                             title="Generează Barcode"
                                             target="_blank"
                                             >
                                             <span class="badge badge-success">Barcode</span>
                                         </a>
-                                        <a class="flex" 
+                                        <a class="flex"
                                             href="{{ $produs->path() }}/modifica"
                                             title="Editează Produsul"
                                             >
@@ -149,9 +150,9 @@
                                         @if (auth()->user()->role === ('admin'))
                                             <div style="flex" class="">
                                                 <a
-                                                    href="#" 
+                                                    href="#"
                                                     {{-- role="button" --}}
-                                                    data-toggle="modal" 
+                                                    data-toggle="modal"
                                                     data-target="#stergeProdus{{ $produs->id }}"
                                                     title="Șterge Produsul"
                                                     >
@@ -171,27 +172,27 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Renunță</button>
-                                                                
+
                                                                 <form method="POST" action="{{ $produs->path() }}">
-                                                                    @method('DELETE')  
-                                                                    @csrf   
-                                                                    <button 
-                                                                        type="submit" 
-                                                                        class="btn btn-danger"  
+                                                                    @method('DELETE')
+                                                                    @csrf
+                                                                    <button
+                                                                        type="submit"
+                                                                        class="btn btn-danger"
                                                                         >
                                                                         Șterge Produsul
-                                                                    </button>                    
+                                                                    </button>
                                                                 </form>
-                                                            
+
                                                             </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                            </div> 
+                                            </div>
                                         @endif
                                     </div>
                                 </td>
-                            </tr>                                          
+                            </tr>
                         @empty
                             {{-- <div>Nu s-au gasit rezervări în baza de date. Încearcă alte date de căutare</div> --}}
                         @endforelse
