@@ -264,8 +264,6 @@ class NirController extends Controller
     {
         $data_nir = \Request::get('data_nir');
 
-        // dd($data_nir);
-
         // Telefoane noi
         $produse_stocuri_telefoane_noi = \App\ProdusStoc::
             // whereDoesntHave('nir')
