@@ -107,11 +107,11 @@ class NirController extends Controller
         $niruri->delete();
         \App\ProdusStoc::where('nir_id', $niruri->id)->update(['nir_id' => NULL]);
         return redirect('/niruri')->with('status', 'Nirul "' . $niruri->nir . '" a fost șters cu succes!');
-    }    
+    }
 
     public function produse()
     {
-        dd('aici');   
+        dd('aici');
     }
     /**
      * Pagina principala Nir.
@@ -119,10 +119,10 @@ class NirController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function produseStocuriFaraNir()
-    {        
+    {
         // $search_data = \Request::get('search_data'); //<-- we use global request to get the param of URI
-        // $search_nume = \Request::get('search_nume');      
-        
+        // $search_nume = \Request::get('search_nume');
+
         // $search_data = $search_data ?? \Carbon\Carbon::today();
 
         // $produse_intrate = DB::table('produse_cantitati_istoric')
@@ -140,15 +140,15 @@ class NirController extends Controller
         //                     produse.pret_de_achizitie,
         //                     produse.pret,
         //                     round(
-        //                             (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-        //                             (produse.pret_de_achizitie / 1.19) 
+        //                             (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) *
+        //                             (produse.pret_de_achizitie / 1.19)
         //                         , 2) as total_suma_achizitie,
         //                     round(
-        //                             (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                             (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) *
         //                             (produse.pret_de_achizitie * 0.19)
         //                         , 2) as total_suma_tva,
         //                     round(
-        //                             (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                             (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) *
         //                             produse.pret
         //                         , 2) as total_suma_vanzare
         //             '))
@@ -221,7 +221,7 @@ class NirController extends Controller
                         // $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
                         // $nir->updated_at = $produs_stoc->updated_at;
                         $nir->save();
-                    }                
+                    }
                 }
             }
         }
@@ -237,7 +237,7 @@ class NirController extends Controller
             })
             ->where('fara_nir', 0)
             ->oldest()
-            ->get();            
+            ->get();
 
         foreach($produse_stocuri_accesorii->groupBy(function ($data) {
                     return \Carbon\Carbon::parse($data->created_at)->format('Y-m-d');
@@ -250,10 +250,10 @@ class NirController extends Controller
                         $nir->nir = $urmatorul_nir;
                         $nir->categorie_id = 3;
                         $nir->produs_stoc_id = $produs_stoc->id;
-                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');                        
+                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($produs_stoc->created_at)->isoFormat('YYYY-MM-DD');
                         // $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
                         $nir->save();
-                    }                
+                    }
                 }
             }
         }
@@ -263,6 +263,8 @@ class NirController extends Controller
     public function genereazaNirSingular(Request $request, $furnizor_id = null, $nr_factura = null)
     {
         $data_nir = \Request::get('data_nir');
+
+        // dd($data_nir);
 
         // Telefoane noi
         $produse_stocuri_telefoane_noi = \App\ProdusStoc::
@@ -285,8 +287,11 @@ class NirController extends Controller
                 $nir->nir = $urmatorul_nir;
                 $nir->categorie_id = 1;
                 $nir->produs_stoc_id = $produs_stoc->id;
-                // $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');                  
-                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
+
+                // 21.07.2021 - Cerere de la Iulia sa poata pune ce data doreste la Nir
+                $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+                        // $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
+
                 $nir->save();
 
                 $produs_stoc->nir_id = $nir->id;
@@ -315,8 +320,11 @@ class NirController extends Controller
                 $nir->nir = $urmatorul_nir;
                 $nir->categorie_id = 3;
                 $nir->produs_stoc_id = $produs_stoc->id;
-                // $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');                  
-                        $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
+
+                // 21.07.2021 - Cerere de la Iulia sa poata pune ce data doreste la Nir
+                $nir->created_at = $nir->updated_at = \Carbon\Carbon::parse($data_nir)->isoFormat('YYYY-MM-DD');
+                        // $nir->created_at = $nir->updated_at = \Carbon\Carbon::now();
+
                 $nir->save();
 
                 $produs_stoc->nir_id = $nir->id;
@@ -359,15 +367,15 @@ class NirController extends Controller
         //                 produse.pret_de_achizitie,
         //                 produse.pret,
         //                 round(
-        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
-        //                         (produse.pret_de_achizitie / 1.19) 
+        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) *
+        //                         (produse.pret_de_achizitie / 1.19)
         //                     , 2) as total_suma_achizitie,
         //                 round(
-        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) *
         //                         (produse.pret_de_achizitie * 0.19)
         //                     , 2) as total_suma_tva,
         //                 round(
-        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) * 
+        //                         (produse_cantitati_istoric.cantitate - ifnull(produse_cantitati_istoric.cantitate_initiala, 0)) *
         //                         produse.pret
         //                     , 2) as total_suma_vanzare
         //         '))
@@ -391,7 +399,7 @@ class NirController extends Controller
         $niruri_accesorii = Nir::where('categorie_id', 3)
             ->whereDate('created_at', $search_data)
             ->oldest()
-            ->get(); 
+            ->get();
         // dd($niruri_telefoane_noi, $niruri_accesorii);
         // $produse_stocuri_telefoane_noi = \App\ProdusStoc::
         //     whereHas('produs', function (Builder $query) {
