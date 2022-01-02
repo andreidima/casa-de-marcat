@@ -51,7 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/avansuri/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnicAvansuri');
     Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/plati/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnicPlati');
     Route::get('produse-vandute/rapoarte/raport-zilnic/{data_traseu}/{categorie_id}/export/{view_type}', 'ProdusVandutController@pdfExportRaportZilnicPerCategorie');
-    
+
     // Inchide avans dupa finalizare reparatie si predare restul de bani si produs
     Route::any('/avansuri/deschide-inchide/{avansuri}', 'AvansController@update_deschis_inchis');
 
@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('produse-inventar-verificare/goleste-lista', 'ProdusInventarVerificareController@golesteLista');
     Route::get('produse-inventar-verificare/produse-lipsa', 'ProdusInventarVerificareController@produseLipsa')->name('produse-inventar-verificare.produse-lipsa');
+    Route::get('produse-inventar-verificare/produse-lipsa/export', 'ProdusInventarVerificareController@produseLipsaExport'); // linkul nu este vizibil in aplicatie
     Route::get('produse-inventar-verificare/lista-inventar/{view_type}', 'ProdusInventarVerificareController@pdfExportListaInventar');
     Route::resource('produse-inventar-verificare', 'ProdusInventarVerificareController');
 
@@ -144,7 +145,7 @@ Route::group(['middleware' => 'auth'], function () {
     //                 $query->where('subcategorie_produs_id', $i);
     //             })
     //             ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
-    //         echo $suma_inventar;                 
+    //         echo $suma_inventar;
 
     //         echo '<br>';
     //     }
@@ -153,8 +154,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::any('verificare', function () {
     //     $gestiune_veche = DB::table('produse_backup_03_01_2021')
     //                             ->join('subcategorii_produse', 'produse_backup_03_01_2021.subcategorie_produs_id', '=', 'subcategorii_produse.id')
-    //                             ->select('produse_backup_03_01_2021.id as id', 
-    //                                 'produse_backup_03_01_2021.cantitate as cantitate', 
+    //                             ->select('produse_backup_03_01_2021.id as id',
+    //                                 'produse_backup_03_01_2021.cantitate as cantitate',
     //                                 'produse_backup_03_01_2021.pret as pret',
     //                                 'produse_backup_03_01_2021.subcategorie_produs_id as subcategorie',
     //                                 'subcategorii_produse.categorie_produs_id as categorie'
@@ -164,7 +165,7 @@ Route::group(['middleware' => 'auth'], function () {
     //                             // ->first();
     //     // echo $gestiune_veche;
     //     dd($gestiune_veche);
-        
+
     // });
 
 });

@@ -17,7 +17,7 @@ class ProdusInventarVerificareController extends Controller
     public function index()
     {
         $search_nume = \Request::get('search_nume');
-        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI 
+        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI
         $produse_inventar = ProdusInventarVerificare::with('produs')
             ->whereHas('produs', function ($query) use ($search_nume) {
                 $query->where('nume', 'like', '%' . $search_nume . '%');
@@ -27,7 +27,7 @@ class ProdusInventarVerificareController extends Controller
             })
             ->latest()
             ->simplePaginate(25);
-            
+
         $suma['telefoane_noi'] = ProdusInventarVerificare::
             join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
             ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
@@ -36,7 +36,7 @@ class ProdusInventarVerificareController extends Controller
                     $query->where('categorie_produs_id', 1);
                 });
             })
-            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));            
+            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
         $suma['telefoane_consignatie'] = ProdusInventarVerificare::
             join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
             ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
@@ -45,7 +45,7 @@ class ProdusInventarVerificareController extends Controller
                     $query->where('categorie_produs_id', 2);
                 });
             })
-            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));       
+            ->sum(DB::raw('produse_inventar_verificare.cantitate * produse.pret'));
         $suma['accesorii_telefoane'] = ProdusInventarVerificare::
             join('produse', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
             ->select('produse.id', 'produse_inventar_verificare.cantitate as cantitate', 'produse.pret as pret')
@@ -107,7 +107,7 @@ class ProdusInventarVerificareController extends Controller
             [
                 'cod_de_bare.exists' => 'Codul de bare „' . $request->cod_de_bare . '” nu exista in baza de date',
             ]
-        );        
+        );
 
         $cod_de_bare = $request->cod_de_bare;
         $produs_inventar_verificare = ProdusInventarVerificare::with('produs')
@@ -129,7 +129,7 @@ class ProdusInventarVerificareController extends Controller
 
         $request->session()->has('produse_inventar_verificare') ?? $request->session()->put('produse_inventar_verificare', []);
         $request->session()->push('produse_inventar_verificare', $produs_inventar_verificare->produs->nume . ' - ' . $validatedData['nr_de_bucati'] . ' buc.');
-        
+
         $produs_inventar_verificare->save();
 
         return back()->with('success', 'Produsul „' . $produs_inventar_verificare->produs->nume . '” a fost adaugat în Lista de inventar cu ' . $validatedData['nr_de_bucati'] . ' bucați!');
@@ -224,12 +224,39 @@ class ProdusInventarVerificareController extends Controller
             ->orderBy('produse.nume')
             ->simplePaginate(25);
 
+
+        // Linkul nu este vizibil in aplicatie
+        if ($request->view_type === 'basic-html') {
+            return view('produse-inventar-verificare.export.produse-lipsa-pdf', compact('produse_lipsa'));
+        }
+
+
         $subcategorii = \App\SubcategoriiProduse::select('id', 'nume')->get()->sortBy('nume');
 
         return view(
             'produse-inventar-verificare.produse-lipsa',
             compact('produse_lipsa', 'search_nume', 'search_cod_de_bare', 'subcategorii', 'search_subcategorie_produs_id')
         );
+    }
+
+    public function produseLipsaExport(Request $request)
+    {
+        $produse_lipsa = DB::table('produse')
+            ->leftJoin('produse_inventar_verificare', 'produse_inventar_verificare.produs_id', '=', 'produse.id')
+            ->select(DB::raw('
+                            produse_inventar_verificare.id as produs_inventar_verificare_id,
+                            produse.id as produs_id,
+                            produse.subcategorie_produs_id,
+                            produse.nume,
+                            produse.cod_de_bare,
+                            produse.cantitate as produs_cantitate,
+                            produse_inventar_verificare.cantitate as produs_inventar_verificare_cantitate
+                        '))
+            ->whereRaw('((produse.cantitate != 0 and produse_inventar_verificare.cantitate is null) or produse.cantitate != produse_inventar_verificare.cantitate)')
+            ->orderBy('produse.nume')
+            ->get();
+
+        return view('produse-inventar-verificare.export.produse-lipsa-pdf', compact('produse_lipsa'));
     }
 
     /**

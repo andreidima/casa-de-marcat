@@ -90,11 +90,11 @@
                                         <a class="dropdown-item" href="/niruri/produse-stocuri-fara-nir">
                                             <i class="fas fa-truck-loading mr-1"></i>Produse fără nir
                                         </a>
-                                        <div class="dropdown-divider"></div> 
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/niruri">
                                             <i class="fas fa-truck-loading mr-1"></i>Listă niruri
                                         </a>
-                                        <div class="dropdown-divider"></div> 
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/niruri/export">
                                             <i class="fas fa-truck-loading mr-1"></i>Export PDF
                                         </a>
@@ -111,7 +111,7 @@
                                 {{-- <a class="dropdown-item" href="nir/produse-stocuri-fara-nir">
                                     <i class="fas fa-truck-loading mr-1"></i>Nir
                                 </a> --}}
-                                <div class="dropdown-divider"></div> 
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/produse-inventar-verificare">
                                     <i class="fas fa-boxes mr-1"></i>Produse inventar
                                 </a>
@@ -128,20 +128,20 @@
                                 <i class="fas fa-shopping-cart mr-1"></i>Vânzări
                             </a>
                         </li>
-                        
+
                         <li class="nav-item dropdown active mr-4">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-dollar-sign mr-1"></i>Tranzacții
-                            </a>                            
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">                                
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/avansuri">
                                     <i class="fas fa-hand-holding-usd mr-1"></i>Avansuri
-                                </a>                                
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/plati">
                                     <i class="fas fa-money-bill-wave mr-1"></i></i>Plăți
                                 </a>
-                                <div class="dropdown-divider"></div>                                
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/casa">
                                     <i class="fas fa-wallet mr-1"></i></i>Casa
                                 </a>
@@ -150,11 +150,11 @@
                         <li class="nav-item dropdown active mr-4">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-users mr-1"></i>Clienți
-                            </a>                            
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">                                
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/clienti">
                                     <i class="fas fa-users mr-1"></i>Clienți
-                                </a>                                
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/facturi">
                                     <i class="fas fa-file-invoice mr-1"></i></i>Facturi
