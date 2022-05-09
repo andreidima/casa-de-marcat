@@ -6,11 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Bilet</title>
     <style>
-        html { 
+        html {
             margin: 5px 12px 0px 12px;
         }
 
-        body { 
+        body {
             /* font-family: DejaVu Sans, sans-serif; */
             font-family: Arial, Helvetica, sans-serif;
             font-size: 12px;
@@ -32,18 +32,18 @@
             width: 100%;
             word-wrap:break-word;
         }
-        
+
         th, td {
             padding: 1px 1px;
             border-width: 0px;
             border-style: solid;
-            
+
         }
         tr {
             border-style: solid;
             border-width: 0px;
         }
-        hr { 
+        hr {
             display: block;
             margin-top: 0.5em;
             margin-bottom: 0.5em;
@@ -51,7 +51,7 @@
             margin-right: auto;
             border-style: inset;
             border-width: 0.5px;
-        } 
+        }
     </style>
 </head>
 
@@ -65,16 +65,16 @@
             border-radius: 10px;
         ">
             Nume: <b> {{ $produse->nume }} </b>
-        {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39',2.48,55)!!}  
+        {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39',2.48,55)!!}
         {{-- {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39E', 1.95,55)!!}              --}}
             <div style="float:left">
                 Cod bare: <b>{{ $produse->cod_de_bare }}</b>
-            </div>       
+            </div>
             <div style="float:right">
                 Pret: <b> {{ $produse->pret }} </b>
             </div>
-            
-             
+
+
         </div>
     </div>
 </body>

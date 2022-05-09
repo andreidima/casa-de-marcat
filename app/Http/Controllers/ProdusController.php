@@ -24,10 +24,10 @@ class ProdusController extends Controller
      */
     public function index()
     {
-        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI   
-        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI   
-        $search_subcategorie_produs_id = \Request::get('search_subcategorie_produs_id'); //<-- we use global request to get the param of URI  
-        $search_pret = \Request::get('search_pret'); //<-- we use global request to get the param of URI       
+        $search_cod_de_bare = \Request::get('search_cod_de_bare'); //<-- we use global request to get the param of URI
+        $search_nume = \Request::get('search_nume'); //<-- we use global request to get the param of URI
+        $search_subcategorie_produs_id = \Request::get('search_subcategorie_produs_id'); //<-- we use global request to get the param of URI
+        $search_pret = \Request::get('search_pret'); //<-- we use global request to get the param of URI
         $search_data_inceput = \Request::get('search_data_inceput');
         $search_data_sfarsit = \Request::get('search_data_sfarsit');
         $produse = Produs::
@@ -54,7 +54,7 @@ class ProdusController extends Controller
             ->Paginate(25);
 
         $subcategorii = SubcategoriiProduse::select('id', 'nume')->get()->sortBy('nume');
-                
+
         // dd($subcategorii);
 
         return view('produse.index', compact(
@@ -94,7 +94,7 @@ class ProdusController extends Controller
         $produse_istoric->cantitate = 0;
         // dd($produse, $produse_istoric);
         $produse->save();
-        
+
         $produse_istoric->produs_id = $produse->id;
         $produse_istoric->user = auth()->user()->id;
         $produse_istoric->operatiune = 'adaugare';
@@ -175,7 +175,7 @@ class ProdusController extends Controller
 
         $produse_cantitati_istoric = ProdusCantitateIstoric::make();
         $produse_cantitati_istoric->cantitate_initiala = $produse->cantitate;
-        
+
         if (auth()->user()->role === ('admin')) {
             $produse->update($this->validateRequest($request, $produse));
         } else{
@@ -185,8 +185,8 @@ class ProdusController extends Controller
             // $produse = $produse->except(['pret', 'cantitate']);
             // dd($produse);
             // $produse->update();
-        }        
-        
+        }
+
         $produse_istoric->produs_id = $produse->id;
         $produse_istoric->user = auth()->user()->id;
         $produse_istoric->operatiune = 'modificare';
@@ -238,8 +238,8 @@ class ProdusController extends Controller
             // $produse_cantitati_istoric->cantitate = null;
             // $produse_cantitati_istoric->operatiune = 'stergere';
             // $produse_cantitati_istoric->save();
-            
-            
+
+
             return redirect('/produse')->with('status', 'Produsul "' . $produse->nume . '" a fost șters cu succes!');
         }
     }
@@ -265,7 +265,7 @@ class ProdusController extends Controller
             'localizare' => ['nullable', 'max:250'],
             'descriere' => ['nullable', 'max:250'],
         ],
-        [            
+        [
             'pret_de_achizitie.regex' => 'Câmpul Preț de achiziție nu este completat corect.',
             'pret.regex' => 'Câmpul Preț de vânzare nu este completat corect.',
         ]
@@ -279,27 +279,27 @@ class ProdusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function vanzari(Request $request)
-    {         
+    {
         return view ('produse.vanzari');
     }
 
     public function vanzariDescarcaProdus(Request $request)
-    { 
+    {
         $produs = Produs::where('cod_de_bare', $request->cod_de_bare)->first();
 
         $validatedData = $request->validate([
             'cod_de_bare' => ['bail', 'required',
                     Rule::exists('produse')->where(function ($query) use($request) {
                         return $query->where('cod_de_bare', $request->cod_de_bare);
-                    }),        
+                    }),
                 ],
-            'nr_de_bucati' => [ 
-                'required', 
-                'numeric', 
-                'min:1', 
-                (isset($produs) ? 
+            'nr_de_bucati' => [
+                'required',
+                'numeric',
+                'min:1',
+                (isset($produs) ?
                     // se sare peste produsul „INCARCARE 1 EURO”, caruia i se permite stoc negativ
-                    ($produs->cod_de_bare !== "G11005") ? ('max:' . ($produs->cantitate)) : ''
+                    ( ($produs->cod_de_bare !== "G11005") ? ('max:' . ($produs->cantitate)) : '' )
                 : '')
             ],
             'pret' => ['required', 'numeric', 'between:-999999,999999'],
@@ -338,8 +338,8 @@ class ProdusController extends Controller
                 $produse_cantitati_istoric->save();
 
                 $request->session()->has('produse_vandute') ?? $request->session()->put('produse_vandute', []);
-                // $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');                
-                $request->session()->push('produse_vandute', 
+                // $request->session()->push('produse_vandute', '' . $request->nr_de_bucati . ' buc. ' . $produs->nume . ' - ' . $request->pret . ' lei');
+                $request->session()->push('produse_vandute',
                     [
                         'id' => $produs->id,
                         'nume' => $produs->nume,
@@ -376,13 +376,13 @@ class ProdusController extends Controller
             // }
             // } else {
             //     return redirect ('produse/vanzari')->with('warning', 'Introdu un cod de bare!');
-            // } 
-        
+            // }
+
         return view ('produse.vanzari');
     }
 
     public function vanzariGolesteCos(Request $request)
-    {         
+    {
         $request->session()->forget('produse_vandute');
         return view ('produse/vanzari');
     }
@@ -426,7 +426,7 @@ class ProdusController extends Controller
                     ->where('categorie_produs_id', $request->categorie)
                     ->orderBy('nume')
                     ->get();
-                break;                   
+                break;
             default:
                 break;
         }
@@ -464,13 +464,13 @@ class ProdusController extends Controller
                         // echo '<td>Stoc</td><td>' . $telefon->cantitate . ' buc</td><td>' . $stoc->pret_de_achizitie  . '</td>';
                     }
                     // echo '<td>' . \Carbon\Carbon::parse($stoc->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
-                    
+
                     $telefon->cantitate -= $stoc->cantitate;
                     if ($telefon->cantitate <= 0){
                         break;
                     }
                 }
-                
+
                 if ($telefon->cantitate > 0) {
                     // echo '<td>Produs</td><td>  ' . $telefon->cantitate . ' buc</td><td>' . $telefon->pret_de_achizitie  . '</td>';
                     // echo '<td>' . \Carbon\Carbon::parse($telefon->created_at)->isoFormat('DD.MM.YYYY') . '</td>';
@@ -542,7 +542,7 @@ class ProdusController extends Controller
             ->sum(DB::raw('cantitate * pret'));
         $suma['suma_totala'] = Produs::where('subcategorie_produs_id', '<>', '38')
             ->sum(DB::raw('cantitate * pret'));
-  
+
         // $subcategorii = SubcategoriiProduse::with('produse')
         //     ->select('id', 'nume', 'categorie_produs_id')
         //     ->orderBy('nume')
@@ -592,6 +592,7 @@ class ProdusController extends Controller
         $produse = Produs::
             with('subcategorie', 'subcategorie.categorie')
             // ->select('id', 'nume', 'subcategorie.nume')
+            ->where('cantitate', '>', 0)
             // ->take(10)
             ->get();
 

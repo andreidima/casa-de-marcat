@@ -191,6 +191,21 @@
                                 </a>
                             </div>
                         </li>
+
+                        <li class="nav-item dropdown active mr-4">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-tools mr-1"></i>Lucrări
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {{-- <a class="dropdown-item" href="/lucrari/vizualizeaza">
+                                    Vizualizează
+                                </a> --}}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/lucrari/categorii">
+                                    Gestionează categoriile
+                                </a>
+                            </div>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
