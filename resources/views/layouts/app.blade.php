@@ -18,7 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('css/andrei.css') }}" rel="stylesheet">
 
     <!-- Font Awesome links -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -197,12 +197,12 @@
                                 <i class="fas fa-tools mr-1"></i>Lucrări
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{-- <a class="dropdown-item" href="/lucrari/vizualizeaza">
-                                    Vizualizează
-                                </a> --}}
+                                <a class="dropdown-item" href="/lucrari/vizualizare">
+                                    Vizualizare
+                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/lucrari/categorii">
-                                    Gestionează categoriile
+                                <a class="dropdown-item" href="/lucrari">
+                                    Administrare
                                 </a>
                             </div>
                         </li>

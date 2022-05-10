@@ -89038,6 +89038,89 @@ if (document.querySelector('#generare-factura')) {
   });
 }
 
+if (document.querySelector('#lucrari_vizualizare')) {
+  var _app6 = new Vue({
+    el: '#lucrari_vizualizare',
+    data: {
+      lucrari: lucrari,
+      lucrariSelectate: [],
+      categorieSelectata: '',
+      producatorSelectat: '',
+      producatoriSelectati: '',
+      modelSelectat: '',
+      modeleSelectate: '',
+      test: 'nu'
+    },
+    watch: {
+      categorieSelectata: function categorieSelectata() {
+        var categorieSelectata = this.categorieSelectata;
+        var lucrariSelectate = [];
+        var producatoriSelectati = [];
+
+        if (categorieSelectata) {
+          this.lucrari.forEach(function (lucrare) {
+            if (lucrare.categorie == categorieSelectata) {
+              lucrariSelectate.push(lucrare);
+
+              if (!producatoriSelectati.includes(lucrare.producator)) {
+                producatoriSelectati.push(lucrare.producator);
+              }
+            }
+          });
+          this.lucrariSelectate = lucrariSelectate;
+          this.producatoriSelectati = producatoriSelectati;
+        }
+
+        this.producatorSelectat = '';
+        this.modelSelectat = '';
+        this.modeleSelectate = '';
+      },
+      producatorSelectat: function producatorSelectat() {
+        var producatorSelectat = this.producatorSelectat;
+        var lucrariSelectate = [];
+        var modeleSelectate = [];
+
+        if (!producatorSelectat) {
+          var categorieSelectata = this.categorieSelectata;
+          this.lucrari.forEach(function (lucrare) {
+            if (lucrare.categorie == categorieSelectata) {
+              lucrariSelectate.push(lucrare);
+            }
+          });
+        } else {
+          this.lucrari.forEach(function (lucrare) {
+            if (lucrare.categorie == categorieSelectata && lucrare.producator == producatorSelectat) {
+              lucrariSelectate.push(lucrare);
+
+              if (!modeleSelectate.includes(lucrare.model)) {
+                modeleSelectate.push(lucrare.model);
+              }
+            }
+          });
+        }
+
+        this.lucrariSelectate = lucrariSelectate;
+        this.modeleSelectate = modeleSelectate;
+        this.modelSelectat = '';
+      },
+      modelSelectat: function modelSelectat() {
+        var modelSelectat = this.modelSelectat;
+        var lucrariSelectate = [];
+
+        if (producatorSelectat) {
+          this.lucrari.forEach(function (lucrare) {
+            if (lucrare.model == modelSelectat) {
+              lucrariSelectate.push(lucrare);
+            }
+          });
+          this.lucrariSelectate = lucrariSelectate;
+        }
+      }
+    },
+    methods: {}
+  });
+}
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -89310,8 +89393,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

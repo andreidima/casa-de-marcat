@@ -172,7 +172,7 @@ if (document.querySelector('#generare-factura')) {
                 this.client_delegat = '';
                 this.client_seria_nr_buletin = '';
                 this.client_telefon = '';
-                
+
             },
             // formfocus() {
             //     document.getElementById("cod_de_bare").focus();
@@ -181,5 +181,88 @@ if (document.querySelector('#generare-factura')) {
         mounted() {
             // this.formfocus()
         }
+    });
+}
+
+if (document.querySelector('#lucrari_vizualizare')) {
+    const app = new Vue({
+        el: '#lucrari_vizualizare',
+        data: {
+            lucrari: lucrari,
+            lucrariSelectate: [],
+            categorieSelectata: '',
+            producatorSelectat: '',
+            producatoriSelectati: '',
+            modelSelectat: '',
+            modeleSelectate: '',
+
+            test: 'nu',
+        },
+        watch: {
+            categorieSelectata: function () {
+                var categorieSelectata = this.categorieSelectata;
+                var lucrariSelectate = [];
+                var producatoriSelectati = [];
+
+                if (categorieSelectata){
+                    this.lucrari.forEach(function (lucrare) {
+                        if (lucrare.categorie == categorieSelectata) {
+                            lucrariSelectate.push(lucrare);
+                            if (!producatoriSelectati.includes(lucrare.producator)) {
+                                producatoriSelectati.push(lucrare.producator)
+                            }
+                        }
+                    });
+
+                    this.lucrariSelectate = lucrariSelectate;
+                    this.producatoriSelectati = producatoriSelectati;
+                }
+                this.producatorSelectat = '';
+                this.modelSelectat = '';
+                this.modeleSelectate = '';
+            },
+            producatorSelectat: function () {
+                var producatorSelectat = this.producatorSelectat;
+                var lucrariSelectate = [];
+                var modeleSelectate = [];
+
+                if (!producatorSelectat) {
+                    var categorieSelectata = this.categorieSelectata;
+                    this.lucrari.forEach(function (lucrare) {
+                        if (lucrare.categorie == categorieSelectata) {
+                            lucrariSelectate.push(lucrare);
+                        }
+                    });
+                } else {
+                    this.lucrari.forEach(function (lucrare) {
+                        if ( (lucrare.categorie == categorieSelectata) && (lucrare.producator == producatorSelectat) ){
+                            lucrariSelectate.push(lucrare);
+                            if (!modeleSelectate.includes(lucrare.model)) {
+                                modeleSelectate.push(lucrare.model)
+                            }
+                        }
+                    });
+                }
+
+                this.lucrariSelectate = lucrariSelectate;
+                this.modeleSelectate = modeleSelectate;
+                this.modelSelectat = '';
+            },
+            modelSelectat: function () {
+                var modelSelectat = this.modelSelectat;
+                var lucrariSelectate = [];
+
+                if (producatorSelectat) {
+                    this.lucrari.forEach(function (lucrare) {
+                        if (lucrare.model == modelSelectat) {
+                            lucrariSelectate.push(lucrare);
+                        }
+                    });
+                    this.lucrariSelectate = lucrariSelectate;
+                }
+            },
+        },
+        methods: {
+        },
     });
 }
