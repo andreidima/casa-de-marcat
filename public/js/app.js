@@ -89076,7 +89076,7 @@ if (document.querySelector('#lucrari_vizualizare')) {
         this.modelSelectat = '';
         this.modeleSelectate = '';
         this.problemeSelectate = '';
-        this.problemeBifate = '';
+        this.lucrariBifate = [];
         this.pretTotal = '';
       },
       producatorSelectat: function producatorSelectat() {
@@ -89107,7 +89107,7 @@ if (document.querySelector('#lucrari_vizualizare')) {
         this.modeleSelectate = modeleSelectate;
         this.modelSelectat = '';
         this.problemeSelectate = '';
-        this.problemeBifate = '';
+        this.lucrariBifate = [];
         this.pretTotal = '';
       },
       modelSelectat: function modelSelectat() {
@@ -89137,7 +89137,7 @@ if (document.querySelector('#lucrari_vizualizare')) {
 
         this.lucrariSelectate = lucrariSelectate;
         this.problemeSelectate = problemeSelectate;
-        this.problemeBifate = '';
+        this.lucrariBifate = [];
         this.pretTotal = '';
       },
       lucrariBifate: function lucrariBifate() {
