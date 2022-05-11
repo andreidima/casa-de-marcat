@@ -17,60 +17,127 @@
                             lucrari={!! json_encode($lucrari) !!}
                         </script>
 
-                        <div class="row">
-                            <div class="col-lg-12 mb-4">
-                                <button v-cloak v-if="categorieSelectata" v-on:click="categorieSelectata = ''" class="btn btn-success">
+                        <div class="row justify-content-center mb-4">
+                            <div v-cloak v-if="categorieSelectata" class="col-lg-2">
+                                <button v-on:click="categorieSelectata = ''" class="btn btn-success btn btn-block">
                                     1. Categorie:
                                     <br>
                                     @{{ categorieSelectata }}
                                 </button>
-                                <button v-else class="text-dark" disabled>
+                            </div>
+                            <div v-else class="col-lg-2">
+                                <button class="text-dark btn btn-block" disabled>
                                     1. Categorie
                                 </button>
-                                <button v-cloak v-if="producatorSelectat" v-on:click="producatorSelectat = ''" class="btn btn-success">
+                            </div>
+
+                            <div v-cloak v-if="producatorSelectat" class="col-lg-2">
+                                <button v-on:click="producatorSelectat = ''" class="btn btn-success btn btn-block">
                                     2. Producător:
                                     <br>
                                     @{{ producatorSelectat }}
                                 </button>
-                                <button v-else class="text-dark" disabled>
+                            </div>
+                            <div v-else class="col-lg-2">
+                                <button class="text-dark btn btn-block" disabled>
                                     2. Producător
                                 </button>
-                                <button v-cloak v-if="modelSelectat" v-on:click="modelSelectat = ''" class="btn btn-success">
+                            </div>
+
+                            <div v-cloak v-if="modelSelectat" class="col-lg-2">
+                                <button v-on:click="modelSelectat = ''" class="btn btn-success btn btn-block">
                                     3. Model:
                                     <br>
                                     @{{ modelSelectat }}
                                 </button>
-                                <button v-else class="text-dark" disabled>
+                            </div>
+                            <div v-else class="col-lg-2">
+                                <button class="text-dark btn btn-block" disabled>
                                     3. Model
+                                </button>
+                            </div>
+
+                            <div v-cloak v-if="pretTotal != 0" class="col-lg-2">
+                                <button class="btn btn-white border border-dark border-4 btn btn-block" disabled>
+                                    4. Preț total:
+                                    <br>
+                                    <h3 class="text-danger"><b>@{{ pretTotal }} lei</b></h3>
+                                </button>
+                            </div>
+                            <div v-else class="col-lg-2">
+                                <button class="text-dark btn btn-block" disabled>
+                                    4. Preț total
                                 </button>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div v-if="categorieSelectata == ''" class="col-lg-12 d-flex">
-                                @foreach ($lucrari->groupBy('categorie') as $lucrari_per_categorie)
-                                    <button v-on:click="categorieSelectata = '{{ $lucrari_per_categorie->first()->categorie }}'">
-                                    {{ $lucrari_per_categorie->first()->categorie }}
-                                    </button>
-                                @endforeach
+                            <div v-cloak v-if="categorieSelectata == ''" class="col-lg-12">
+                                <h5>
+                                    Selectează categoria:
+                                </h5>
+                                <div class="row">
+                                    @foreach ($lucrari->groupBy('categorie') as $lucrari_per_categorie)
+                                        <div class="col-lg-2 mb-3">
+                                            <button v-on:click="categorieSelectata = '{{ $lucrari_per_categorie->first()->categorie }}'" class="btn btn-success btn btn-block">
+                                            {{ $lucrari_per_categorie->first()->categorie }}
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            <div v-else>
-                                <div v-if="producatorSelectat == ''" class="col-lg-12 d-flex">
-                                        <button v-for="producator in producatoriSelectati"
+                            <div v-else class="col-lg-12">
+                                <div v-cloak v-if="producatorSelectat == ''" class="row">
+                                    <div class="col-lg-12">
+                                        <h5>
+                                            Selectează producătorul:
+                                        </h5>
+                                    </div>
+                                    <div v-for="producator in producatoriSelectati" class="col-lg-2 mb-3">
+                                        <button class="btn btn-success btn btn-block"
                                             v-on:click="producatorSelectat = producator"
                                         >
                                             @{{ producator }}
                                         </button>
+                                    </div>
                                 </div>
-                                <div v-else>
-                                    <div v-if="modelSelectat == ''" class="col-lg-12 d-flex">
-                                            <button v-for="model in modeleSelectate"
-                                                v-on:click="modelSelectat = model"
-                                            >
+                                <div v-else class="col-lg-12">
+                                    <div v-cloak v-if="modelSelectat == ''" class="row">
+                                        <div class="col-lg-12">
+                                            <h5>
+                                                Selectează modelul:
+                                            </h5>
+                                        </div>
+                                        <div v-for="model in modeleSelectate" class="col-lg-2 mb-3">
+                                            <button v-on:click="modelSelectat = model" class="btn btn-success btn btn-block">
                                                 @{{ model }}
                                             </button>
+                                        </div>
                                     </div>
                                     <div v-else>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h5>
+                                                    Selectează problemele:
+                                                </h5>
+                                            </div>
+                                            <div v-for="lucrare in lucrariSelectate" class="col-lg-6 mb-2 rounded-pill">
+                                                <div class="custom-control custom-checkbox border border-4" style="padding-left:30px; display: inline-block; border-color:mediumseagreen;">
+                                                    <input type="checkbox"
+                                                        class="custom-control-input"
+                                                        name="lucrariBifate[]"
+                                                        v-model="lucrariBifate"
+                                                        :value="lucrare.id"
+                                                        style="padding:20px"
+                                                        :id="lucrare.id"
+                                                        number
+                                                        >
+                                                    <label class="custom-control-label text-white px-1" :for="lucrare.id" style="background-color:mediumseagreen;">
+                                                        @{{ lucrare.problema }} = @{{ lucrare.pret }} lei
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                             </div>
                         </div>

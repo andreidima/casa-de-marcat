@@ -89049,7 +89049,8 @@ if (document.querySelector('#lucrari_vizualizare')) {
       producatoriSelectati: '',
       modelSelectat: '',
       modeleSelectate: '',
-      test: 'nu'
+      lucrariBifate: [],
+      pretTotal: 0
     },
     watch: {
       categorieSelectata: function categorieSelectata() {
@@ -89067,21 +89068,24 @@ if (document.querySelector('#lucrari_vizualizare')) {
               }
             }
           });
-          this.lucrariSelectate = lucrariSelectate;
-          this.producatoriSelectati = producatoriSelectati;
         }
 
+        this.lucrariSelectate = lucrariSelectate;
+        this.producatoriSelectati = producatoriSelectati;
         this.producatorSelectat = '';
         this.modelSelectat = '';
         this.modeleSelectate = '';
+        this.problemeSelectate = '';
+        this.problemeBifate = '';
+        this.pretTotal = '';
       },
       producatorSelectat: function producatorSelectat() {
+        var categorieSelectata = this.categorieSelectata;
         var producatorSelectat = this.producatorSelectat;
         var lucrariSelectate = [];
         var modeleSelectate = [];
 
         if (!producatorSelectat) {
-          var categorieSelectata = this.categorieSelectata;
           this.lucrari.forEach(function (lucrare) {
             if (lucrare.categorie == categorieSelectata) {
               lucrariSelectate.push(lucrare);
@@ -89102,19 +89106,49 @@ if (document.querySelector('#lucrari_vizualizare')) {
         this.lucrariSelectate = lucrariSelectate;
         this.modeleSelectate = modeleSelectate;
         this.modelSelectat = '';
+        this.problemeSelectate = '';
+        this.problemeBifate = '';
+        this.pretTotal = '';
       },
       modelSelectat: function modelSelectat() {
+        var categorieSelectata = this.categorieSelectata;
+        var producatorSelectat = this.producatorSelectat;
         var modelSelectat = this.modelSelectat;
         var lucrariSelectate = [];
+        var problemeSelectate = [];
 
-        if (producatorSelectat) {
+        if (!modelSelectat) {
           this.lucrari.forEach(function (lucrare) {
-            if (lucrare.model == modelSelectat) {
+            if (lucrare.categorie == categorieSelectata && lucrare.producator == producatorSelectat) {
               lucrariSelectate.push(lucrare);
             }
           });
-          this.lucrariSelectate = lucrariSelectate;
+        } else {
+          this.lucrari.forEach(function (lucrare) {
+            if (lucrare.categorie == categorieSelectata && lucrare.producator == producatorSelectat && lucrare.model == modelSelectat) {
+              lucrariSelectate.push(lucrare);
+
+              if (!problemeSelectate.includes(lucrare.problema)) {
+                problemeSelectate.push(lucrare.problema);
+              }
+            }
+          });
         }
+
+        this.lucrariSelectate = lucrariSelectate;
+        this.problemeSelectate = problemeSelectate;
+        this.problemeBifate = '';
+        this.pretTotal = '';
+      },
+      lucrariBifate: function lucrariBifate() {
+        var lucrariBifate = this.lucrariBifate;
+        var pretTotal = 0;
+        this.lucrariSelectate.forEach(function (lucrare) {
+          if (lucrariBifate.includes(lucrare.id)) {
+            pretTotal = pretTotal + lucrare.pret;
+          }
+        });
+        this.pretTotal = pretTotal;
       }
     },
     methods: {}
