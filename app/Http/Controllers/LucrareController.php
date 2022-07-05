@@ -128,7 +128,8 @@ class LucrareController extends Controller
 
     public function vizualizare()
     {
-        $lucrari = Lucrare::all();
+        $lucrari = Lucrare::select('id', 'categorie', 'producator', 'model', 'problema', 'pret')->get();
+        // $lucrari = Lucrare::all();
         return view('lucrari.diverse.vizualizare', compact('lucrari'));
     }
 }
