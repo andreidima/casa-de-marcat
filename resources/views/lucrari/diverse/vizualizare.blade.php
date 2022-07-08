@@ -136,6 +136,17 @@
                                                     <label class="custom-control-label px-1" :for="lucrare.id" style="background-color:white;">
                                                         @{{ lucrare.problema }} = @{{ lucrare.pret }} lei
                                                     </label>
+
+                                                    <form method="POST" action="{{ $lucrare->path() }}">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button
+                                                            type="submit"
+                                                            class="btn btn-danger"
+                                                            >
+                                                            Șterge Lucrare
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
