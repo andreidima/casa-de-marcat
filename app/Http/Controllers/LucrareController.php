@@ -166,7 +166,7 @@ class LucrareController extends Controller
         $validator = Validator::make($request->all(),
             [
                 'id' => 'exists:lucrari',
-                'pret' => 'required|integer|between:1,99999',
+                'pret' => 'required|integer|between:0,99999',
             ],
             [
                 'id.exists' => 'Lucrarea nu există în baza de date'
