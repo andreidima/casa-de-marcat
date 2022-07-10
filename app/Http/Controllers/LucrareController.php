@@ -138,7 +138,7 @@ class LucrareController extends Controller
             'producator' => 'required|max:200',
             'model' => 'required|max:200',
             'problema' => 'required|max:200',
-            'pret' => 'required|integer|between:1,99999',
+            'pret' => 'required|integer|between:0,99999',
         ]
         );
     }
