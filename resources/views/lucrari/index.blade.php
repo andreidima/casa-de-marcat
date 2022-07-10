@@ -1,7 +1,7 @@
 @extends ('layouts.app')
 
 @section('content')
-<div class="container card" style="border-radius: 40px 40px 40px 40px;">
+<div class="container card" style="border-radius: 40px 40px 40px 40px;" id="modificari_globale_lucrari">
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
             <div class="col-lg-3 align-self-center">
                 Lucrări
@@ -44,15 +44,60 @@
                 </form>
             </div>
             <div class="col-lg-3 text-right">
-                <a class="btn btn-sm bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('lucrari.create') }}" role="button">
+                <a class="btn btn-sm mb-1 bg-success text-white border border-dark rounded-pill col-md-8" href="{{ route('lucrari.create') }}" role="button">
                     <i class="fas fa-plus-square text-white mr-1"></i>Adaugă lucrare
                 </a>
+                <div>
+                    <input class="btn btn-sm btn-primary rounded-pill" type="button" value="Modificări globale" v-on:click="modificari_globale = !modificari_globale">
+                </div>
             </div>
         </div>
 
         <div class="card-body px-0 py-3">
 
             @include ('errors')
+
+            <div v-if="modificari_globale">
+                <form class="needs-validation" novalidate method="GET" action="/ssm/salariati-modifica-selectati">
+                    <script type="application/javascript">
+                        modificariGlobale = @json(old('modificariGlobale') ?? false);
+                    </script>
+                    <div v-cloak v-if="modificari_globale" class="row justify-content-center">
+                        <div class="col-lg-8 mb-2 rounded-3" style="background-color:lightcyan">
+                            <div class="row justify-content-center">
+                                <div class="col-md-12 d-flex">
+                                    Se vor modifica toate lucrările din selecția curentă: {{ $lucrari_selectate_total }} lucrări
+                                </div>
+                                <div class="col-md-12 d-flex align-items-center justify-content-center">
+
+                                    {{-- Daca validarea da eroare, se intoarce inapoi cu modificariGlobale=true, ca sa nu fie ascunse optiunile de modificari globale --}}
+                                    <input
+                                        type="hidden"
+                                        name="modificariGlobale"
+                                        value="true">
+
+
+                                    <label for="procent_pret" class="mb-0 pr-2 ">Procent preț: </label>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm rounded-3 {{ $errors->has('procent_pret') ? 'is-invalid' : '' }}"
+                                        style="width: 70px"
+                                        name="procent_pret"
+                                        value="{{ old('procent_pret') }}">
+                                </div>
+                                <div class="col-md-12 mb-2 d-flex align-items-center justify-content-center">
+                                    <span>Ex: „1.20” va crește prețul cu 20%</span>
+                                </div>
+                                <div class="col-lg-12 mb-2 d-flex align-items-center justify-content-center">
+                                    <button class="btn btn-sm btn-primary text-white me-3 border border-dark rounded-pill" type="submit">
+                                        Modifică toate lucrările selectate (<b>{{ $lucrari_selectate_total }}</b>)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
             <div class="table-responsive rounded">
                 <table class="table table-striped table-hover table-sm rounded">

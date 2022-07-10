@@ -199,6 +199,10 @@ if (document.querySelector('#lucrari_vizualizare')) {
             lucrariBifate: [],
 
             pretTotal: 0,
+
+            actualizare_pret_id: '',
+            actualizare_pret_cu_succes: '',
+            actualizare_pret_mesaje: [],
         },
         watch: {
             categorieSelectata: function () {
@@ -298,6 +302,47 @@ if (document.querySelector('#lucrari_vizualizare')) {
             },
         },
         methods: {
+            actualizeazaPret: function (id, event) {
+                var pret = parseInt(event.target.value);
+
+                axios.get('/lucrari/actualizare-preturi', {
+                    params: {
+                        request: 'actualizare_preturi',
+                        id: id,
+                        pret: pret,
+                    }
+                })
+                    .then(function (response) {
+
+                        app.actualizare_pret_id = id;
+                        app.actualizare_pret_cu_succes = response.data.actualizare_pret_cu_succes;
+                        app.actualizare_pret_mesaje = response.data.actualizare_pret_mesaje;
+
+                        app.$forceUpdate(); // pentru a se actualiza mesajele de eroare
+
+                        // Daca pretul a fost corect actualizat in baza de date, se recalculeaza pretul total
+                        if (app.actualizare_pret_cu_succes == 1) { // se verifica daca pretul a fost actualizat in baza de date
+                            app.lucrariSelectate.forEach(function (lucrare) {
+                                if (lucrare.id == id) {
+                                    lucrare.pret = pret
+                                }
+                            });
+                            if (app.lucrariBifate.includes(id)) { // se verifica daca lucrarea este printre cele bifate
+                                app.lucrariBifate.push(0); // se atinge watcherul lucrariBifate, prin adaugarea si stergerea unei valori din array
+                                app.lucrariBifate.pop();
+                            }
+                        }
+                    });
+            },
+        },
+    });
+}
+
+if (document.querySelector('#modificari_globale_lucrari')) {
+    const app = new Vue({
+        el: '#modificari_globale_lucrari',
+        data: {
+            modificari_globale: ((typeof modificariGlobale !== 'undefined') ? ((modificariGlobale == "true") ? true : false) : false),
         },
     });
 }

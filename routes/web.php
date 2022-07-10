@@ -104,7 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
 
-    // Route::resource('lucrari/categorii', 'LucrareCategorieController', ['names' => 'lucrari.categorii', 'parameters' => ['categorii' => 'categorie']]);
+    // Extras date cu Axios
+    Route::get('/lucrari/actualizare-preturi', 'LucrareController@actualizare_preturi');
     Route::get('lucrari/vizualizare', 'LucrareController@vizualizare');
     Route::resource('lucrari', 'LucrareController', ['parameters' => ['lucrari' => 'lucrare']]);
 

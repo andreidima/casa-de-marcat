@@ -89050,7 +89050,10 @@ if (document.querySelector('#lucrari_vizualizare')) {
       modelSelectat: '',
       modeleSelectate: '',
       lucrariBifate: [],
-      pretTotal: 0
+      pretTotal: 0,
+      actualizare_pret_id: '',
+      actualizare_pret_cu_succes: '',
+      actualizare_pret_mesaje: []
     },
     watch: {
       categorieSelectata: function categorieSelectata() {
@@ -89151,7 +89154,52 @@ if (document.querySelector('#lucrari_vizualizare')) {
         this.pretTotal = pretTotal;
       }
     },
-    methods: {}
+    methods: {
+      actualizeazaPret: function actualizeazaPret(id, event) {
+        var pret = parseInt(event.target.value);
+        axios.get('/lucrari/actualizare-preturi', {
+          params: {
+            request: 'actualizare_preturi',
+            id: id,
+            pret: pret
+          }
+        }).then(function (response) {
+          _app6.actualizare_pret_id = id;
+          _app6.actualizare_pret_cu_succes = response.data.actualizare_pret_cu_succes;
+          _app6.actualizare_pret_mesaje = response.data.actualizare_pret_mesaje;
+
+          _app6.$forceUpdate(); // pentru a se actualiza mesajele de eroare
+          // Daca pretul a fost corect actualizat in baza de date, se recalculeaza pretul total
+
+
+          if (_app6.actualizare_pret_cu_succes == 1) {
+            // se verifica daca pretul a fost actualizat in baza de date
+            _app6.lucrariSelectate.forEach(function (lucrare) {
+              if (lucrare.id == id) {
+                lucrare.pret = pret;
+              }
+            });
+
+            if (_app6.lucrariBifate.includes(id)) {
+              // se verifica daca lucrarea este printre cele bifate
+              _app6.lucrariBifate.push(0); // se atinge watcherul lucrariBifate, prin adaugarea si stergerea unei valori din array
+
+
+              _app6.lucrariBifate.pop();
+            }
+          }
+        });
+      }
+    }
+  });
+}
+
+if (document.querySelector('#modificari_globale_lucrari')) {
+  var _app7 = new Vue({
+    el: '#modificari_globale_lucrari',
+    data: {
+      modificari_globale: typeof modificariGlobale !== 'undefined' ? modificariGlobale == "true" ? true : false : false
+    }
   });
 }
 
@@ -89427,8 +89475,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\casa-de-marcat\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\casa-de-marcat\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

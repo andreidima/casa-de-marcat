@@ -114,17 +114,17 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div v-else>
+                                    <div v-cloak v-else>
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <h5>
                                                     Selectează problemele:
                                                 </h5>
                                             </div>
-                                            <div v-for="lucrare in lucrariSelectate" class="col-lg-6 mb-2 rounded-pill">
-                                                <div class="custom-control custom-checkbox border border-4" style="padding-left:30px; display: inline-block; border-color:mediumseagreen;">
+                                            <div v-for="(lucrare, index) in lucrariSelectate" class="col-lg-6 mb-2 rounded-pill">
+                                                <div class="custom-control custom-checkbox border border-4 d-flex align-items-center" style="padding-left:30px; display: inline-block; border-color:mediumseagreen;">
                                                     <input type="checkbox"
-                                                        class="custom-control-input"
+                                                        class="custom-control-input align-items-center"
                                                         name="lucrariBifate[]"
                                                         v-model="lucrariBifate"
                                                         :value="lucrare.id"
@@ -133,20 +133,41 @@
                                                         number
                                                         >
                                                     {{-- <label class="custom-control-label text-white px-1" :for="lucrare.id" style="background-color:mediumseagreen;"> --}}
-                                                    <label class="custom-control-label px-1" :for="lucrare.id" style="background-color:white;">
-                                                        @{{ lucrare.problema }} = @{{ lucrare.pret }} lei
-                                                    </label>
-
-                                                    <form method="POST" action="{{ $lucrare->path() }}">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button
-                                                            type="submit"
-                                                            class="btn btn-danger"
+                                                    <label class="custom-control-label px-1 d-flex align-items-center" :for="lucrare.id" style="background-color:white;">
+                                                        @{{ lucrare.problema }} =
+                                                        {{-- <input
+                                                            type=""
+                                                            class="py-0 mx-1 text-right form-control form-control-sm {{ $errors->has('pret') ? 'is-invalid' : '' }}"
+                                                            style="width: 60px; height: 20px; background-color:rgb(73, 73, 73); color:rgb(255, 255, 255)"
+                                                            :name="'lucrariSelectate[pret][' + index + ']'"
+                                                            v-model.number.lazy="lucrariSelectate[index].pret"
+                                                            @change='actualizeazaPret(lucrare.id, lucrariSelectate[index].pret)'
+                                                            > --}}
+                                                        <input
+                                                            type=""
+                                                            class="py-0 mx-1 text-right form-control form-control-sm {{ $errors->has('pret') ? 'is-invalid' : '' }}"
+                                                            style="width: 60px; height: 20px; background-color:rgb(73, 73, 73); color:rgb(255, 255, 255)"
+                                                            :value="lucrare.pret"
+                                                            {{-- v-model="pret" --}}
+                                                            {{-- :name="'lucrariSelectate[pret][' + index + ']'"
+                                                            v-model.number.lazy="lucrariSelectate[index].pret" --}}
+                                                            {{-- @change='actualizeazaPret(lucrare.id, lucrariSelectate[index].pret)' --}}
+                                                            @change='actualizeazaPret(lucrare.id,$event)'
                                                             >
-                                                            Șterge Lucrare
-                                                        </button>
-                                                    </form>
+                                                        lei
+                                                    </label>
+                                                </div>
+                                                <div v-if="lucrare.id === actualizare_pret_id">
+                                                    <div v-if="actualizare_pret_cu_succes === 0" class="alert alert-danger">
+                                                        <div v-for="mesaj in actualizare_pret_mesaje">
+                                                            @{{ mesaj }}
+                                                        </div>
+                                                    </div>
+                                                    <div v-else class="alert alert-success">
+                                                        <div v-for="mesaj in actualizare_pret_mesaje">
+                                                            @{{ mesaj }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
