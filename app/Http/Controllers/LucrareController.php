@@ -21,7 +21,7 @@ class LucrareController extends Controller
         $search_model = $request->search_model;
         $search_problema = $request->search_problema;
 
-        $lucrari = Lucrare::
+        $lucrariSql = Lucrare::
             when($search_categorie, function ($query, $search_categorie) {
                 return $query->where('categorie', 'like', '%' . $search_categorie . '%');
             })
@@ -34,25 +34,23 @@ class LucrareController extends Controller
             ->when($search_problema, function ($query, $search_problema) {
                 return $query->where('problema', 'like', '%' . $search_problema . '%');
             })
-            ->latest()
-            ->simplePaginate(25);
+            ->latest();
 
-        $lucrari_selectate_total = Lucrare::
-            when($search_categorie, function ($query, $search_categorie) {
-                return $query->where('categorie', 'like', '%' . $search_categorie . '%');
-            })
-            ->when($search_producator, function ($query, $search_producator) {
-                return $query->where('producator', 'like', '%' . $search_producator . '%');
-            })
-            ->when($search_model, function ($query, $search_model) {
-                return $query->where('model', 'like', '%' . $search_model . '%');
-            })
-            ->when($search_problema, function ($query, $search_problema) {
-                return $query->where('problema', 'like', '%' . $search_problema . '%');
-            })
-            ->count();
+        switch ($request->input('action')) {
+            case 'modificaGlobal':
+                request()->validate(['inmultitor' => 'required|numeric|min:0.01|max:10',]);
+                // $lucrariDeModificatGlobal = $lucrariSql->get();
+                // foreach ($lucrariDeModificatGlobal as $index => $lucrare){
+                //     $lucrare->update(['pret' => ($lucrare->pret * $request->inmultitor)]);
+                // }
+                $lucrariSql->update(['pret' => ('pret' * $request->inmultitor)]);
+                break;
+            default:
+        }
 
-        return view('lucrari.index', compact('lucrari', 'lucrari_selectate_total', 'search_categorie', 'search_producator', 'search_model', 'search_problema'));
+        $lucrari = $lucrariSql->Paginate();
+
+        return view('lucrari.index', compact('lucrari', 'search_categorie', 'search_producator', 'search_model', 'search_problema'));
     }
 
     /**
@@ -205,7 +203,7 @@ class LucrareController extends Controller
         }
     }
 
-    public function actualizare_preturi_global_procentual(Request $request)
+    public function actualizarePreturiGlobal(Request $request)
     {
         $request->validate(
             [

@@ -106,6 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Extras date cu Axios
     Route::get('/lucrari/actualizare-preturi', 'LucrareController@actualizare_preturi');
+    Route::get('/lucrari/actualizare-preturi-global', 'LucrareController@actualizarePreturiGlobal');
     Route::get('lucrari/vizualizare', 'LucrareController@vizualizare');
     Route::resource('lucrari', 'LucrareController', ['parameters' => ['lucrari' => 'lucrare']]);
 

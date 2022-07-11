@@ -3,7 +3,7 @@
 @section('content')
 <div class="container card" style="border-radius: 40px 40px 40px 40px;" id="modificari_globale_lucrari">
         <div class="row card-header justify-content-between py-1" style="border-radius: 40px 40px 0px 0px;">
-            <div class="col-lg-3 align-self-center">
+            <div class="col-lg-3">
                 Lucrări
             </div>
             <div class="col-lg-6" id="">
@@ -31,7 +31,8 @@
                                     value="{{ $search_problema }}">
                         </div>
                         <div class="col-md-4 px-1">
-                            <button class="btn btn-sm btn-primary col-md-12 border border-dark rounded-pill" type="submit">
+                            <button class="btn btn-sm btn-primary col-md-12 border border-dark rounded-pill" type="submit"
+                                name="action" value="cautare">
                                 <i class="fas fa-search text-white mr-1"></i>Caută
                             </button>
                         </div>
@@ -39,6 +40,49 @@
                             <a class="btn btn-sm bg-secondary text-white col-md-12 border border-dark rounded-pill" href="{{ route('lucrari.index') }}" role="button">
                                 <i class="far fa-trash-alt text-white mr-1"></i>Resetează căutarea
                             </a>
+                        </div>
+                    </div>
+                    <div class="row input-group custom-search-form justify-content-center">
+                        <div v-if="modificari_globale">
+                            <script type="application/javascript">
+                                modificariGlobale = @json(old('modificariGlobale') ?? false);
+                            </script>
+                            <div v-cloak v-if="modificari_globale" class="row justify-content-center">
+                                <div class="col-lg-12 mb-2 rounded-3" style="background-color:lightcyan">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12 d-flex">
+                                            Se vor modifica toate lucrările din selecția curentă: {{ $lucrari->total() }} lucrări
+                                        </div>
+                                        <div class="col-md-12 mb-1 d-flex align-items-end justify-content-center">
+
+                                            {{-- Daca validarea da eroare, se intoarce inapoi cu modificariGlobale=true, ca sa nu fie ascunse optiunile de modificari globale --}}
+                                            <input
+                                                type="hidden"
+                                                name="modificariGlobale"
+                                                value="true">
+
+
+                                            <label for="inmultitor" class="mb-0 pr-2 ">Înmulțește prețul cu: </label>
+                                            <input
+                                                type="text"
+                                                class="mr-1 form-control form-control-sm rounded-3 {{ $errors->has('inmultitor') ? 'is-invalid' : '' }}"
+                                                style="width: 70px"
+                                                name="inmultitor"
+                                                value="{{ old('inmultitor') }}">
+                                            <small class="mb-0">(Punct(.) pentru zecimale)</small>
+                                        </div>
+                                        {{-- <div class="col-md-12 mb-2 d-flex align-items-center justify-content-center">
+                                            <span>Ex: „1.20” va crește prețul cu 20%</span>
+                                        </div> --}}
+                                        <div class="col-lg-12 mb-2 d-flex align-items-center justify-content-center">
+                                            <button class="btn btn-sm btn-primary text-white me-3 border border-dark rounded-pill" type="submit"
+                                                name="action" value="modificaGlobal">
+                                                Modifică toate lucrările selectate (<b>{{ $lucrari->total() }}</b>)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -56,48 +100,6 @@
         <div class="card-body px-0 py-3">
 
             @include ('errors')
-
-            <div v-if="modificari_globale">
-                <form class="needs-validation" novalidate method="GET" action="/ssm/salariati-modifica-selectati">
-                    <script type="application/javascript">
-                        modificariGlobale = @json(old('modificariGlobale') ?? false);
-                    </script>
-                    <div v-cloak v-if="modificari_globale" class="row justify-content-center">
-                        <div class="col-lg-8 mb-2 rounded-3" style="background-color:lightcyan">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12 d-flex">
-                                    Se vor modifica toate lucrările din selecția curentă: {{ $lucrari_selectate_total }} lucrări
-                                </div>
-                                <div class="col-md-12 d-flex align-items-center justify-content-center">
-
-                                    {{-- Daca validarea da eroare, se intoarce inapoi cu modificariGlobale=true, ca sa nu fie ascunse optiunile de modificari globale --}}
-                                    <input
-                                        type="hidden"
-                                        name="modificariGlobale"
-                                        value="true">
-
-
-                                    <label for="procent_pret" class="mb-0 pr-2 ">Procent preț: </label>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm rounded-3 {{ $errors->has('procent_pret') ? 'is-invalid' : '' }}"
-                                        style="width: 70px"
-                                        name="procent_pret"
-                                        value="{{ old('procent_pret') }}">
-                                </div>
-                                <div class="col-md-12 mb-2 d-flex align-items-center justify-content-center">
-                                    <span>Ex: „1.20” va crește prețul cu 20%</span>
-                                </div>
-                                <div class="col-lg-12 mb-2 d-flex align-items-center justify-content-center">
-                                    <button class="btn btn-sm btn-primary text-white me-3 border border-dark rounded-pill" type="submit">
-                                        Modifică toate lucrările selectate (<b>{{ $lucrari_selectate_total }}</b>)
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
 
             <div class="table-responsive rounded">
                 <table class="table table-striped table-hover table-sm rounded">
