@@ -16,10 +16,17 @@ class LucrareController extends Controller
      */
     public function index(Request $request)
     {
+        request()->validate([
+            'search_pret_minim' => 'nullable|numeric|min:0.01|max:999999',
+            'search_pret_maxim' => 'nullable|numeric|min:0.01|max:999999',
+        ]);
+
         $search_categorie = $request->search_categorie;
         $search_producator = $request->search_producator;
         $search_model = $request->search_model;
         $search_problema = $request->search_problema;
+        $search_pret_minim = $request->search_pret_minim;
+        $search_pret_maxim = $request->search_pret_maxim;
 
         $lucrari = Lucrare::
             when($search_categorie, function ($query, $search_categorie) {
@@ -34,10 +41,16 @@ class LucrareController extends Controller
             ->when($search_problema, function ($query, $search_problema) {
                 return $query->where('problema', 'like', '%' . $search_problema . '%');
             })
+            ->when($search_pret_minim, function ($query, $search_pret_minim) {
+                return $query->where('pret', '>=', $search_pret_minim);
+            })
+            ->when($search_pret_maxim, function ($query, $search_pret_maxim) {
+                return $query->where('pret', '<=', $search_pret_maxim);
+            })
             ->latest()
             ->Paginate(25);
 
-        return view('lucrari.index', compact('lucrari', 'search_categorie', 'search_producator', 'search_model', 'search_problema'));
+        return view('lucrari.index', compact('lucrari', 'search_categorie', 'search_producator', 'search_model', 'search_problema', 'search_pret_minim', 'search_pret_maxim'));
     }
 
     /**
@@ -190,14 +203,20 @@ class LucrareController extends Controller
         }
     }
 
-    public function actualizarePreturiGlobal(Request $request, $categorie = null, $producator = null, $model = null, $problema = null)
+    public function actualizarePreturiGlobal(Request $request)
     {
-        request()->validate(['inmultitor' => 'required|numeric|min:0.01|max:10',]);
+        request()->validate([
+            'inmultitor' => 'required|numeric|min:0.01|max:10',
+            'search_pret_minim' => 'nullable|numeric|min:0.01|max:999999',
+            'search_pret_maxim' => 'nullable|numeric|min:0.01|max:999999',
+        ]);
 
         $search_categorie = $request->search_categorie;
         $search_producator = $request->search_producator;
         $search_model = $request->search_model;
         $search_problema = $request->search_problema;
+        $search_pret_minim = $request->search_pret_minim;
+        $search_pret_maxim = $request->search_pret_maxim;
 
         $lucrari = Lucrare::select('id', 'pret')
             ->when($search_categorie, function ($query, $search_categorie) {
@@ -211,6 +230,12 @@ class LucrareController extends Controller
             })
             ->when($search_problema, function ($query, $search_problema) {
                 return $query->where('problema', 'like', '%' . $search_problema . '%');
+            })
+            ->when($search_pret_minim, function ($query, $search_pret_minim) {
+                return $query->where('pret', '>=', $search_pret_minim);
+            })
+            ->when($search_pret_maxim, function ($query, $search_pret_maxim) {
+                return $query->where('pret', '<=', $search_pret_maxim);
             })
             ->get();
 
