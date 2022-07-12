@@ -42,6 +42,9 @@
                             </a>
                         </div>
                     </div>
+                </form>
+                <form class="needs-validation" novalidate method="GET" action="/lucrari/actualizare-preturi-global">
+                    @csrf
                     <div class="row input-group custom-search-form justify-content-center">
                         <div v-if="modificari_globale">
                             <script type="application/javascript">
@@ -52,6 +55,18 @@
                                     <div class="row justify-content-center">
                                         <div class="col-md-12 d-flex">
                                             Se vor modifica toate lucrările din selecția curentă: {{ $lucrari->total() }} lucrări
+                                            <br>
+                                            <input type="hidden" name="search_categorie" value="{{ $search_categorie }}">
+                                            Categoria: {{ $search_categorie }}
+                                            <br>
+                                            <input type="hidden" name="search_producator" value="{{ $search_producator }}">
+                                            Producător: {{ $search_producator }}
+                                            <br>
+                                            <input type="hidden" name="search_model" value="{{ $search_model }}">
+                                            Model: {{ $search_model }}
+                                            <br>
+                                            <input type="hidden" name="search_problema" value="{{ $search_problema }}">
+                                            Problemă: {{ $search_problema }}
                                         </div>
                                         <div class="col-md-12 mb-1 d-flex align-items-end justify-content-center">
 
