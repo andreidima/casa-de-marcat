@@ -144,7 +144,8 @@ class LucrareController extends Controller
     public function vizualizare()
     {
         $lucrari = Lucrare::select('id', 'categorie', 'producator', 'model', 'problema', 'pret')
-            ->orderBy('categorie')
+            // ->orderBy('categorie')
+            ->orderByRaw("FIELD(categorie , 'Telefoane mobile') Desc")
             ->orderBy('producator')
             ->orderBy('model')
             ->orderBy('problema')
