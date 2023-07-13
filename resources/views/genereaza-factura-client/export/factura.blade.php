@@ -81,10 +81,10 @@
                             Cont BRD Focșani: RO60BRDE400SV19069964000 <br>
                             Cont Trezorerie Focșani: RO40TREZ6915069XXX001749
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:10%">
-
+                    <td style="border-width:0px; padding:0rem; width:20%">
+                            <img src="{{ asset('images/qrcode-whatssapp-40730172888.jpeg') }}" width="60px">
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:45%">
+                    <td style="border-width:0px; padding:0rem; width:35%">
                             <b></b> <br>
                             <b>{{ $factura->firma }}</b> <br>
                             Nr. Reg. com.: {{ $factura->nr_reg_com }} <br>
@@ -208,10 +208,10 @@
                             Cont BRD Focșani: RO60BRDE400SV19069964000 <br>
                             Cont Trezorerie Focșani: RO40TREZ6915069XXX001749
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:10%">
-
+                    <td style="border-width:0px; padding:0rem; width:20%">
+                            <img src="{{ asset('images/qrcode-whatssapp-40730172888.jpeg') }}" width="60px">
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:45%">
+                    <td style="border-width:0px; padding:0rem; width:35%">
                             <b></b> <br>
                             <b>{{ $factura->firma }}</b> <br>
                             Nr. Reg. com.: {{ $factura->nr_reg_com }} <br>
