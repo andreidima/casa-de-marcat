@@ -48,7 +48,7 @@ class LucrareController extends Controller
             default:
         }
 
-        $lucrari = $lucrariSql->Paginate();
+        $lucrari = $lucrariSql->Paginate(25);
 
         return view('lucrari.index', compact('lucrari', 'search_categorie', 'search_producator', 'search_model', 'search_problema'));
     }
