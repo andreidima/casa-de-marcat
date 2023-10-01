@@ -33,14 +33,14 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         // Salvarea tuturor cererilor catre baza de date
-        DB::listen(function($query) {
-            File::append(
-                storage_path('/logs/query.log'),
-                '[' . date('Y-m-d H:i:s') . ']' .
-                ' | IP: ' . \Request::ip() .
-                PHP_EOL .
-                $query->sql . ' [' . implode(', ', $query->bindings) . ']' . PHP_EOL . PHP_EOL
-           );
-        });
+        // DB::listen(function($query) {
+        //     File::append(
+        //         storage_path('/logs/query.log'),
+        //         '[' . date('Y-m-d H:i:s') . ']' .
+        //         ' | IP: ' . \Request::ip() .
+        //         PHP_EOL .
+        //         $query->sql . ' [' . implode(', ', $query->bindings) . ']' . PHP_EOL . PHP_EOL
+        //    );
+        // });
     }
 }

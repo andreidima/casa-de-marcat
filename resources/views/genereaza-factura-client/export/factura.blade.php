@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Factura</title>
     <style>
-        body { 
+        body {
             font-family: DejaVu Sans, sans-serif;
             /* font-family: Arial, Helvetica, sans-serif;  */
             font-size: 10px;
@@ -24,26 +24,26 @@
             margin-top: 0px;
             border-style: solid;
             border-width:0px;
-            width: 100%; 
+            width: 100%;
             word-wrap:break-word;
             /* word-break: break-all; */
             /* table-layout: fixed; */
         }
-        
+
         th, td {
             padding: 0px 5px;
             border-width:1px;
             border-style: solid;
             table-layout:fixed;
             font-weight: normal;
-            
+
         }
         tr {
             /* text-align:; */
             /* border-style: solid;
             border-width:1px; */
         }
-        hr { 
+        hr {
             display: block;
             margin-top: 0.5em;
             margin-bottom: 0.5em;
@@ -51,21 +51,21 @@
             margin-right: auto;
             border-style: inset;
             border-width: 0.5px;
-        } 
+        }
     </style>
 </head>
 
 <body>
         <div style="
             border:dashed #999;
-            width:680px;         
+            width:680px;
             padding: 10px 15px 10px 15px;
             margin:0px 0px;
                 -moz-border-radius: 10px;
                 -webkit-border-radius: 10px;
                 border-radius: 10px;">
 
-                      
+
             <table style="">
                 <tr style="">
                     <td style="border-width:0px; padding:0rem; width:45%">
@@ -76,21 +76,21 @@
                             CIF: RO13648994 <br>
                             Adresa: Golesti, Str. Pasunii, Nr. 30A, Vrancea <br>
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
-                            Telefon: 0722873217	<br>
+                            Telefon: 0371233350	<br>
                             {{-- Banca: BRD FOCSANI <br> --}}
                             Cont BRD Focșani: RO60BRDE400SV19069964000 <br>
                             Cont Trezorerie Focșani: RO40TREZ6915069XXX001749
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:10%">
-
+                    <td style="border-width:0px; padding:0rem; width:20%">
+                            <img src="{{ asset('images/qrcode-whatssapp-40730172888.jpeg') }}" width="60px">
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:45%">
+                    <td style="border-width:0px; padding:0rem; width:35%">
                             <b></b> <br>
                             <b>{{ $factura->firma }}</b> <br>
                             Nr. Reg. com.: {{ $factura->nr_reg_com }} <br>
                             CIF: {{ $factura->cif_cnp }} <br>
                             Adresa: {{ $factura->adresa }} <br>
-                            
+
                             Telefon: {{ $factura->telefon }} <br>
                             <br>
                             <br>
@@ -100,13 +100,13 @@
         </div>
 
             <p>
-                        Factura seria: <b>{{ $factura->seria }}</b> 
+                        Factura seria: <b>{{ $factura->seria }}</b>
                         Nr.: <b>{{ $factura->numar }}</b>
                         Data: {{ \Carbon\Carbon::parse($factura->created_at)->isoFormat('D.MM.YYYY') }}
                         Cota TVA: 19%
             </p>
 
-            
+
                     <table style="width:100%;">
                         <tr style="background-color:#e7d790;">
                             <th style="text-align: center">Denumire</th>
@@ -115,7 +115,7 @@
                             <th style="text-align: center">Pret unitar</th>
                             <th style="text-align: center">Valoare</th>
                             <th style="text-align: center">Valoare TVA</th>
-                        </tr>  
+                        </tr>
                         @forelse ($factura->produse as $produs)
                             <tr>
                                 <td>
@@ -182,17 +182,17 @@
                     </table>
 
                     <p style="margin-top:40px; margin-bottom:{{ 260 - $factura->produse->count() * 20 }}px">&nbsp;</p>
-        
+
         <div style="
             border:dashed #999;
-            width:680px;         
+            width:680px;
             padding: 10px 15px 10px 15px;
             margin:0px 0px;
                 -moz-border-radius: 10px;
                 -webkit-border-radius: 10px;
                 border-radius: 10px;">
 
-                      
+
             <table style="">
                 <tr style="">
                     <td style="border-width:0px; padding:0rem; width:45%;">
@@ -203,21 +203,21 @@
                             CIF: RO13648994 <br>
                             Adresa: Golesti, Str. Pasunii, Nr. 30A, Vrancea <br>
                             Pct.de lucru: Focsani, Str. Stefan cel Mare, Nr. 5, Vrancea <br>
-                            Telefon: 0722873217	<br>
+                            Telefon: 0371233350	<br>
                             {{-- Banca: BRD FOCSANI <br> --}}
                             Cont BRD Focșani: RO60BRDE400SV19069964000 <br>
                             Cont Trezorerie Focșani: RO40TREZ6915069XXX001749
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:10%">
-
+                    <td style="border-width:0px; padding:0rem; width:20%">
+                            <img src="{{ asset('images/qrcode-whatssapp-40730172888.jpeg') }}" width="60px">
                     </td>
-                    <td style="border-width:0px; padding:0rem; width:45%">
+                    <td style="border-width:0px; padding:0rem; width:35%">
                             <b></b> <br>
                             <b>{{ $factura->firma }}</b> <br>
                             Nr. Reg. com.: {{ $factura->nr_reg_com }} <br>
                             CIF: {{ $factura->cif_cnp }} <br>
                             Adresa: {{ $factura->adresa }} <br>
-                            
+
                             Telefon: {{ $factura->telefon }} <br>
                             <br>
                             <br>
@@ -227,13 +227,13 @@
         </div>
 
             <p>
-                        Factura seria: <b>{{ $factura->seria }}</b> 
+                        Factura seria: <b>{{ $factura->seria }}</b>
                         Nr.: <b>{{ $factura->numar }}</b>
                         Data: {{ \Carbon\Carbon::parse($factura->created_at)->isoFormat('D.MM.YYYY') }}
                         Cota TVA: 19%
             </p>
 
-            
+
                     <table style="width:100%;">
                         <tr style="background-color:#e7d790;">
                             <th style="text-align: center">Denumire</th>
@@ -242,7 +242,7 @@
                             <th style="text-align: center">Pret unitar</th>
                             <th style="text-align: center">Valoare</th>
                             <th style="text-align: center">Valoare TVA</th>
-                        </tr>  
+                        </tr>
                         @forelse ($factura->produse as $produs)
                             <tr>
                                 <td>
@@ -307,8 +307,7 @@
                             </td>
                         </tr>
                     </table>
- 
+
 </body>
 
 </html>
-    

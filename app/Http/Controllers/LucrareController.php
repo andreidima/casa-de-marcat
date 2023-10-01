@@ -16,12 +16,19 @@ class LucrareController extends Controller
      */
     public function index(Request $request)
     {
+        request()->validate([
+            'search_pret_minim' => 'nullable|numeric|min:0.01|max:999999',
+            'search_pret_maxim' => 'nullable|numeric|min:0.01|max:999999',
+        ]);
+
         $search_categorie = $request->search_categorie;
         $search_producator = $request->search_producator;
         $search_model = $request->search_model;
         $search_problema = $request->search_problema;
+        $search_pret_minim = $request->search_pret_minim;
+        $search_pret_maxim = $request->search_pret_maxim;
 
-        $lucrariSql = Lucrare::
+        $lucrari = Lucrare::
             when($search_categorie, function ($query, $search_categorie) {
                 return $query->where('categorie', 'like', '%' . $search_categorie . '%');
             })
@@ -34,23 +41,16 @@ class LucrareController extends Controller
             ->when($search_problema, function ($query, $search_problema) {
                 return $query->where('problema', 'like', '%' . $search_problema . '%');
             })
-            ->latest();
+            ->when($search_pret_minim, function ($query, $search_pret_minim) {
+                return $query->where('pret', '>=', $search_pret_minim);
+            })
+            ->when($search_pret_maxim, function ($query, $search_pret_maxim) {
+                return $query->where('pret', '<=', $search_pret_maxim);
+            })
+            ->latest()
+            ->Paginate(25);
 
-        switch ($request->input('action')) {
-            case 'modificaGlobal':
-                request()->validate(['inmultitor' => 'required|numeric|min:0.01|max:10',]);
-                // $lucrariDeModificatGlobal = $lucrariSql->get();
-                // foreach ($lucrariDeModificatGlobal as $index => $lucrare){
-                //     $lucrare->update(['pret' => ($lucrare->pret * $request->inmultitor)]);
-                // }
-                $lucrariSql->update(['pret' => ('pret' * $request->inmultitor)]);
-                break;
-            default:
-        }
-
-        $lucrari = $lucrariSql->Paginate(25);
-
-        return view('lucrari.index', compact('lucrari', 'search_categorie', 'search_producator', 'search_model', 'search_problema'));
+        return view('lucrari.index', compact('lucrari', 'search_categorie', 'search_producator', 'search_model', 'search_problema', 'search_pret_minim', 'search_pret_maxim'));
     }
 
     /**
@@ -144,7 +144,8 @@ class LucrareController extends Controller
     public function vizualizare()
     {
         $lucrari = Lucrare::select('id', 'categorie', 'producator', 'model', 'problema', 'pret')
-            ->orderBy('categorie')
+            // ->orderBy('categorie')
+            ->orderByRaw("FIELD(categorie , 'Telefoane mobile') Desc")
             ->orderBy('producator')
             ->orderBy('model')
             ->orderBy('problema')
@@ -205,40 +206,57 @@ class LucrareController extends Controller
 
     public function actualizarePreturiGlobal(Request $request)
     {
-        $request->validate(
-            [
-                'salariati_selectati' => 'required|array|between:1,100',
-                'nume_client' => 'required_without_all:functia,traseu,data_ssm_psi,semnat_ssm,semnat_psi,semnat_anexa,semnat_eip|max:200',
-                'functia' => 'nullable|max:200',
-                'traseu' => 'nullable|max:200',
-                'data_ssm_psi' => 'nullable|max:200',
-                'semnat_ssm' => 'nullable|max:200',
-                'semnat_psi' => 'nullable|max:200',
-                'semnat_anexa' => 'nullable|max:200',
-                'semnat_eip' => 'nullable|max:200',
-            ],
-            [
-                'salariati_selectati.required' => 'Nu ați selectat nici un salariat!',
-                'required_without_all' => 'Nu ați ales nici un câmp de modificat!'
-            ]
-            );
+        request()->validate([
+            'inmultitor' => 'required|numeric|min:0.01|max:10',
+            'search_pret_minim' => 'nullable|numeric|min:0.01|max:999999',
+            'search_pret_maxim' => 'nullable|numeric|min:0.01|max:999999',
+        ]);
 
-        $salariati = SsmSalariat::find($request->salariati_selectati);
+        $search_categorie = $request->search_categorie;
+        $search_producator = $request->search_producator;
+        $search_model = $request->search_model;
+        $search_problema = $request->search_problema;
+        $search_pret_minim = $request->search_pret_minim;
+        $search_pret_maxim = $request->search_pret_maxim;
 
-        foreach ($salariati as $salariat){
-            $request->nume_client ? $salariat->nume_client = $request->nume_client : '';
-            $request->functia ? $salariat->functia = $request->functia : '';
-            $request->traseu ? $salariat->traseu = $request->traseu : '';
-            $request->data_ssm_psi ? $salariat->data_ssm_psi = $request->data_ssm_psi : '';
-            $request->semnat_ssm ? $salariat->semnat_ssm = $request->semnat_ssm : '';
-            $request->semnat_psi ? $salariat->semnat_psi = $request->semnat_psi : '';
-            $request->semnat_anexa ? $salariat->semnat_anexa = $request->semnat_anexa : '';
-            $request->semnat_eip ? $salariat->semnat_eip = $request->semnat_eip : '';
+        $lucrari = Lucrare::select('id', 'pret')
+            ->when($search_categorie, function ($query, $search_categorie) {
+                return $query->where('categorie', 'like', '%' . $search_categorie . '%');
+            })
+            ->when($search_producator, function ($query, $search_producator) {
+                return $query->where('producator', 'like', '%' . $search_producator . '%');
+            })
+            ->when($search_model, function ($query, $search_model) {
+                return $query->where('model', 'like', '%' . $search_model . '%');
+            })
+            ->when($search_problema, function ($query, $search_problema) {
+                return $query->where('problema', 'like', '%' . $search_problema . '%');
+            })
+            ->when($search_pret_minim, function ($query, $search_pret_minim) {
+                return $query->where('pret', '>=', $search_pret_minim);
+            })
+            ->when($search_pret_maxim, function ($query, $search_pret_maxim) {
+                return $query->where('pret', '<=', $search_pret_maxim);
+            })
+            ->get();
 
-            $salariat->save();
+        // Update multiple records with separate data
+        foreach ($lucrari->chunk(1000) as $chunk) {
+            $cases = [];
+            $ids = [];
+            $params = [];
+            foreach ($chunk as $lucrare){
+                $cases[] = "WHEN {$lucrare->id} then ?";
+                $params[] = $lucrare->pret * $request->inmultitor;
+                $ids[] = $lucrare->id;
+            }
+            $ids = implode(',', $ids);
+            $cases = implode(' ', $cases);
+            if (!empty($ids)) {
+                \DB::update("UPDATE lucrari SET `pret` = CASE `id` {$cases} END WHERE `id` in ({$ids})", $params);
+            }
         }
 
-        return back()->with('status', 'Cei ' . count($salariati) . ' Salariați au fost modificați cu succes!');
-
+        return back()->with('status', 'Succes! Au fost modificate prețurile a ' . $lucrari->count() . ' lucrări.');
     }
 }
