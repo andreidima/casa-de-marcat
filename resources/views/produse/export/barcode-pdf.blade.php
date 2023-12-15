@@ -56,7 +56,6 @@
 </head>
 
 <body>
-    {{-- <div style="width:730px; height: 1030px; border-style: dashed ; border-width:2px; border-radius: 15px;">      --}}
     <div style="
         width:320px;
         margin:0px 0px;
@@ -65,8 +64,7 @@
             border-radius: 10px;
         ">
             Nume: <b> {{ $produse->nume }} </b>
-        {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39',2.48,55)!!}
-        {{-- {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39E', 1.95,55)!!}              --}}
+        {!!DNS1D::getBarcodeHTML($produse->cod_de_bare, 'C39',1.35,55)!!}
             <div style="float:left">
                 Cod bare: <b>{{ $produse->cod_de_bare }}</b>
             </div>
@@ -75,7 +73,6 @@
             </div>
 
 
-        </div>
     </div>
 </body>
 </html>
