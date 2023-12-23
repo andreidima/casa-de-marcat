@@ -605,4 +605,35 @@ class ProdusController extends Controller
             // return $pdf->stream();
         }
     }
+
+    // Export produse pentru Saga
+    public function pdfExportSaga(Request $request)
+    {
+        $produse = Produs::
+            with('subcategorie', 'subcategorie.categorie', 'produse_stocuri_ultimul_stoc')
+            ->whereHas('subcategorie.categorie' , function ($query) {
+                return $query->where('id', '<>' ,'4');
+            })
+            ->where('cantitate', '>', 0)
+            ->orderBy('nume')
+            // ->take(100)
+            ->get();
+
+        $sumaTotala = Produs::
+            with('subcategorie', 'subcategorie.categorie', 'produse_stocuri_ultimul_stoc')
+            ->whereHas('subcategorie.categorie' , function ($query) {
+                return $query->where('id', '<>' ,'4');
+            })
+            ->where('cantitate', '>', 0)
+            ->sum(DB::raw('cantitate * pret'));
+
+        if ($request->view_type === 'html') {
+            return view('produse.export.saga', compact('produse', 'sumaTotala'));
+        } elseif ($request->view_type === 'pdf') {
+            $pdf = \PDF::loadView('produse.export.saga', compact('produse', 'sumaTotala'))
+                ->setPaper('a4', 'portrait');
+            return $pdf->download('Lista inventar ' . \Carbon\Carbon::now()->isoFormat('D.MM.YYYY') . '.pdf');
+            // return $pdf->stream();
+        }
+    }
 }

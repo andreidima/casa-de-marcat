@@ -109,6 +109,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lucrari/vizualizare', 'LucrareController@vizualizare');
     Route::resource('lucrari', 'LucrareController', ['parameters' => ['lucrari' => 'lucrare']]);
 
+    //Export pentru Vali de pus produsele la vanzare pe site
+    Route::get('produse/rapoarte/export-saga/{view_type}', 'ProdusController@pdfExportSaga');
+
     // Route::get('schimbare-automata-de-preturi', 'FunctiiAparteController@schimbareAutomataDePreturi');
 
     // 2 rute pentru inventar

@@ -121,6 +121,10 @@
                                 <a class="dropdown-item" href="/produse-inventar-verificare/lista-inventar/lista-inventar-html">
                                     <i class="fas fa-boxes mr-1"></i>Export PDF
                                 </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="produse/rapoarte/export-saga/html">
+                                    <i class="fas fa-boxes mr-1"></i>Export SAGA
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item active mr-4">
