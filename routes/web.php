@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Export pentru Vali de pus produsele la vanzare pe site
     Route::get('produse/rapoarte/lista-inventar-produse-vali/{view_type}', 'ProdusController@pdfExportListaProduseVali');
+    Route::get('produse/rapoarte/lista-inventar-produse-pentru-saga/{view_type}', 'ProdusController@pdfExportListaProduseVali');
 
     Route::get('raport-gestiune-accesorii', 'RaportGestiuneAccesoriiController@export')->name('raport-gestiune-accesorii');
     Route::get('raport-gestiune-accesorii/export/{view_type?}', 'RaportGestiuneAccesoriiController@pdfExport')->name('raport-gestiune-accesorii.pdfExport');
